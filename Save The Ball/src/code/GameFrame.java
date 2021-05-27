@@ -15,9 +15,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-public class GameFrame extends JFrame { //New Window
+public class GameFrame extends JFrame {
 	
 	JPanel mainPanel = new JPanel();
+	
+	JPanel topPanel = new JPanel();
 	
 	JPanel playPanel1 = new JPanel();
 	GridBagConstraints gbc = new GridBagConstraints();

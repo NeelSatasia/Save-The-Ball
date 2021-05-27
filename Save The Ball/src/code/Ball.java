@@ -4,7 +4,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-public class Ball extends Rectangle { //Ball
+import javax.swing.ImageIcon;
+
+public class Ball extends Rectangle {
+	
+	ImageIcon ballImg;
 	
 	public Ball(int x, int y) {
 		this.x = x;

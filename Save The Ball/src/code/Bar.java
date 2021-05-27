@@ -4,12 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-public class Bar extends Rectangle { //Bar
+public class Bar extends Rectangle {
 	
 	public Bar(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.width = 60;
+		this.width = 40;
 		this.height = 5;
 	}
 	
