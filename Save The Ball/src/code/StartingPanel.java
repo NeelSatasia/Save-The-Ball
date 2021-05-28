@@ -20,6 +20,7 @@ public class StartingPanel extends JPanel {
 	
 	JButton playButton = new JButton("Play");
 	JButton storeButton = new JButton("Store");
+	JButton settingsButton = new JButton("Settings");
 	
 	public StartingPanel() {
 		new JPanel();
@@ -49,6 +50,11 @@ public class StartingPanel extends JPanel {
 		add(storeButton, gbc);
 		customizeButton(storeButton, true, Color.BLACK, Color.WHITE, BorderFactory.createEmptyBorder(2, 10, 2, 10));
 		storeButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		
+		gbc.gridy = 3;
+		add(settingsButton, gbc);
+		customizeButton(settingsButton, true, Color.BLACK, Color.WHITE, BorderFactory.createEmptyBorder(2, 10, 2, 10));
+		settingsButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 	}
 	
 	public void customizeButton(JButton button, boolean enable, Color buttonColor, Color textColor, Border border) {

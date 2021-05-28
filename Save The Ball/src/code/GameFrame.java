@@ -53,21 +53,18 @@ public class GameFrame extends JFrame {
 		
 		add(startingPanel);
 		
-		//add(mainPlayPanel);
 		mainPlayPanel.setLayout(new BoxLayout(mainPlayPanel, BoxLayout.Y_AXIS));
 		mainPlayPanel.setBackground(Color.WHITE);
 		
-		mainPlayPanel.add(backButton);
+		subPlayPanel2 = new PlayGamePanel(this.getWidth(), this.getHeight());
+		
+		subPlayPanel2.add(backButton);
+		backButton.setBounds(2, 1, 32, 32);
 		customizeButton(backButton, true, Color.WHITE, Color.WHITE, null);
 		ImageIcon backArrowIcon = new ImageIcon("C:\\Users\\Vipul\\git\\Save-The-Ball\\Save The Ball\\src\\BackArrow.png");
 		backButton.setIcon(backArrowIcon);
 		backButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		backButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		//backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		backButton.setAlignmentY(Component.CENTER_ALIGNMENT);
 		backButton.setOpaque(false);
-		
-		subPlayPanel2 = new PlayGamePanel(this.getWidth(), this.getHeight());
 		
 		subPlayPanel1.setLayout(new GridBagLayout());
 		gbc.anchor = GridBagConstraints.CENTER;
@@ -77,17 +74,12 @@ public class GameFrame extends JFrame {
 		
 		subPlayPanel1.add(subPlayPanel2, gbc);
 		
-		//setContentPane(startingPanel);
-		
 		startingPanel.playButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//setContentPane(mainPlayPanel);
-				
-				//mainPlayPanel.repaint();
-				//mainPlayPanel.revalidate();
-				
+			public void actionPerformed(ActionEvent e) {
 				remove(startingPanel);
 				add(mainPlayPanel);
+				
+				subPlayPanel2.startGame();
 				
 				repaint();
 				revalidate();
@@ -124,11 +116,6 @@ public class GameFrame extends JFrame {
 				if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT) {
 					subPlayPanel2.barHorizontalVelocity = 0;
 				}
-				
-				if(e.getKeyCode() == KeyEvent.VK_SPACE) {
-					subPlayPanel2.gameStarted = true;
-					subPlayPanel2.timer.start();
-				}
 			}
 
 			@Override
@@ -142,6 +129,14 @@ public class GameFrame extends JFrame {
 		
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				subPlayPanel2.remove(subPlayPanel2.gameOverLabel);
+				subPlayPanel2.remove(subPlayPanel2.restartButton);
+				
+				subPlayPanel2.gameOver = true;
+				subPlayPanel2.gameStarted = false;
+				subPlayPanel2.gamePaused = false;
+				subPlayPanel2.timer.stop();
+				
 				remove(mainPlayPanel);
 				add(startingPanel);
 				

@@ -36,6 +36,8 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	int score = 0;
 	JLabel scoreLabel = new JLabel("Score: " + score, SwingConstants.CENTER);
 	
+	int classicModeHighScore = 0;
+	
 	JLabel gameOverLabel = new JLabel("Game Over!", SwingConstants.CENTER);
 	
 	JButton pauseButton = new JButton("");
@@ -48,6 +50,8 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	
 	JButton restartButton = new JButton("");
 	ImageIcon restartIcon;
+	
+	int topBorderHeight = 0;
 	
 	public PlayGamePanel(int w, int h) {
 		UIManager.put("Button.disabledText", Color.BLACK);
@@ -116,28 +120,11 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 				remove(gameOverLabel);
 				remove(restartButton);
 				
-				gameOver = false;
-				gamePaused = false;
-				
-				score = 0;
-				scoreLabel.setText("Score: " + score);
-				
-				ball.setLocation((screenMaxWidth)/2 - (ball.x/2), 2);
-				bar.setLocation((screenMaxWidth/2) - (bar.x/2), bar.y);
-				
-				ballX = ball.x;
-				ballY = ball.y;
-				ballHorizontalVelocity = (int)(Math.random() * 11) - 5;
-				
-				barHorizontalVelocity = 0;
-				
-				timer.restart();
-				
-				repaint();
+				startGame();
 			}
 		});
 		
-		//timer.start();
+		timer.setInitialDelay(1000);
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -152,17 +139,25 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		g.setColor(Color.ORANGE);
 		g.fillRect(0, bar.y + ((this.getHeight() - bar.y)/2), this.getWidth(), this.getHeight() - bar.y + ((this.getHeight() - bar.y)/2));
 		
+		g.setColor(Color.CYAN);
+		g.fillRect(0, 0, screenMaxWidth, topBorderHeight);
+		
 		if(ball.y >= bar.y + ((this.getHeight() - bar.y)/2) && gameOver == false) {
 			timer.stop();
 			add(gameOverLabel);
 			gameOver = true;
 			add(restartButton);
+			pauseButton.setEnabled(false);
+			
+			if(score > classicModeHighScore) {
+				classicModeHighScore = score;
+			}
 		}
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(gameOver == false && gamePaused == false) {
+		if(gameStarted && gameOver == false && gamePaused == false) {
 			if(ballY + ball.height <= bar.y && ballY + ball.height + ballVerticalVelocity >= bar.y) {
 				if(ballX + ball.width + 10 >= bar.x && ballX - 10 <= bar.x + bar.width) {
 					ballY = (int) (bar.y - ball.height);
@@ -171,10 +166,34 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 					score++;
 					scoreLabel.setText("Score: " + score);
 					scoreLabel.setLocation((this.getWidth()/2) - (scoreLabel.getWidth()/2), bar.y + ((this.getHeight() - bar.y)/2) + 10);
+					
+					if(score == 50 || score == 100 || score == 150 || score == 175) {
+						ballVerticalVelocity++;
+					}
+					
+					if(score > 50) {
+						int randNum = (int)(Math.random() * 11);
+						
+						if(randNum > 5) {
+							switch(randNum) {
+								case 6:
+									topBorderHeight = 20;
+									break;
+								case 7:
+									topBorderHeight = 30;
+									break;
+								case 8:
+									topBorderHeight = 40;
+									break;
+							}
+						} else if(topBorderHeight > 0) {
+							topBorderHeight = 0;
+						}
+					}
 				} else {
 					ballY += ballVerticalVelocity;
 				}
-			} else if(ballY + ballVerticalVelocity <= 0) {
+			} else if(ballY + ballVerticalVelocity <= topBorderHeight) {
 				ballHorizontalVelocity = (int)(Math.random() * 11) - 5;
 				ballVerticalVelocity *= -1;
 				
@@ -192,6 +211,30 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 				ballX += ballHorizontalVelocity;
 			}
 		}
+		
+		repaint();
+	}
+	
+	public void startGame() {
+		gameOver = false;
+		gamePaused = false;
+		gameStarted = true;
+		
+		pauseButton.setEnabled(true);
+		
+		score = 0;
+		scoreLabel.setText("Score: " + score);
+		
+		ball.setLocation((screenMaxWidth)/2 - (ball.width/2), 2);
+		bar.setLocation((screenMaxWidth/2) - (bar.width/2), bar.y);
+		
+		ballX = ball.x;
+		ballY = ball.y;
+		ballHorizontalVelocity = (int)(Math.random() * 11) - 5;
+		
+		barHorizontalVelocity = 0;
+		
+		timer.restart();
 		
 		repaint();
 	}
