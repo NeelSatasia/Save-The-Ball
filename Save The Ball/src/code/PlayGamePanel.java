@@ -40,16 +40,14 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	
 	JLabel gameOverLabel = new JLabel("Game Over!", SwingConstants.CENTER);
 	
-	JButton pauseButton = new JButton("");
-	ImageIcon pauseIcon;
-	ImageIcon unpauseIcon;
+	JButton pauseButton = new JButton("Pause");
 	
 	boolean gamePaused = false;
 	boolean gameOver = false;
 	boolean gameStarted = false;
 	
-	JButton restartButton = new JButton("");
-	ImageIcon restartIcon;
+	JButton backButton = new JButton("Back");
+	JButton tryAgainButton = new JButton("Try Again");
 	
 	int topBorderHeight = 0;
 	
@@ -65,7 +63,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		setPreferredSize(new Dimension(screenMaxWidth, screenMaxHeight));
 		setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		
-		ball = new Ball((screenMaxWidth/2) - 10, 2);
+		ball = new Ball((screenMaxWidth/2) - 10, 2, 1);
 		ballX = (int) ball.x;
 		ballY = (int) ball.y;
 		
@@ -76,49 +74,30 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		scoreLabel.setForeground(Color.BLACK);
 		scoreLabel.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 		
-		gameOverLabel.setBounds((screenMaxWidth/2) - 75, 50, 150, 35);
-		gameOverLabel.setFont(new Font("Times New Roman", Font.PLAIN, 25));
+		gameOverLabel.setBounds(0, 50, screenMaxWidth, 35);
+		gameOverLabel.setFont(new Font("Ink Free", Font.BOLD, 30));
 		gameOverLabel.setForeground(Color.BLACK);
-		gameOverLabel.setBackground(new Color(255, 128, 128));
-		gameOverLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-		gameOverLabel.setOpaque(true);
 		
-		pauseIcon = new ImageIcon("C:\\Users\\Vipul\\git\\Save-The-Ball\\Save The Ball\\src\\Pause.png");
-		unpauseIcon = new ImageIcon("C:\\Users\\Vipul\\git\\Save-The-Ball\\Save The Ball\\src\\Unpause.png");
+		customizeButton(backButton, true, Color.RED, Color.WHITE, BorderFactory.createEmptyBorder(2, 5, 2, 5));
+		backButton.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		
-		add(pauseButton);
-		pauseButton.setBounds(screenMaxWidth - 32, 0, 32, 32);
-		customizeButton(pauseButton, true, Color.WHITE, Color.BLACK, null);
-		pauseButton.setIcon(pauseIcon);
-		pauseButton.setOpaque(false);
-		pauseButton.setContentAreaFilled(false);
+		customizeButton(pauseButton, true, Color.BLACK, Color.WHITE, BorderFactory.createEmptyBorder(2,  5, 2, 5));
+		pauseButton.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		
 		pauseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(timer.isRunning()) {							//game paused
-					timer.stop();
-					pauseButton.setIcon(unpauseIcon);
-					gamePaused = true;
-				} else {
-					gamePaused = false;
-					timer.start();								//game unpaused
-					pauseButton.setIcon(pauseIcon);
-				}
+				pauseGame();
 			}
 		});
 		
-		restartIcon = new ImageIcon("C:\\Users\\Vipul\\git\\Save-The-Ball\\Save The Ball\\src\\Restart.png");
+		tryAgainButton.setBounds((screenMaxWidth/2) - 50, gameOverLabel.getY() + gameOverLabel.getHeight() + 15, 100, 30);
+		customizeButton(tryAgainButton, true, Color.BLACK, Color.WHITE, null);
+		tryAgainButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
-		restartButton.setBounds((screenMaxWidth/2) - 25, gameOverLabel.getY() + gameOverLabel.getHeight() + 15, 50, 50);
-		customizeButton(restartButton, true, Color.WHITE, Color.BLACK, null);
-		restartButton.setIcon(restartIcon);
-		restartButton.setOpaque(false);
-		restartButton.setContentAreaFilled(false);
-		
-		restartButton.addActionListener(new ActionListener() {
+		tryAgainButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				remove(gameOverLabel);
-				remove(restartButton);
+				remove(tryAgainButton);
 				
 				startGame();
 			}
@@ -131,12 +110,12 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		super.paintComponent(g);
 		
 		ball.setLocation(ballX, ballY);
-		bar.setLocation((int) (bar.x + barHorizontalVelocity), (int) bar.y);
+		bar.setBounds((int) (bar.x + barHorizontalVelocity), (int) bar.y, bar.width, bar.height);
 		
 		ball.draw(g);
 		bar.draw(g);
 		
-		g.setColor(Color.ORANGE);
+		g.setColor(new Color(204, 204, 204));
 		g.fillRect(0, bar.y + ((this.getHeight() - bar.y)/2), this.getWidth(), this.getHeight() - bar.y + ((this.getHeight() - bar.y)/2));
 		
 		g.setColor(Color.CYAN);
@@ -146,8 +125,8 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 			timer.stop();
 			add(gameOverLabel);
 			gameOver = true;
-			add(restartButton);
-			pauseButton.setEnabled(false);
+			add(tryAgainButton);
+			pauseButton.setBackground(new Color(128, 128, 128));
 			
 			if(score > classicModeHighScore) {
 				classicModeHighScore = score;
@@ -169,6 +148,10 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 					
 					if(score == 50 || score == 100 || score == 150 || score == 175) {
 						ballVerticalVelocity++;
+						
+						if(bar.width - 10 >= 20) {
+							bar.width -= 10;
+						}
 					}
 					
 					if(score > 50) {
@@ -233,6 +216,9 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		ballHorizontalVelocity = (int)(Math.random() * 11) - 5;
 		
 		barHorizontalVelocity = 0;
+		bar.width = 40;
+		
+		pauseButton.setBackground(Color.BLACK);
 		
 		timer.restart();
 		
@@ -249,6 +235,20 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		button.setFocusable(false);
 		button.setContentAreaFilled(false);
 		button.setOpaque(true);
+	}
+
+	public void pauseGame() {
+		if(gameOver == false) {
+			if(timer.isRunning()) {							//game paused
+				timer.stop();
+				pauseButton.setText("Paused");
+				gamePaused = true;
+			} else {
+				gamePaused = false;
+				timer.start();								//game unpaused
+				pauseButton.setText("Pause");
+			}
+		}
 	}
 }
 
