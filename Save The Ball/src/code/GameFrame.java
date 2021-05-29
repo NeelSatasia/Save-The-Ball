@@ -81,6 +81,10 @@ public class GameFrame extends JFrame {
 		
 		playPagePanel.add(startingPanel.ballRainButton, playPagePanelgbc);
 		
+		playPagePanelgbc.gridy = 4;
+		
+		playPagePanel.add(startingPanel.backButton, playPagePanelgbc);
+		
 		mainPlayPanel.setLayout(new BoxLayout(mainPlayPanel, BoxLayout.Y_AXIS));
 		mainPlayPanel.setBackground(Color.WHITE);
 		
@@ -107,9 +111,6 @@ public class GameFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				remove(startingPanel);
 				add(playPagePanel);
-				//add(mainPlayPanel);
-				
-				//subPlayPanel2.startGame();
 				
 				repaint();
 				revalidate();
@@ -157,6 +158,16 @@ public class GameFrame extends JFrame {
 				subPlayPanel2.ballRainMode = true;
 				
 				subPlayPanel2.startGame();
+				
+				repaint();
+				revalidate();
+			}
+		});
+		
+		startingPanel.backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				remove(playPagePanel);
+				add(startingPanel);
 				
 				repaint();
 				revalidate();

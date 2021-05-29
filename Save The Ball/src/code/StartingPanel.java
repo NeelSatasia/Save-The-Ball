@@ -27,7 +27,7 @@ public class StartingPanel extends JPanel {
 	
 	JButton storeButton = new JButton("Store");
 	JButton settingsButton = new JButton("Settings");
-	JButton backButton = new JButton("Back");
+	JButton backButton = new JButton("Go Back");
 	
 	public StartingPanel() {
 		new JPanel();
@@ -74,6 +74,9 @@ public class StartingPanel extends JPanel {
 		
 		customizeButton(ballRainButton, true, new Color(0, 139, 139), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 2, 2, 2)));
 		ballRainButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		
+		customizeButton(backButton, true, Color.RED, Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+		backButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 	}
 	
 	public void customizeButton(JButton button, boolean enable, Color buttonColor, Color textColor, Border border) {

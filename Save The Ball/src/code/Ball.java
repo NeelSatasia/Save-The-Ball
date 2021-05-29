@@ -9,13 +9,25 @@ public class Ball extends Rectangle {
 	int ballType;
 	Color ballColor;
 	
-	public Ball(int x, int y, int ballType, Color color) {
+	int ballX;
+	int ballY;
+	
+	int ballHorizontalVelocity;
+	int ballVerticalVelocity;
+	
+	public Ball(int x, int y, int w, int h, int ballType, Color color) {
 		this.x = x;
 		this.y = y;
-		this.width = 20;
-		this.height = 20;
+		this.width = w;
+		this.height = h;
 		this.ballType = ballType;
 		this.ballColor = color;
+		
+		this.ballX = this.x;
+		this.ballY = this.y;
+		
+		ballHorizontalVelocity = (int)(Math.random() * 11) - 5;
+		ballVerticalVelocity = 4;
 	}
 	
 	public void draw(Graphics g) {
