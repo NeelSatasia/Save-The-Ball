@@ -75,7 +75,7 @@ public class GameFrame extends JFrame {
 		playPagePanelgbc.insets = new Insets(10, 0, 0, 0);
 		playPagePanelgbc.gridy = 2;
 		
-		playPagePanel.add(startingPanel.multipleBallsButton, playPagePanelgbc);
+		playPagePanel.add(startingPanel.duoBallsButton, playPagePanelgbc);
 		
 		playPagePanelgbc.gridy = 3;
 		
@@ -125,12 +125,42 @@ public class GameFrame extends JFrame {
 				remove(playPagePanel);
 				add(mainPlayPanel);
 				
+				subPlayPanel2.classicMode = true;
+				
 				subPlayPanel2.startGame();
 				
 				repaint();
 				revalidate();
 			}
 			
+		});
+		
+		startingPanel.duoBallsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				remove(playPagePanel);
+				add(mainPlayPanel);
+				
+				subPlayPanel2.duoBallsMode = true;
+				
+				subPlayPanel2.startGame();
+				
+				repaint();
+				revalidate();
+			}
+		});
+		
+		startingPanel.ballRainButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				remove(playPagePanel);
+				add(mainPlayPanel);
+				
+				subPlayPanel2.ballRainMode = true;
+				
+				subPlayPanel2.startGame();
+				
+				repaint();
+				revalidate();
+			}
 		});
 		
 		repaint();
@@ -140,7 +170,7 @@ public class GameFrame extends JFrame {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(subPlayPanel2.gameStarted && subPlayPanel2.gameOver == false && subPlayPanel2.gamePaused == false) {
+				if(subPlayPanel2.isPlayingGame && subPlayPanel2.gamePaused == false) {
 					if(e.getKeyCode() == KeyEvent.VK_LEFT) {
 						subPlayPanel2.barHorizontalVelocity = -5;
 						subPlayPanel2.actionPerformed(null);
@@ -174,7 +204,7 @@ public class GameFrame extends JFrame {
 		cursorControl = new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(subPlayPanel2.gameStarted && subPlayPanel2.gamePaused == false) {
+				if(subPlayPanel2.isPlayingGame && subPlayPanel2.gamePaused == false) {
 					if(e.getX() > subPlayPanel2.bar.x && e.getX() < subPlayPanel2.bar.x + subPlayPanel2.bar.width + 40) {
 						subPlayPanel2.bar.x = e.getX() - subPlayPanel2.bar.width;
 						isDraggable = true;
@@ -203,9 +233,13 @@ public class GameFrame extends JFrame {
 				subPlayPanel2.remove(subPlayPanel2.gameOverLabel);
 				subPlayPanel2.remove(subPlayPanel2.tryAgainButton);
 				
-				subPlayPanel2.gameOver = true;
-				subPlayPanel2.gameStarted = false;
+				subPlayPanel2.isPlayingGame = false;
 				subPlayPanel2.gamePaused = false;
+				
+				subPlayPanel2.classicMode = false;
+				subPlayPanel2.duoBallsMode = false;
+				subPlayPanel2.ballRainMode = false;
+				
 				subPlayPanel2.timer.stop();
 				
 				remove(mainPlayPanel);

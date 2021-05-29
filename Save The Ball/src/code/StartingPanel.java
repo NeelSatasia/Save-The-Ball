@@ -22,7 +22,7 @@ public class StartingPanel extends JPanel {
 	JButton playButton = new JButton("Play");
 	JLabel modesLabel = new JLabel("Modes", SwingConstants.CENTER);
 	JButton classicButton = new JButton("Classic");
-	JButton multipleBallsButton = new JButton("Multiple Balls");
+	JButton duoBallsButton = new JButton("Duo Balls");
 	JButton ballRainButton = new JButton("Ball Rain");
 	
 	JButton storeButton = new JButton("Store");
@@ -69,8 +69,8 @@ public class StartingPanel extends JPanel {
 		customizeButton(classicButton, true, new Color(34, 139, 34), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 2, 2, 2)));
 		classicButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
-		customizeButton(multipleBallsButton, true, new Color(65, 105, 225), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 10, 2, 10)));
-		multipleBallsButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		customizeButton(duoBallsButton, true, new Color(65, 105, 225), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 10, 2, 10)));
+		duoBallsButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
 		customizeButton(ballRainButton, true, new Color(0, 139, 139), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 2, 2, 2)));
 		ballRainButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
