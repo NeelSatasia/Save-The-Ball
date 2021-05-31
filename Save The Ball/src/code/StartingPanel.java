@@ -24,6 +24,8 @@ public class StartingPanel extends JPanel {
 	JButton classicButton = new JButton("Classic");
 	JButton duoBallsButton = new JButton("Duo Balls");
 	JButton ballRainButton = new JButton("Ball Rain");
+	JButton colorBallRainButton = new JButton("Color Ball Rain");
+	JButton switchBarButton = new JButton("Switch Bar");
 	
 	JButton storeButton = new JButton("Store");
 	JButton settingsButton = new JButton("Settings");
@@ -66,16 +68,22 @@ public class StartingPanel extends JPanel {
 		
 		modesLabel.setFont(new Font("Times New Roman", Font.PLAIN, 24));
 		
-		customizeButton(classicButton, true, new Color(34, 139, 34), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+		customizeButton(classicButton, true, new Color(34, 139, 34), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 		classicButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
-		customizeButton(duoBallsButton, true, new Color(65, 105, 225), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 10, 2, 10)));
+		customizeButton(duoBallsButton, true, new Color(65, 105, 225), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 		duoBallsButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
-		customizeButton(ballRainButton, true, new Color(0, 139, 139), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+		customizeButton(ballRainButton, true, new Color(0, 139, 139), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 		ballRainButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
-		customizeButton(backButton, true, Color.RED, Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+		customizeButton(colorBallRainButton, true, new Color(0, 128, 128), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
+		colorBallRainButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		
+		customizeButton(switchBarButton, true, new Color(220, 20, 60), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
+		switchBarButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		
+		customizeButton(backButton, true, Color.RED, Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 		backButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 	}
 	
