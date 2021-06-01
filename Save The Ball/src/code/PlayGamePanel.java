@@ -73,7 +73,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		setLayout(null);
 		setOpaque(false);
 		setPreferredSize(new Dimension(screenMaxWidth, screenMaxHeight));
-		setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
 		
 		ball = new Ball((screenMaxWidth/2) - 10, 45, 20, 20, 1, Color.RED);
 		
@@ -117,16 +117,16 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 			}
 		});
 		
-		//timer.setInitialDelay(1000);
+		timer.setInitialDelay(1000);
 	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		bar.setBounds((int) (bar.x + barHorizontalVelocity), (int) bar.y, bar.width, bar.height);
+		bar.setBounds(bar.x + barHorizontalVelocity, bar.y, bar.width, bar.height);
 		bar.draw(g);
 		
-		if(classicMode || duoBallsMode) {
+		if(classicMode || duoBallsMode || switchBarMode) {
 			ball.setLocation(ball.ballX, ball.ballY);
 		}
 		
@@ -135,13 +135,13 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		}
 		
 		g.setColor(new Color(204, 204, 204));
-		g.fillRect(0, bar.y + ((screenMaxHeight - bar.y)/2), screenMaxWidth, screenMaxHeight - bar.y + ((screenMaxHeight - bar.y)/2));
+		g.fillRect(0, screenMaxHeight - 40, screenMaxWidth, 40);
 		
 		if(classicMode || duoBallsMode) {
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, screenMaxWidth, topBorderHeight);
 			
-			if((ball.y >= bar.y + ((screenMaxHeight - bar.y)/2) || ball2.y >= bar.y + (screenMaxHeight - bar.y)/2) && isPlayingGame) {
+			if((ball.y >= bar.y + ((screenMaxHeight - bar.y)/2) || (duoBallsMode && ball2.y >= bar.y + (screenMaxHeight - bar.y)/2) && isPlayingGame)) {
 				gameOver();
 			} else {
 				ball.draw(g);
@@ -149,6 +149,12 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 				if(duoBallsMode) {
 					ball2.draw(g);
 				}
+			}
+		} else if(switchBarMode) {
+			if(ball.y < -(ball.height) || ball.y >= screenMaxHeight - 20){
+				gameOver();
+			} else {
+				ball.draw(g);
 			}
 		}
 		
@@ -211,15 +217,18 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 			
 			//classic mode
 			
-			if(classicMode || duoBallsMode) {
-				if(ball.ballY + ball.height <= bar.y && ball.ballY + ball.height + ball.ballVerticalVelocity >= bar.y) {
+			if(classicMode || duoBallsMode || switchBarMode) {
+				if(bar.y == screenMaxHeight - 90 && ball.ballY + ball.height <= bar.y && ball.ballY + ball.height + ball.ballVerticalVelocity >= bar.y) {
 					if(ball.ballX + ball.width + 10 >= bar.x && ball.ballX - 10 <= bar.x + bar.width) {
 						ball.ballY = (int) (bar.y - ball.height);
 						ball.ballVerticalVelocity *= -1;
 						
+						if(switchBarMode) {
+							bar.setLocation(bar.x, 30);
+						}
+						
 						score++;
 						scoreLabel.setText("Score: " + score);
-						scoreLabel.setLocation((screenMaxWidth/2) - (scoreLabel.getWidth()/2), bar.y + ((screenMaxHeight - bar.y)/2) + 10);
 						
 						if(score == 50) {
 							ball.ballVerticalVelocity = 6;
@@ -254,7 +263,15 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 					} else {
 						ball.ballY += ball.ballVerticalVelocity;
 					}
-				} else if(ball.ballY + ball.ballVerticalVelocity <= topBorderHeight) {
+				} else if(switchBarMode && bar.y == 30 && ball.ballX + ball.width + 10 >= bar.x && ball.ballX - 10 <= bar.x + bar.width && ball.ballY >= bar.y + bar.height && ball.ballY + ball.ballVerticalVelocity <= bar.y + bar.height) {
+					ball.ballHorizontalVelocity = (int)(Math.random() * 11) - 5;
+					ball.ballVerticalVelocity *= -1;
+					
+					bar.setLocation(bar.x, screenMaxHeight - 90);
+					
+					score++;
+					scoreLabel.setText("Score: " + score);
+				} else if((classicMode || duoBallsMode) && ball.ballY + ball.ballVerticalVelocity <= topBorderHeight) {
 					ball.ballHorizontalVelocity = (int)(Math.random() * 11) - 5;
 					ball.ballVerticalVelocity *= -1;
 					
@@ -365,7 +382,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 								score++;
 								scoreLabel.setText("Score: " + score);
 								
-								if(score >= 5) {
+								if(score >= 100) {
 									bar.changeBarColor();
 								}
 							}
@@ -401,15 +418,24 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	}
 	
 	public void startGame() {
+		gamePaused = false;
+		isPlayingGame = true;
+		
 		pauseButton.setEnabled(true);
 		
 		score = 0;
 		scoreLabel.setText("Score: " + score);
 		
-		bar.setLocation((screenMaxWidth/2) - (bar.width/2), bar.y);
+		bar.setLocation((screenMaxWidth/2) - (bar.width/2), screenMaxHeight - 90);
 		
-		if(classicMode || duoBallsMode) {
-			ball.setLocation((screenMaxWidth)/2 - (ball.width/2), 2);
+		if(classicMode || duoBallsMode || switchBarMode) {
+			if(switchBarMode) {
+				ball.setLocation((screenMaxWidth)/2 - (ball.width/2), 40);
+				setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
+			} else {
+				ball.setLocation((screenMaxWidth)/2 - (ball.width/2), 2);
+				setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+			}
 			ball.ballX = ball.x;
 			ball.ballY = ball.y;
 			ball.ballHorizontalVelocity = (int)(Math.random() * 11) - 5;
@@ -437,8 +463,11 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		
 		barHorizontalVelocity = 0;
 		bar.width = 40;
+		bar.y = screenMaxHeight - 90;
 		
 		pauseButton.setBackground(Color.BLACK);
+		
+		timer.restart();
 		
 		repaint();
 	}

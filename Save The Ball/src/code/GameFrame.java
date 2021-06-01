@@ -181,6 +181,20 @@ public class GameFrame extends JFrame {
 			}
 		});
 		
+		startingPanel.switchBarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				remove(playPagePanel);
+				add(mainPlayPanel);
+				
+				subPlayPanel2.switchBarMode = true;
+				
+				subPlayPanel2.startGame();
+				
+				repaint();
+				revalidate();
+			}
+		});
+		
 		startingPanel.backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				remove(playPagePanel);
