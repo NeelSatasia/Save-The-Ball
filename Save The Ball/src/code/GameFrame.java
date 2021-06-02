@@ -1,7 +1,7 @@
 package code;
 
 import java.awt.Color;
-import java.awt.Font;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -12,13 +12,10 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 public class GameFrame extends JFrame {
 	
@@ -101,6 +98,9 @@ public class GameFrame extends JFrame {
 		headerPlayPanel.add(subPlayPanel2.pauseButton);
 		
 		mainPlayPanel.add(headerPlayPanel);
+		
+		mainPlayPanel.add(subPlayPanel2.scoreLabel);
+		subPlayPanel2.scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		subPlayPanel1.setLayout(new GridBagLayout());
 		subPlayPanel1gbc.anchor = GridBagConstraints.CENTER;
@@ -186,7 +186,7 @@ public class GameFrame extends JFrame {
 				remove(playPagePanel);
 				add(mainPlayPanel);
 				
-				subPlayPanel2.switchBarMode = true;
+				subPlayPanel2.barUpAndDownMode = true;
 				
 				subPlayPanel2.startGame();
 				
@@ -213,10 +213,10 @@ public class GameFrame extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				if(subPlayPanel2.isPlayingGame && subPlayPanel2.gamePaused == false) {
 					if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-						subPlayPanel2.barHorizontalVelocity = -5;
+						subPlayPanel2.bar.barHorizontalVelocity = -5;
 						subPlayPanel2.actionPerformed(null);
 					} else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-						subPlayPanel2.barHorizontalVelocity = 5;
+						subPlayPanel2.bar.barHorizontalVelocity = 5;
 						subPlayPanel2.actionPerformed(null);
 					}
 				}
@@ -225,7 +225,7 @@ public class GameFrame extends JFrame {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT) {
-					subPlayPanel2.barHorizontalVelocity = 0;
+					subPlayPanel2.bar.barHorizontalVelocity = 0;
 				}
 				
 				if(e.getKeyCode() == KeyEvent.VK_SPACE) {
@@ -285,7 +285,7 @@ public class GameFrame extends JFrame {
 				subPlayPanel2.duoBallsMode = false;
 				subPlayPanel2.ballRainMode = false;
 				subPlayPanel2.colorBallRainMode = false;
-				subPlayPanel2.switchBarMode = false;
+				subPlayPanel2.barUpAndDownMode = false;
 				
 				subPlayPanel2.timer.stop();
 				

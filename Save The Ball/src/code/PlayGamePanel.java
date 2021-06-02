@@ -28,7 +28,6 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	int ballSpawnTimeCounter = 50;
 	
 	Bar bar;
-	int barHorizontalVelocity = 0;
 	
 	int screenMaxWidth;
 	int screenMaxHeight;
@@ -48,7 +47,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	boolean colorBallRainMode = false;
 	int colorBallRainHighScore = 0;
 	
-	boolean switchBarMode = false;
+	boolean barUpAndDownMode = false;
 	int switchBarHighScore = 0;
 	
 	JLabel gameOverLabel = new JLabel("Game Over!", SwingConstants.CENTER);
@@ -67,7 +66,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		UIManager.put("Button.disabledText", Color.BLACK);
 		
 		screenMaxWidth = w - 50;
-		screenMaxHeight = h - 90;
+		screenMaxHeight = h - 100;
 		
 		new JPanel();
 		setLayout(null);
@@ -84,9 +83,8 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		balls = new ArrayList<Ball>();
 		
 		add(scoreLabel);
-		scoreLabel.setBounds(0, bar.y + ((screenMaxHeight - bar.y)/2) + 10, screenMaxWidth, 30);
 		scoreLabel.setForeground(Color.BLACK);
-		scoreLabel.setFont(new Font("Times New Roman", Font.PLAIN, 25));
+		scoreLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
 		gameOverLabel.setBounds(0, 50, screenMaxWidth, 35);
 		gameOverLabel.setFont(new Font("Ink Free", Font.BOLD, 30));
@@ -123,10 +121,10 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		bar.setBounds(bar.x + barHorizontalVelocity, bar.y, bar.width, bar.height);
+		bar.setBounds(bar.x + bar.barHorizontalVelocity, bar.y, bar.width, bar.height);
 		bar.draw(g);
 		
-		if(classicMode || duoBallsMode || switchBarMode) {
+		if(classicMode || duoBallsMode || barUpAndDownMode) {
 			ball.setLocation(ball.ballX, ball.ballY);
 		}
 		
@@ -134,14 +132,11 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 			ball2.setLocation(ball2.ballX, ball2.ballY);
 		}
 		
-		g.setColor(new Color(204, 204, 204));
-		g.fillRect(0, screenMaxHeight - 40, screenMaxWidth, 40);
-		
 		if(classicMode || duoBallsMode) {
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, screenMaxWidth, topBorderHeight);
 			
-			if((ball.y >= bar.y + ((screenMaxHeight - bar.y)/2) || (duoBallsMode && ball2.y >= bar.y + (screenMaxHeight - bar.y)/2) && isPlayingGame)) {
+			if(((ball.y >= screenMaxHeight) || (duoBallsMode && ball2.y >= screenMaxHeight)) && isPlayingGame) {
 				gameOver();
 			} else {
 				ball.draw(g);
@@ -150,7 +145,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 					ball2.draw(g);
 				}
 			}
-		} else if(switchBarMode) {
+		} else if(barUpAndDownMode) {
 			if(ball.y < -(ball.height) || ball.y >= screenMaxHeight - 20){
 				gameOver();
 			} else {
@@ -205,7 +200,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 				ballRainHighScore = score;
 			} else if(colorBallRainMode && score > colorBallRainHighScore) {
 				colorBallRainHighScore = score;
-			} else if(switchBarMode && score > switchBarHighScore) {
+			} else if(barUpAndDownMode && score > switchBarHighScore) {
 				switchBarHighScore = score;
 			}
 		}
@@ -217,13 +212,13 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 			
 			//classic mode
 			
-			if(classicMode || duoBallsMode || switchBarMode) {
+			if(classicMode || duoBallsMode || barUpAndDownMode) {
 				if(bar.y == screenMaxHeight - 90 && ball.ballY + ball.height <= bar.y && ball.ballY + ball.height + ball.ballVerticalVelocity >= bar.y) {
-					if(ball.ballX + ball.width + 10 >= bar.x && ball.ballX - 10 <= bar.x + bar.width) {
+					if(ball.ballX + ball.width + (ball.width/2) >= bar.x && ball.ballX - (ball.width/2) <= bar.x + bar.width) {
 						ball.ballY = (int) (bar.y - ball.height);
 						ball.ballVerticalVelocity *= -1;
 						
-						if(switchBarMode) {
+						if(barUpAndDownMode) {
 							bar.setLocation(bar.x, 30);
 						}
 						
@@ -263,7 +258,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 					} else {
 						ball.ballY += ball.ballVerticalVelocity;
 					}
-				} else if(switchBarMode && bar.y == 30 && ball.ballX + ball.width + 10 >= bar.x && ball.ballX - 10 <= bar.x + bar.width && ball.ballY >= bar.y + bar.height && ball.ballY + ball.ballVerticalVelocity <= bar.y + bar.height) {
+				} else if(barUpAndDownMode && bar.y == 30 && ball.ballX + ball.width + 10 >= bar.x && ball.ballX - 10 <= bar.x + bar.width && ball.ballY >= bar.y + bar.height && ball.ballY + ball.ballVerticalVelocity <= bar.y + bar.height) {
 					ball.ballHorizontalVelocity = (int)(Math.random() * 11) - 5;
 					ball.ballVerticalVelocity *= -1;
 					
@@ -294,7 +289,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 			
 			if(duoBallsMode) {
 				if(ball2.ballY + ball2.height <= bar.y && ball2.ballY + ball2.height + ball2.ballVerticalVelocity >= bar.y) {
-					if(ball2.ballX + ball2.width + 10 >= bar.x && ball2.ballX - 10 <= bar.x + bar.width) {
+					if(ball2.ballX + ball2.width + (ball2.width/2) >= bar.x && ball2.ballX - (ball2.width/2) <= bar.x + bar.width) {
 						ball2.ballY = (int) (bar.y - ball2.height);
 						ball2.ballVerticalVelocity *= -1;
 						
@@ -428,13 +423,11 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		
 		bar.setLocation((screenMaxWidth/2) - (bar.width/2), screenMaxHeight - 90);
 		
-		if(classicMode || duoBallsMode || switchBarMode) {
-			if(switchBarMode) {
+		if(classicMode || duoBallsMode || barUpAndDownMode) {
+			if(barUpAndDownMode) {
 				ball.setLocation((screenMaxWidth)/2 - (ball.width/2), 40);
-				setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.BLACK));
 			} else {
 				ball.setLocation((screenMaxWidth)/2 - (ball.width/2), 2);
-				setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
 			}
 			ball.ballX = ball.x;
 			ball.ballY = ball.y;
@@ -461,7 +454,13 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 			bar.barColor = Color.BLACK;
 		}
 		
-		barHorizontalVelocity = 0;
+		if(barUpAndDownMode) {
+			setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.BLACK));
+		} else {
+			setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, Color.BLACK));
+		}
+		
+		bar.barHorizontalVelocity = 0;
 		bar.width = 40;
 		bar.y = screenMaxHeight - 90;
 		

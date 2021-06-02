@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 public class Bar extends Rectangle {
 	
 	Color barColor;
+	int barHorizontalVelocity;
 	
 	public Bar(int x, int y) {
 		this.x = x;
@@ -14,6 +15,7 @@ public class Bar extends Rectangle {
 		this.width = 40;
 		this.height = 5;
 		this.barColor = Color.BLACK;
+		this.barHorizontalVelocity = 0;
 	}
 	
 	public void draw(Graphics g) {
