@@ -28,15 +28,15 @@ public class GameFrame extends JFrame {
 	
 	JPanel headerPlayPanel;
 	
-	JPanel subPlayPanel1;
-	GridBagConstraints subPlayPanel1gbc;
+	JPanel subPlayPanel;
+	GridBagConstraints subPlayPanelgbc;
 	
-	PlayGamePanel subPlayPanel2;
+	PlayGamePanel playGamePanel;
+	
+	//StorePanel storePanel;
 	
 	KeyListener controlKeys;
 	MouseAdapter mouseControl;
-	
-	boolean isDraggable = false;
 	
 	public GameFrame() {
 		new JFrame();
@@ -52,9 +52,10 @@ public class GameFrame extends JFrame {
 		playPagePanelgbc = new GridBagConstraints();
 		headerPlayPanel = new JPanel();
 		mainPlayPanel = new JPanel();
-		subPlayPanel1 = new JPanel();
-		subPlayPanel1gbc = new GridBagConstraints();
-		subPlayPanel2 = new PlayGamePanel(this.getWidth(), this.getHeight());
+		subPlayPanel = new JPanel();
+		playPagePanelgbc = new GridBagConstraints();
+		playGamePanel = new PlayGamePanel(this.getWidth(), this.getHeight());
+		//storePanel = new StorePanel();
 		
 		add(startingPanel);
 		
@@ -79,7 +80,7 @@ public class GameFrame extends JFrame {
 		playPagePanel.add(startingPanel.colorBallRainButton, playPagePanelgbc);
 		
 		playPagePanelgbc.gridy = 5;
-		playPagePanel.add(startingPanel.switchBarButton, playPagePanelgbc);
+		playPagePanel.add(startingPanel.barUpAndDownButton, playPagePanelgbc);
 		
 		playPagePanelgbc.insets = new Insets(40, 0, 0, 0);
 		playPagePanelgbc.gridy = 6;
@@ -91,29 +92,35 @@ public class GameFrame extends JFrame {
 		headerPlayPanel.setLayout(new BoxLayout(headerPlayPanel, BoxLayout.X_AXIS));
 		headerPlayPanel.setOpaque(false);
 		
-		headerPlayPanel.add(subPlayPanel2.backButton);
+		headerPlayPanel.add(playGamePanel.backButton);
 		
 		headerPlayPanel.add(Box.createHorizontalGlue());
 		
-		headerPlayPanel.add(subPlayPanel2.pauseButton);
+		headerPlayPanel.add(playGamePanel.pauseButton);
 		
 		mainPlayPanel.add(headerPlayPanel);
 		
-		mainPlayPanel.add(subPlayPanel2.scoreLabel);
-		subPlayPanel2.scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		mainPlayPanel.add(playGamePanel.scoreLabel);
+		playGamePanel.scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
-		subPlayPanel1.setLayout(new GridBagLayout());
-		subPlayPanel1gbc.anchor = GridBagConstraints.CENTER;
-		subPlayPanel1gbc.fill = GridBagConstraints.BOTH;
-		mainPlayPanel.add(subPlayPanel1);
-		subPlayPanel1.setBackground(Color.WHITE);
+		subPlayPanel.setLayout(new GridBagLayout());
+		playPagePanelgbc.anchor = GridBagConstraints.CENTER;
+		playPagePanelgbc.fill = GridBagConstraints.BOTH;
+		mainPlayPanel.add(subPlayPanel);
+		subPlayPanel.setBackground(Color.WHITE);
 		
-		subPlayPanel1.add(subPlayPanel2, subPlayPanel1gbc);
+		subPlayPanel.add(playGamePanel, subPlayPanelgbc);
 		
 		startingPanel.playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				remove(startingPanel);
 				add(playPagePanel);
+				
+				startingPanel.classicButton.setText("Classic - " + playGamePanel.classicModeHighScore);
+				startingPanel.duoBallsButton.setText("Duo Balls - " + playGamePanel.duoBallsHighScore);
+				startingPanel.ballRainButton.setText("Ball Rain - " + playGamePanel.ballRainHighScore);
+				startingPanel.colorBallRainButton.setText("Color Ball Rain - " + playGamePanel.colorBallRainHighScore);
+				startingPanel.barUpAndDownButton.setText("Bar Up & Down - " + playGamePanel.barUpAndDownHighScore);
 				
 				repaint();
 				revalidate();
@@ -125,13 +132,13 @@ public class GameFrame extends JFrame {
 		startingPanel.revalidate();
 		
 		startingPanel.classicButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
 				remove(playPagePanel);
 				add(mainPlayPanel);
 				
-				subPlayPanel2.classicMode = true;
+				playGamePanel.classicMode = true;
 				
-				subPlayPanel2.startGame();
+				playGamePanel.startGame();
 				
 				repaint();
 				revalidate();
@@ -144,9 +151,9 @@ public class GameFrame extends JFrame {
 				remove(playPagePanel);
 				add(mainPlayPanel);
 				
-				subPlayPanel2.duoBallsMode = true;
+				playGamePanel.duoBallsMode = true;
 				
-				subPlayPanel2.startGame();
+				playGamePanel.startGame();
 				
 				repaint();
 				revalidate();
@@ -158,9 +165,9 @@ public class GameFrame extends JFrame {
 				remove(playPagePanel);
 				add(mainPlayPanel);
 				
-				subPlayPanel2.ballRainMode = true;
+				playGamePanel.ballRainMode = true;
 				
-				subPlayPanel2.startGame();
+				playGamePanel.startGame();
 				
 				repaint();
 				revalidate();
@@ -172,23 +179,23 @@ public class GameFrame extends JFrame {
 				remove(playPagePanel);
 				add(mainPlayPanel);
 				
-				subPlayPanel2.colorBallRainMode = true;
+				playGamePanel.colorBallRainMode = true;
 				
-				subPlayPanel2.startGame();
+				playGamePanel.startGame();
 				
 				repaint();
 				revalidate();
 			}
 		});
 		
-		startingPanel.switchBarButton.addActionListener(new ActionListener() {
+		startingPanel.barUpAndDownButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				remove(playPagePanel);
 				add(mainPlayPanel);
 				
-				subPlayPanel2.barUpAndDownMode = true;
+				playGamePanel.barUpAndDownMode = true;
 				
-				subPlayPanel2.startGame();
+				playGamePanel.startGame();
 				
 				repaint();
 				revalidate();
@@ -205,19 +212,29 @@ public class GameFrame extends JFrame {
 			}
 		});
 		
+		/*startingPanel.storeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				remove(startingPanel);
+				add(storePanel);
+				
+				repaint();
+				revalidate();
+			}
+		});*/
+		
 		repaint();
 		invalidate();
 		
 		controlKeys = new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(subPlayPanel2.isPlayingGame && subPlayPanel2.gamePaused == false) {
+				if(playGamePanel.isPlayingGame && playGamePanel.gamePaused == false) {
 					if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-						subPlayPanel2.bar.barHorizontalVelocity = -5;
-						subPlayPanel2.actionPerformed(null);
+						playGamePanel.bar.barHorizontalVelocity = -5;
+						playGamePanel.actionPerformed(null);
 					} else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-						subPlayPanel2.bar.barHorizontalVelocity = 5;
-						subPlayPanel2.actionPerformed(null);
+						playGamePanel.bar.barHorizontalVelocity = 5;
+						playGamePanel.actionPerformed(null);
 					}
 				}
 			}
@@ -225,11 +242,11 @@ public class GameFrame extends JFrame {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT) {
-					subPlayPanel2.bar.barHorizontalVelocity = 0;
+					playGamePanel.bar.barHorizontalVelocity = 0;
 				}
 				
 				if(e.getKeyCode() == KeyEvent.VK_SPACE) {
-					subPlayPanel2.pauseGame();
+					playGamePanel.pauseGame();
 				}
 			}
 
@@ -244,24 +261,11 @@ public class GameFrame extends JFrame {
 		
 		mouseControl = new MouseAdapter() {
 			@Override
-			public void mousePressed(MouseEvent e) {
-				if(subPlayPanel2.isPlayingGame && subPlayPanel2.gamePaused == false) {
-					if(e.getX() > subPlayPanel2.bar.x && e.getX() < subPlayPanel2.bar.x + subPlayPanel2.bar.width + 40) {
-						subPlayPanel2.bar.x = e.getX() - subPlayPanel2.bar.width;
-						isDraggable = true;
-					}
-				}
-			}
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				isDraggable = false;
-			}
-			
-			@Override
 			public void mouseDragged(MouseEvent e) {
-				if(isDraggable) {
-					subPlayPanel2.bar.x = e.getX() - subPlayPanel2.bar.width;
+				if(playGamePanel.isPlayingGame && playGamePanel.gamePaused == false) {
+					if(e.getX() > playGamePanel.bar.x && e.getX() < playGamePanel.bar.x + playGamePanel.bar.width + 40) {
+						playGamePanel.bar.x = e.getX() - playGamePanel.bar.width;
+					}
 				}
 			}
 		};
@@ -269,25 +273,25 @@ public class GameFrame extends JFrame {
 		addMouseListener(mouseControl);
 		addMouseMotionListener(mouseControl);
 		
-		subPlayPanel2.backButton.addActionListener(new ActionListener() {
+		playGamePanel.backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				subPlayPanel2.remove(subPlayPanel2.gameOverLabel);
-				subPlayPanel2.remove(subPlayPanel2.tryAgainButton);
+				playGamePanel.remove(playGamePanel.gameOverLabel);
+				playGamePanel.remove(playGamePanel.tryAgainButton);
 				
-				subPlayPanel2.isPlayingGame = false;
-				subPlayPanel2.gamePaused = false;
+				playGamePanel.isPlayingGame = false;
+				playGamePanel.gamePaused = false;
 				
-				if(subPlayPanel2.ballRainMode || subPlayPanel2.colorBallRainMode) {
-					subPlayPanel2.balls.clear();
+				if(playGamePanel.ballRainMode || playGamePanel.colorBallRainMode) {
+					playGamePanel.balls.clear();
 				}
 				
-				subPlayPanel2.classicMode = false;
-				subPlayPanel2.duoBallsMode = false;
-				subPlayPanel2.ballRainMode = false;
-				subPlayPanel2.colorBallRainMode = false;
-				subPlayPanel2.barUpAndDownMode = false;
+				playGamePanel.classicMode = false;
+				playGamePanel.duoBallsMode = false;
+				playGamePanel.ballRainMode = false;
+				playGamePanel.colorBallRainMode = false;
+				playGamePanel.barUpAndDownMode = false;
 				
-				subPlayPanel2.timer.stop();
+				playGamePanel.timer.stop();
 				
 				remove(mainPlayPanel);
 				add(startingPanel);

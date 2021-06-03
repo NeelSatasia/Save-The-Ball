@@ -39,7 +39,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	int classicModeHighScore = 0;
 	
 	boolean duoBallsMode = false;
-	int multipleBallsHighScore = 0;
+	int duoBallsHighScore = 0;
 	
 	boolean ballRainMode = false;
 	int ballRainHighScore = 0;
@@ -48,7 +48,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	int colorBallRainHighScore = 0;
 	
 	boolean barUpAndDownMode = false;
-	int switchBarHighScore = 0;
+	int barUpAndDownHighScore = 0;
 	
 	JLabel gameOverLabel = new JLabel("Game Over!", SwingConstants.CENTER);
 	
@@ -194,14 +194,15 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		if(isPlayingGame == false && gamePaused == false) {
 			if(classicMode && score > classicModeHighScore) {
 				classicModeHighScore = score;
- 			} else if(duoBallsMode && score > multipleBallsHighScore) {
-				multipleBallsHighScore = score;
+				
+ 			} else if(duoBallsMode && score > duoBallsHighScore) {
+				duoBallsHighScore = score;
 			} else if(ballRainMode && score > ballRainHighScore) {
 				ballRainHighScore = score;
 			} else if(colorBallRainMode && score > colorBallRainHighScore) {
 				colorBallRainHighScore = score;
-			} else if(barUpAndDownMode && score > switchBarHighScore) {
-				switchBarHighScore = score;
+			} else if(barUpAndDownMode && score > barUpAndDownHighScore) {
+				barUpAndDownHighScore = score;
 			}
 		}
 	}
@@ -225,7 +226,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 						score++;
 						scoreLabel.setText("Score: " + score);
 						
-						if(score == 50) {
+						if(score == 40) {
 							ball.ballVerticalVelocity = 6;
 							bar.width = 30;
 						} else if(score == 100) {
@@ -461,7 +462,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		}
 		
 		bar.barHorizontalVelocity = 0;
-		bar.width = 40;
+		bar.width = 20;
 		bar.y = screenMaxHeight - 90;
 		
 		pauseButton.setBackground(Color.BLACK);

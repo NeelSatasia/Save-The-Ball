@@ -17,7 +17,7 @@ public class StartingPanel extends JPanel {
 	
 	GridBagConstraints gbc;
 	
-	JLabel gameTitleLabel = new JLabel("Save The Ball");
+	JLabel gameTitleLabel = new JLabel("Save The Ball", SwingConstants.CENTER);
 	
 	JButton playButton = new JButton("Play");
 	JLabel modesLabel = new JLabel("Modes", SwingConstants.CENTER);
@@ -25,7 +25,7 @@ public class StartingPanel extends JPanel {
 	JButton duoBallsButton = new JButton("Duo Balls");
 	JButton ballRainButton = new JButton("Ball Rain");
 	JButton colorBallRainButton = new JButton("Color Ball Rain");
-	JButton switchBarButton = new JButton("Bar Up & Down");
+	JButton barUpAndDownButton = new JButton("Bar Up & Down");
 	
 	JButton storeButton = new JButton("Store");
 	JButton settingsButton = new JButton("Settings");
@@ -45,7 +45,7 @@ public class StartingPanel extends JPanel {
 		gbc.weighty = 0;
 		
 		add(gameTitleLabel);
-		gameTitleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 25));
+		gameTitleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 35));
 		
 		gbc.gridy++;
 		
@@ -66,7 +66,7 @@ public class StartingPanel extends JPanel {
 		customizeButton(settingsButton, true, Color.BLACK, Color.WHITE, BorderFactory.createEmptyBorder(2, 10, 2, 10));
 		settingsButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
-		modesLabel.setFont(new Font("Times New Roman", Font.PLAIN, 24));
+		modesLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 		
 		customizeButton(classicButton, true, new Color(34, 139, 34), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 		classicButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -80,8 +80,8 @@ public class StartingPanel extends JPanel {
 		customizeButton(colorBallRainButton, true, new Color(0, 128, 128), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 		colorBallRainButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
-		customizeButton(switchBarButton, true, new Color(220, 20, 60), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
-		switchBarButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		customizeButton(barUpAndDownButton, true, new Color(220, 20, 60), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
+		barUpAndDownButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
 		customizeButton(backButton, true, Color.RED, Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 		backButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
