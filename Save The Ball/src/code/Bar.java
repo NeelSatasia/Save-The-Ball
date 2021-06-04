@@ -2,6 +2,7 @@ package code;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 public class Bar extends Rectangle {
@@ -9,12 +10,12 @@ public class Bar extends Rectangle {
 	Color barColor;
 	int barHorizontalVelocity;
 	
-	public Bar(int x, int y) {
+	public Bar(int x, int y, Color color) {
 		this.x = x;
 		this.y = y;
 		this.width = 40;
 		this.height = 5;
-		this.barColor = Color.BLACK;
+		this.barColor = color;
 		this.barHorizontalVelocity = 0;
 	}
 	

@@ -8,9 +8,8 @@ public class Ball extends Rectangle {
 	
 	int ballType;
 	Color ballColor;
-	
-	int ballX;
-	int ballY;
+	int ballColorTransparency;
+	int changeColorTransparency;
 	
 	int ballHorizontalVelocity;
 	int ballVerticalVelocity;
@@ -22,19 +21,17 @@ public class Ball extends Rectangle {
 		this.height = h;
 		this.ballType = ballType;
 		this.ballColor = color;
+		this.ballColorTransparency = 255;
+		this.changeColorTransparency = 0;
 		
-		this.ballX = this.x;
-		this.ballY = this.y;
-		
-		ballHorizontalVelocity = (int)(Math.random() * 11) - 5;
-		ballVerticalVelocity = 4;
+		this.ballHorizontalVelocity = (int)(Math.random() * 11) - 5;
+		this.ballVerticalVelocity = 4;
 	}
 	
 	public void draw(Graphics g) {
-		
-		switch(ballType) {
+		switch(this.ballType) {
 			case 1:
-				g.setColor(this.ballColor);
+				g.setColor(new Color(this.ballColor.getRed(), this.ballColor.getGreen(), this.ballColor.getBlue(), this.ballColorTransparency));
 				g.fillArc(this.x, this.y, this.width, this.height, 0, 360);
 				break;
 		}

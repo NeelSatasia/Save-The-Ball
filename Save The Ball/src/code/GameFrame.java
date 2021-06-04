@@ -29,11 +29,10 @@ public class GameFrame extends JFrame {
 	JPanel headerPlayPanel;
 	
 	JPanel subPlayPanel;
-	GridBagConstraints subPlayPanelgbc;
 	
 	PlayGamePanel playGamePanel;
 	
-	//StorePanel storePanel;
+	StorePanel storePanel;
 	
 	KeyListener controlKeys;
 	MouseAdapter mouseControl;
@@ -53,38 +52,40 @@ public class GameFrame extends JFrame {
 		headerPlayPanel = new JPanel();
 		mainPlayPanel = new JPanel();
 		subPlayPanel = new JPanel();
-		playPagePanelgbc = new GridBagConstraints();
 		playGamePanel = new PlayGamePanel(this.getWidth(), this.getHeight());
-		//storePanel = new StorePanel();
+		storePanel = new StorePanel();
 		
 		add(startingPanel);
 		
 		playPagePanel.setLayout(new GridBagLayout());
 		playPagePanelgbc.anchor = GridBagConstraints.CENTER;
 		playPagePanelgbc.fill = GridBagConstraints.CENTER;
-		playPagePanelgbc.insets = new Insets(40, 0, 0, 0);
 		
-		playPagePanel.add(startingPanel.modesLabel, playPagePanelgbc);
+		playPagePanelgbc.insets = new Insets(0, 0, 10, 0);
+		playPagePanel.add(startingPanel.backButton, playPagePanelgbc);
 		
 		playPagePanelgbc.gridy = 1;
+		playPagePanel.add(startingPanel.modesLabel, playPagePanelgbc);
+		playPagePanelgbc.insets = new Insets(20, 0, 0, 0);
+		
+		playPagePanelgbc.gridy = 2;
 		playPagePanel.add(startingPanel.classicButton, playPagePanelgbc);
 		
 		playPagePanelgbc.insets = new Insets(10, 0, 0, 0);
-		playPagePanelgbc.gridy = 2;
+		playPagePanelgbc.gridy = 3;
 		playPagePanel.add(startingPanel.duoBallsButton, playPagePanelgbc);
 		
-		playPagePanelgbc.gridy = 3;
+		playPagePanelgbc.gridy = 4;
 		playPagePanel.add(startingPanel.ballRainButton, playPagePanelgbc);
 		
-		playPagePanelgbc.gridy = 4;
+		playPagePanelgbc.gridy = 5;
 		playPagePanel.add(startingPanel.colorBallRainButton, playPagePanelgbc);
 		
-		playPagePanelgbc.gridy = 5;
+		playPagePanelgbc.gridy = 6;
 		playPagePanel.add(startingPanel.barUpAndDownButton, playPagePanelgbc);
 		
-		playPagePanelgbc.insets = new Insets(40, 0, 0, 0);
-		playPagePanelgbc.gridy = 6;
-		playPagePanel.add(startingPanel.backButton, playPagePanelgbc);
+		playPagePanelgbc.gridy = 7;
+		playPagePanel.add(startingPanel.dodgeBallButton, playPagePanelgbc);
 		
 		mainPlayPanel.setLayout(new BoxLayout(mainPlayPanel, BoxLayout.Y_AXIS));
 		mainPlayPanel.setBackground(Color.WHITE);
@@ -103,13 +104,11 @@ public class GameFrame extends JFrame {
 		mainPlayPanel.add(playGamePanel.scoreLabel);
 		playGamePanel.scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
-		subPlayPanel.setLayout(new GridBagLayout());
-		playPagePanelgbc.anchor = GridBagConstraints.CENTER;
-		playPagePanelgbc.fill = GridBagConstraints.BOTH;
 		mainPlayPanel.add(subPlayPanel);
 		subPlayPanel.setBackground(Color.WHITE);
 		
-		subPlayPanel.add(playGamePanel, subPlayPanelgbc);
+		subPlayPanel.add(playGamePanel);
+		playGamePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		startingPanel.playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -121,6 +120,7 @@ public class GameFrame extends JFrame {
 				startingPanel.ballRainButton.setText("Ball Rain - " + playGamePanel.ballRainHighScore);
 				startingPanel.colorBallRainButton.setText("Color Ball Rain - " + playGamePanel.colorBallRainHighScore);
 				startingPanel.barUpAndDownButton.setText("Bar Up & Down - " + playGamePanel.barUpAndDownHighScore);
+				startingPanel.dodgeBallButton.setText("Dodge Ball" + playGamePanel.dodgeBallModeHighScore);
 				
 				repaint();
 				revalidate();
@@ -202,6 +202,20 @@ public class GameFrame extends JFrame {
 			}
 		});
 		
+		startingPanel.dodgeBallButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				remove(playPagePanel);
+				add(mainPlayPanel);
+				
+				playGamePanel.dodgeBallMode = true;
+				
+				playGamePanel.startGame();
+				
+				repaint();
+				revalidate();
+			}
+		});
+		
 		startingPanel.backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				remove(playPagePanel);
@@ -212,7 +226,7 @@ public class GameFrame extends JFrame {
 			}
 		});
 		
-		/*startingPanel.storeButton.addActionListener(new ActionListener() {
+		startingPanel.storeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				remove(startingPanel);
 				add(storePanel);
@@ -220,7 +234,7 @@ public class GameFrame extends JFrame {
 				repaint();
 				revalidate();
 			}
-		});*/
+		});
 		
 		repaint();
 		invalidate();
@@ -264,7 +278,11 @@ public class GameFrame extends JFrame {
 			public void mouseDragged(MouseEvent e) {
 				if(playGamePanel.isPlayingGame && playGamePanel.gamePaused == false) {
 					if(e.getX() > playGamePanel.bar.x && e.getX() < playGamePanel.bar.x + playGamePanel.bar.width + 40) {
-						playGamePanel.bar.x = e.getX() - playGamePanel.bar.width;
+						playGamePanel.bar.setLocation(e.getX() - playGamePanel.bar.width, playGamePanel.bar.y);
+						
+						if(playGamePanel.dodgeBallMode) {
+							playGamePanel.ball.setLocation(e.getX() - playGamePanel.ball.width, playGamePanel.ball.y);
+						}
 					}
 				}
 			}
@@ -290,6 +308,7 @@ public class GameFrame extends JFrame {
 				playGamePanel.ballRainMode = false;
 				playGamePanel.colorBallRainMode = false;
 				playGamePanel.barUpAndDownMode = false;
+				playGamePanel.dodgeBallMode = false;
 				
 				playGamePanel.timer.stop();
 				

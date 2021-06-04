@@ -7,6 +7,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,6 +28,7 @@ public class StartingPanel extends JPanel {
 	JButton ballRainButton = new JButton("Ball Rain");
 	JButton colorBallRainButton = new JButton("Color Ball Rain");
 	JButton barUpAndDownButton = new JButton("Bar Up & Down");
+	JButton dodgeBallButton = new JButton("Dodge Ball");
 	
 	JButton storeButton = new JButton("Store");
 	JButton settingsButton = new JButton("Settings");
@@ -69,22 +72,25 @@ public class StartingPanel extends JPanel {
 		modesLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 		
 		customizeButton(classicButton, true, new Color(34, 139, 34), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
-		classicButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		classicButton.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		
 		customizeButton(duoBallsButton, true, new Color(65, 105, 225), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
-		duoBallsButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		duoBallsButton.setFont(classicButton.getFont());
 		
 		customizeButton(ballRainButton, true, new Color(0, 139, 139), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
-		ballRainButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		ballRainButton.setFont(classicButton.getFont());
 		
 		customizeButton(colorBallRainButton, true, new Color(0, 128, 128), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
-		colorBallRainButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		colorBallRainButton.setFont(classicButton.getFont());
 		
 		customizeButton(barUpAndDownButton, true, new Color(220, 20, 60), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
-		barUpAndDownButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		barUpAndDownButton.setFont(classicButton.getFont());
+		
+		customizeButton(dodgeBallButton, true, new Color(220, 20, 60), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
+		dodgeBallButton.setFont(classicButton.getFont());
 		
 		customizeButton(backButton, true, Color.RED, Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
-		backButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		backButton.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 	}
 	
 	public void customizeButton(JButton button, boolean enable, Color buttonColor, Color textColor, Border border) {
