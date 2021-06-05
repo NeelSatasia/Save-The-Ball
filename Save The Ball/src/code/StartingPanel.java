@@ -7,8 +7,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,7 +26,7 @@ public class StartingPanel extends JPanel {
 	JButton ballRainButton = new JButton("Ball Rain");
 	JButton colorBallRainButton = new JButton("Color Ball Rain");
 	JButton barUpAndDownButton = new JButton("Bar Up & Down");
-	JButton dodgeBallButton = new JButton("Dodge Ball");
+	JButton inverseMovementButton = new JButton("Inverse Movement");
 	
 	JButton storeButton = new JButton("Store");
 	JButton settingsButton = new JButton("Settings");
@@ -80,14 +78,14 @@ public class StartingPanel extends JPanel {
 		customizeButton(ballRainButton, true, new Color(0, 139, 139), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 		ballRainButton.setFont(classicButton.getFont());
 		
-		customizeButton(colorBallRainButton, true, new Color(0, 128, 128), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
+		customizeButton(colorBallRainButton, true, new Color(184, 134, 11), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 		colorBallRainButton.setFont(classicButton.getFont());
 		
 		customizeButton(barUpAndDownButton, true, new Color(220, 20, 60), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 		barUpAndDownButton.setFont(classicButton.getFont());
 		
-		customizeButton(dodgeBallButton, true, new Color(220, 20, 60), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
-		dodgeBallButton.setFont(classicButton.getFont());
+		customizeButton(inverseMovementButton, true, new Color(47, 79, 79), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
+		inverseMovementButton.setFont(classicButton.getFont());
 		
 		customizeButton(backButton, true, Color.RED, Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 		backButton.setFont(new Font("Times New Roman", Font.PLAIN, 14));

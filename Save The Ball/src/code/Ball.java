@@ -2,7 +2,10 @@ package code;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 
 public class Ball extends Rectangle {
 	
@@ -38,7 +41,7 @@ public class Ball extends Rectangle {
 	}
 
 	public void changeBallColor() {
-		int randColorChance = (int)(Math.random() * 9);
+		int randColorChance = (int)(Math.random() * 8);
 		
 		switch(randColorChance) {
 			case 0:
@@ -54,15 +57,12 @@ public class Ball extends Rectangle {
 				this.ballColor = Color.ORANGE;
 				break;
 			case 4:
-				this.ballColor = new Color(230, 230, 0); //yellow
-				break;
-			case 5:
 				this.ballColor = new Color(204, 102, 0); //brown
 				break;
-			case 6:
+			case 5:
 				this.ballColor = new Color(115, 0, 230); //purple
 				break;
-			case 7:
+			case 6:
 				this.ballColor = new Color(255, 26, 140); //pink
 				break;
 		}

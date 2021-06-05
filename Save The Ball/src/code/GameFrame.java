@@ -37,6 +37,8 @@ public class GameFrame extends JFrame {
 	KeyListener controlKeys;
 	MouseAdapter mouseControl;
 	
+	int previousXPosition;
+	
 	public GameFrame() {
 		new JFrame();
 		setSize(300, 450);
@@ -85,7 +87,7 @@ public class GameFrame extends JFrame {
 		playPagePanel.add(startingPanel.barUpAndDownButton, playPagePanelgbc);
 		
 		playPagePanelgbc.gridy = 7;
-		playPagePanel.add(startingPanel.dodgeBallButton, playPagePanelgbc);
+		playPagePanel.add(startingPanel.inverseMovementButton, playPagePanelgbc);
 		
 		mainPlayPanel.setLayout(new BoxLayout(mainPlayPanel, BoxLayout.Y_AXIS));
 		mainPlayPanel.setBackground(Color.WHITE);
@@ -120,7 +122,7 @@ public class GameFrame extends JFrame {
 				startingPanel.ballRainButton.setText("Ball Rain - " + playGamePanel.ballRainHighScore);
 				startingPanel.colorBallRainButton.setText("Color Ball Rain - " + playGamePanel.colorBallRainHighScore);
 				startingPanel.barUpAndDownButton.setText("Bar Up & Down - " + playGamePanel.barUpAndDownHighScore);
-				startingPanel.dodgeBallButton.setText("Dodge Ball" + playGamePanel.dodgeBallModeHighScore);
+				startingPanel.inverseMovementButton.setText("Inverse Movement - " + playGamePanel.inverseMovementModeHighScore);
 				
 				repaint();
 				revalidate();
@@ -202,12 +204,12 @@ public class GameFrame extends JFrame {
 			}
 		});
 		
-		startingPanel.dodgeBallButton.addActionListener(new ActionListener() {
+		startingPanel.inverseMovementButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				remove(playPagePanel);
 				add(mainPlayPanel);
 				
-				playGamePanel.dodgeBallMode = true;
+				playGamePanel.inverseMovementMode = true;
 				
 				playGamePanel.startGame();
 				
@@ -244,10 +246,20 @@ public class GameFrame extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				if(playGamePanel.isPlayingGame && playGamePanel.gamePaused == false) {
 					if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-						playGamePanel.bar.barHorizontalVelocity = -5;
+						if(playGamePanel.inverseMovementMode) {
+							playGamePanel.bar.barHorizontalVelocity = 5;
+						} else {
+							playGamePanel.bar.barHorizontalVelocity = -5;
+						}
+						
 						playGamePanel.actionPerformed(null);
 					} else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-						playGamePanel.bar.barHorizontalVelocity = 5;
+						if(playGamePanel.inverseMovementMode) {
+							playGamePanel.bar.barHorizontalVelocity = -5;
+						} else {
+							playGamePanel.bar.barHorizontalVelocity = 5;
+						}
+						
 						playGamePanel.actionPerformed(null);
 					}
 				}
@@ -277,11 +289,17 @@ public class GameFrame extends JFrame {
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				if(playGamePanel.isPlayingGame && playGamePanel.gamePaused == false) {
-					if(e.getX() > playGamePanel.bar.x && e.getX() < playGamePanel.bar.x + playGamePanel.bar.width + 40) {
-						playGamePanel.bar.setLocation(e.getX() - playGamePanel.bar.width, playGamePanel.bar.y);
+					if(playGamePanel.inverseMovementMode) {
+						if(e.getX() < previousXPosition) {
+							playGamePanel.bar.setLocation(playGamePanel.bar.x + 4, playGamePanel.bar.y);
+						} else if(e.getX() > previousXPosition) {
+							playGamePanel.bar.setLocation(playGamePanel.bar.x - 4, playGamePanel.bar.y);
+						}
 						
-						if(playGamePanel.dodgeBallMode) {
-							playGamePanel.ball.setLocation(e.getX() - playGamePanel.ball.width, playGamePanel.ball.y);
+						previousXPosition = e.getX();
+					} else {
+						if(e.getX() > playGamePanel.bar.x && e.getX() < playGamePanel.bar.x + playGamePanel.bar.width + 40) {
+							playGamePanel.bar.setLocation(e.getX() - playGamePanel.bar.width, playGamePanel.bar.y);
 						}
 					}
 				}
@@ -308,7 +326,7 @@ public class GameFrame extends JFrame {
 				playGamePanel.ballRainMode = false;
 				playGamePanel.colorBallRainMode = false;
 				playGamePanel.barUpAndDownMode = false;
-				playGamePanel.dodgeBallMode = false;
+				playGamePanel.inverseMovementMode = false;
 				
 				playGamePanel.timer.stop();
 				

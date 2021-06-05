@@ -25,7 +25,7 @@ public class Bar extends Rectangle {
 	}
 	
 	public void changeBarColor() {
-		int randColorChance = (int)(Math.random() * 9);
+		int randColorChance = (int)(Math.random() * 8);
 		
 		switch(randColorChance) {
 			case 0:
@@ -41,15 +41,12 @@ public class Bar extends Rectangle {
 				this.barColor = Color.ORANGE;
 				break;
 			case 4:
-				this.barColor = new Color(230, 230, 0); //yellow
-				break;
-			case 5:
 				this.barColor = new Color(204, 102, 0); //brown
 				break;
-			case 6:
+			case 5:
 				this.barColor = new Color(115, 0, 230); //purple
 				break;
-			case 7:
+			case 6:
 				this.barColor = new Color(255, 26, 140); //pink
 				break;
 		}

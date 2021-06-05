@@ -50,9 +50,8 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	boolean barUpAndDownMode = false;
 	int barUpAndDownHighScore = 0;
 	
-	boolean dodgeBallMode = false;
-	int dodgeBallModeHighScore = 0;
-	int launchTimeCounter = 50;
+	boolean inverseMovementMode = false;
+	int inverseMovementModeHighScore = 0;
 	
 	JLabel gameOverLabel = new JLabel("Game Over!", SwingConstants.CENTER);
 	
@@ -79,7 +78,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
 		setBackground(Color.BLACK);
 		
-		ball = new Ball((screenMaxWidth/2) - 10, 0, 15, 15, 1, Color.BLACK);
+		ball = new Ball((screenMaxWidth/2) - 10, 0, 20, 20, 1, Color.BLACK);
 		
 		bar = new Bar((screenMaxWidth/2) - 20, screenMaxHeight - 90, Color.BLACK);
 		
@@ -129,7 +128,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		bar.setBounds(bar.x + bar.barHorizontalVelocity, bar.y, bar.width, bar.height);
 		bar.draw(g);
 		
-		if(classicMode || duoBallsMode) {
+		if(classicMode || duoBallsMode || inverseMovementMode) {
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, screenMaxWidth, topBorderHeight);
 			
@@ -178,7 +177,9 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 			if(ballSpawnTimeCounter == 0) {
 				balls.add(new Ball((int)(Math.random() * (screenMaxWidth - 20)), -25, 15, 15, 1, Color.BLACK));
 				
-				if(score >= 45) {
+				balls.get(balls.size() - 1).ballVerticalVelocity = 5;
+				
+				if(score >= 35) {
 					int randNum = (int)(Math.random() * 11);
 					
 					if(randNum <= 7) {
@@ -219,6 +220,8 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 				colorBallRainHighScore = score;
 			} else if(barUpAndDownMode && score > barUpAndDownHighScore) {
 				barUpAndDownHighScore = score;
+			} else if(inverseMovementMode && score > inverseMovementModeHighScore) {
+				inverseMovementModeHighScore = score;
 			}
 		}
 	}
@@ -227,9 +230,9 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(isPlayingGame && gamePaused == false) {
 			
-			//classic mode
+			//classic mode or duoBallsMode or barUpAndDownMode or inverseMovementMode
 			
-			if(classicMode || duoBallsMode || barUpAndDownMode) {
+			if(classicMode || duoBallsMode || barUpAndDownMode || inverseMovementMode) {
 				if(bar.y == screenMaxHeight - 90 && ball.y + ball.height <= bar.y && ball.y + ball.height + ball.ballVerticalVelocity >= bar.y) {
 					if(ball.x + ball.width + (ball.width/2) >= bar.x && ball.x - (ball.width/2) <= bar.x + bar.width) {
 						ball.setLocation(ball.x, bar.y - ball.height);
@@ -283,7 +286,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 					
 					score++;
 					scoreLabel.setText("Score: " + score);
-				} else if((classicMode || duoBallsMode) && ball.y + ball.ballVerticalVelocity <= topBorderHeight) {
+				} else if((classicMode || duoBallsMode || inverseMovementMode) && ball.y + ball.ballVerticalVelocity <= topBorderHeight) {
 					ball.ballHorizontalVelocity = (int)(Math.random() * 11) - 5;
 					ball.ballVerticalVelocity *= -1;
 					
@@ -350,10 +353,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 			if(ballRainMode || colorBallRainMode) {
 				int i = 0;
 				while(i < balls.size()) {
-					if(score == 50) {
-						balls.get(i).ballVerticalVelocity = 5;
-						bar.width = 30;
-					} else if(score == 100) {
+					if(score == 100) {
 						balls.get(i).ballVerticalVelocity = 6;
 						bar.width = 25;
 					} else if(score == 150) {
@@ -425,11 +425,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 				}
 			}
 			
-			if(dodgeBallMode) {
-				if(ball.y == topBorderHeight) {
-					
-				}
-			}
+			
 		}
 		
 		repaint();
@@ -446,11 +442,11 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		
 		bar.setLocation((screenMaxWidth/2) - (bar.width/2), screenMaxHeight - 90);
 		
-		if(classicMode || duoBallsMode || barUpAndDownMode || dodgeBallMode) {
+		if(classicMode || duoBallsMode || barUpAndDownMode || inverseMovementMode) {
 			if(barUpAndDownMode) {
-				ball.setLocation((screenMaxWidth)/2 - (ball.width/2), 40);
+				ball.setLocation(bar.x + (bar.width/2) - (ball.width), 40);
 			} else {
-				ball.setLocation((screenMaxWidth)/2 - (ball.width/2), 2);
+				ball.setLocation(bar.x + (bar.width/2) - (ball.width), 2);
 			}
 			
 			ball.ballHorizontalVelocity = (int)(Math.random() * 11) - 5;
@@ -464,7 +460,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		}
 		
 		if(duoBallsMode) {
-			ball2.setLocation((screenMaxWidth)/2 - (ball2.width/2), bar.y - ball2.height);
+			ball2.setLocation(bar.x + (bar.width/2) - (ball2.width), bar.y - ball2.height);
 			ball2.ballHorizontalVelocity = (int)(Math.random() * 11) - 5;
 			ball2.ballVerticalVelocity = 4;
 			ball2.ballColorTransparency = 255;
@@ -478,15 +474,12 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		
 		if(barUpAndDownMode) {
 			setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.BLACK));
-		} else if(dodgeBallMode) {
-			setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
 		} else {
 			setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, Color.BLACK));
 		}
 		
 		bar.barHorizontalVelocity = 0;
 		bar.width = 40;
-		bar.y = screenMaxHeight - 90;
 		
 		topBorderHeight = 0;
 		
