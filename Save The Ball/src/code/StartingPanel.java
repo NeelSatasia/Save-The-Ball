@@ -35,6 +35,7 @@ public class StartingPanel extends JPanel {
 	public StartingPanel() {
 		new JPanel();
 		setLayout(new GridBagLayout());
+		setBackground(new Color(64, 224, 208));
 		gbc = new GridBagConstraints();
 		
 		gbc.anchor = GridBagConstraints.CENTER;
@@ -47,24 +48,25 @@ public class StartingPanel extends JPanel {
 		
 		add(gameTitleLabel);
 		gameTitleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 35));
+		gameTitleLabel.setForeground(Color.BLUE);
 		
 		gbc.gridy++;
 		
 		add(playButton, gbc);
-		customizeButton(playButton, true, Color.BLACK, Color.WHITE, BorderFactory.createEmptyBorder(2, 10, 2, 10));
+		customizeButton(playButton, true, new Color(65, 105, 225), Color.WHITE, BorderFactory.createEmptyBorder(2, 10, 2, 10));
 		playButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
 		gbc.insets = new Insets(10, 0, 0, 0);
 		gbc.gridy++;
 		
 		add(storeButton, gbc);
-		customizeButton(storeButton, true, Color.BLACK, Color.WHITE, BorderFactory.createEmptyBorder(2, 10, 2, 10));
+		customizeButton(storeButton, true, new Color(65, 105, 225), Color.WHITE, BorderFactory.createEmptyBorder(2, 10, 2, 10));
 		storeButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
 		gbc.gridy++;
 		
 		add(settingsButton, gbc);
-		customizeButton(settingsButton, true, Color.BLACK, Color.WHITE, BorderFactory.createEmptyBorder(2, 10, 2, 10));
+		customizeButton(settingsButton, true, new Color(65, 105, 225), Color.WHITE, BorderFactory.createEmptyBorder(2, 10, 2, 10));
 		settingsButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
 		modesLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));

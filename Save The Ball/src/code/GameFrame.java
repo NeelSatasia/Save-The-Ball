@@ -2,9 +2,12 @@ package code;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -16,6 +19,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class GameFrame extends JFrame {
 	
@@ -29,6 +33,7 @@ public class GameFrame extends JFrame {
 	JPanel headerPlayPanel;
 	
 	JPanel subPlayPanel;
+	GridBagConstraints subPlayPanelgbc;
 	
 	PlayGamePanel playGamePanel;
 	
@@ -38,6 +43,8 @@ public class GameFrame extends JFrame {
 	MouseAdapter mouseControl;
 	
 	int previousXPosition;
+	
+	Point pointer;
 	
 	public GameFrame() {
 		new JFrame();
@@ -54,12 +61,14 @@ public class GameFrame extends JFrame {
 		headerPlayPanel = new JPanel();
 		mainPlayPanel = new JPanel();
 		subPlayPanel = new JPanel();
+		subPlayPanelgbc = new GridBagConstraints();
 		playGamePanel = new PlayGamePanel(this.getWidth(), this.getHeight());
 		storePanel = new StorePanel();
 		
 		add(startingPanel);
 		
 		playPagePanel.setLayout(new GridBagLayout());
+		playPagePanel.setBackground(new Color(230, 230, 250));
 		playPagePanelgbc.anchor = GridBagConstraints.CENTER;
 		playPagePanelgbc.fill = GridBagConstraints.CENTER;
 		
@@ -103,14 +112,18 @@ public class GameFrame extends JFrame {
 		
 		mainPlayPanel.add(headerPlayPanel);
 		
+		mainPlayPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+		
 		mainPlayPanel.add(playGamePanel.scoreLabel);
 		playGamePanel.scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		mainPlayPanel.add(subPlayPanel);
+		subPlayPanel.setLayout(new GridBagLayout());
 		subPlayPanel.setBackground(Color.WHITE);
+		subPlayPanelgbc.anchor = GridBagConstraints.CENTER;
+		subPlayPanelgbc.fill = GridBagConstraints.CENTER;
 		
-		subPlayPanel.add(playGamePanel);
-		playGamePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		subPlayPanel.add(playGamePanel, subPlayPanelgbc);
 		
 		startingPanel.playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -298,8 +311,11 @@ public class GameFrame extends JFrame {
 						
 						previousXPosition = e.getX();
 					} else {
-						if(e.getX() > playGamePanel.bar.x && e.getX() < playGamePanel.bar.x + playGamePanel.bar.width + 40) {
-							playGamePanel.bar.setLocation(e.getX() - playGamePanel.bar.width, playGamePanel.bar.y);
+						pointer = MouseInfo.getPointerInfo().getLocation();
+						SwingUtilities.convertPointFromScreen(pointer, playGamePanel);
+						
+						if(pointer.x > playGamePanel.bar.x - 40 && pointer.x < playGamePanel.bar.x + playGamePanel.bar.width + 40) {
+							playGamePanel.bar.setLocation(pointer.x - (playGamePanel.bar.width/2), playGamePanel.bar.y);
 						}
 					}
 				}

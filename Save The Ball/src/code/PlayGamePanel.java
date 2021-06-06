@@ -68,8 +68,16 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	public PlayGamePanel(int w, int h) {
 		UIManager.put("Button.disabledText", Color.BLACK);
 		
-		screenMaxWidth = w - 50;
+		screenMaxWidth = w - 20;
 		screenMaxHeight = h - 100;
+		
+		if(screenMaxWidth > 300) {
+			screenMaxWidth = 300;
+		}
+		
+		if(screenMaxHeight > 450) {
+			screenMaxHeight = 350;
+		}
 		
 		new JPanel();
 		setLayout(null);
@@ -78,7 +86,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
 		setBackground(Color.BLACK);
 		
-		ball = new Ball((screenMaxWidth/2) - 10, 0, 20, 20, 1, Color.BLACK);
+		ball = new Ball((screenMaxWidth/2) - 10, 0, 15, 15, 1, Color.BLACK);
 		
 		bar = new Bar((screenMaxWidth/2) - 20, screenMaxHeight - 90, Color.BLACK);
 		
@@ -179,7 +187,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 				
 				balls.get(balls.size() - 1).ballVerticalVelocity = 5;
 				
-				if(score >= 35) {
+				if(score >= 20) {
 					int randNum = (int)(Math.random() * 11);
 					
 					if(randNum <= 7) {
@@ -212,16 +220,22 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		if(isPlayingGame == false && gamePaused == false) {
 			if(classicMode && score > classicModeHighScore) {
 				classicModeHighScore = score;
+				newHighScore("Classic");
  			} else if(duoBallsMode && score > duoBallsHighScore) {
 				duoBallsHighScore = score;
+				newHighScore("Duo Balls");
 			} else if(ballRainMode && score > ballRainHighScore) {
 				ballRainHighScore = score;
+				newHighScore("Ball Rain");
 			} else if(colorBallRainMode && score > colorBallRainHighScore) {
 				colorBallRainHighScore = score;
+				newHighScore("Color Ball Rain");
 			} else if(barUpAndDownMode && score > barUpAndDownHighScore) {
 				barUpAndDownHighScore = score;
+				newHighScore("Bar Up & Down");
 			} else if(inverseMovementMode && score > inverseMovementModeHighScore) {
 				inverseMovementModeHighScore = score;
+				newHighScore("Inverse Movement");
 			}
 		}
 	}
@@ -248,32 +262,14 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 						if(score == 40) {
 							ball.ballVerticalVelocity = 6;
 							bar.width = 30;
+							topBorderHeight = 10;
 						} else if(score == 100) {
 							ball.ballVerticalVelocity = 7;
 							bar.width = 25;
+							topBorderHeight = 20;
 						} else if(score == 150) {
 							ball.ballVerticalVelocity = 8;
 							bar.width = 20;
-						}
-						
-						if(score > 50) {
-							int randNum = (int)(Math.random() * 11);
-							
-							if(randNum > 5) {
-								switch(randNum) {
-									case 6:
-										topBorderHeight = 20;
-										break;
-									case 7:
-										topBorderHeight = 30;
-										break;
-									case 8:
-										topBorderHeight = 40;
-										break;
-								}
-							} else if(topBorderHeight > 0) {
-								topBorderHeight = 0;
-							}
 						}
 					} else {
 						ball.setLocation(ball.x, ball.y + ball.ballVerticalVelocity);
@@ -316,15 +312,12 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 						score++;
 						scoreLabel.setText("Score: " + score);
 						
-						if(score == 50) {
+						if(score == 40) {
 							ball2.ballVerticalVelocity = 6;
-							bar.width = 35;
 						} else if(score == 100) {
 							ball2.ballVerticalVelocity = 7;
-							bar.width = 30;
 						} else if(score == 150) {
 							ball2.ballVerticalVelocity = 8;
-							bar.width = 25;
 						}
 					} else {
 						ball2.setLocation(ball2.x, ball2.y + ball2.ballVerticalVelocity);
@@ -439,6 +432,9 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		
 		score = 0;
 		scoreLabel.setText("Score: " + score);
+		scoreLabel.setBackground(Color.WHITE);
+		scoreLabel.setOpaque(false);
+		scoreLabel.setForeground(Color.BLACK);
 		
 		bar.setLocation((screenMaxWidth/2) - (bar.width/2), screenMaxHeight - 90);
 		
@@ -522,6 +518,35 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 				pauseButton.setText("Pause");
 			}
 		}
+	}
+	
+	public void newHighScore(String mode) {
+		scoreLabel.setText("New High Score: " + score);
+		scoreLabel.setOpaque(true);
+		
+		switch(mode) {
+			case "Classic":
+				scoreLabel.setBackground(new Color(34, 139, 34));
+				break;
+			case "Duo Balls":
+				scoreLabel.setBackground(new Color(65, 105, 225));
+				break;
+			case "Ball Rain":
+				scoreLabel.setBackground(new Color(0, 139, 139));
+				break;
+			case "Color Ball Rain":
+				scoreLabel.setBackground(new Color(184, 134, 11));
+				break;
+			case "Bar Up & Down":
+				scoreLabel.setBackground(new Color(220, 20, 60));
+				break;
+			case "Inverse Movement":
+				scoreLabel.setBackground(new Color(47, 79, 79));
+				break;
+		}
+		
+		scoreLabel.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
+		scoreLabel.setForeground(Color.WHITE);
 	}
 }
 
