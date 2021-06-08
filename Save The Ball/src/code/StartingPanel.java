@@ -35,7 +35,7 @@ public class StartingPanel extends JPanel {
 	public StartingPanel() {
 		new JPanel();
 		setLayout(new GridBagLayout());
-		setBackground(new Color(127, 255, 212));
+		setBackground(new Color(224, 255, 255));
 		gbc = new GridBagConstraints();
 		
 		gbc.anchor = GridBagConstraints.CENTER;
@@ -48,8 +48,8 @@ public class StartingPanel extends JPanel {
 		
 		add(gameTitleLabel);
 		gameTitleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 35));
-		gameTitleLabel.setForeground(Color.BLUE);
-		gameTitleLabel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK), BorderFactory.createEmptyBorder(0, 5, 0, 5)));
+		gameTitleLabel.setForeground(Color.BLACK);
+		gameTitleLabel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK), BorderFactory.createEmptyBorder(0, 5, 0, 5)));
 		
 		gbc.gridy++;
 		

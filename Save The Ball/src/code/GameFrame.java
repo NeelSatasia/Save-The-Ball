@@ -105,10 +105,7 @@ public class GameFrame extends JFrame {
 		headerPlayPanel.setOpaque(false);
 		
 		headerPlayPanel.add(playGamePanel.backButton);
-		
 		headerPlayPanel.add(Box.createHorizontalGlue());
-		
-		headerPlayPanel.add(playGamePanel.pauseButton);
 		
 		mainPlayPanel.add(headerPlayPanel);
 		
@@ -299,6 +296,11 @@ public class GameFrame extends JFrame {
 		addKeyListener(controlKeys);
 		
 		mouseControl = new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				playGamePanel.pauseGame();
+			}
+			
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				if(playGamePanel.isPlayingGame && playGamePanel.gamePaused == false) {

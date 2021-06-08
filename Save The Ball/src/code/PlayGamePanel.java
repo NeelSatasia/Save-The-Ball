@@ -55,9 +55,9 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	
 	JLabel gameOverLabel = new JLabel("Game Over!", SwingConstants.CENTER);
 	
-	JButton pauseButton = new JButton("Pause");
-	
 	boolean gamePaused = false;
+	JLabel resumeLabel = new JLabel("Click To Resume", SwingConstants.CENTER);
+	
 	boolean isPlayingGame = false;
 	
 	JButton backButton = new JButton("Back");
@@ -68,11 +68,11 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	public PlayGamePanel(int w, int h) {
 		UIManager.put("Button.disabledText", Color.BLACK);
 		
-		screenMaxWidth = w - 20;
+		screenMaxWidth = w - 40;
 		screenMaxHeight = h - 100;
 		
 		if(screenMaxWidth > 300) {
-			screenMaxWidth = 300;
+			screenMaxWidth = 260;
 		}
 		
 		if(screenMaxHeight > 450) {
@@ -81,10 +81,10 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		
 		new JPanel();
 		setLayout(null);
-		setOpaque(false);
+		setOpaque(true);
 		setPreferredSize(new Dimension(screenMaxWidth, screenMaxHeight));
 		setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
-		setBackground(Color.BLACK);
+		setBackground(new Color(255, 215, 0));
 		
 		ball = new Ball((screenMaxWidth/2) - 10, 0, 15, 15, 1, Color.BLACK);
 		
@@ -102,17 +102,12 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		gameOverLabel.setFont(new Font("Ink Free", Font.BOLD, 30));
 		gameOverLabel.setForeground(Color.BLACK);
 		
+		resumeLabel.setBounds(0, 50, screenMaxWidth, 40);
+		resumeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 25));
+		resumeLabel.setForeground(Color.BLACK);
+		
 		customizeButton(backButton, true, Color.RED, Color.WHITE, BorderFactory.createEmptyBorder(2, 5, 2, 5));
 		backButton.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		
-		customizeButton(pauseButton, true, Color.BLACK, Color.WHITE, BorderFactory.createEmptyBorder(2,  5, 2, 5));
-		pauseButton.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		
-		pauseButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				pauseGame();
-			}
-		});
 		
 		tryAgainButton.setBounds((screenMaxWidth/2) - 50, gameOverLabel.getY() + gameOverLabel.getHeight() + 15, 100, 30);
 		customizeButton(tryAgainButton, true, Color.BLACK, Color.WHITE, null);
@@ -428,8 +423,6 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		gamePaused = false;
 		isPlayingGame = true;
 		
-		pauseButton.setEnabled(true);
-		
 		score = 0;
 		scoreLabel.setText("Score: " + score);
 		scoreLabel.setBackground(Color.WHITE);
@@ -479,8 +472,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		
 		topBorderHeight = 0;
 		
-		pauseButton.setBackground(Color.BLACK);
-		
+		timer.setInitialDelay(1000);
 		timer.restart();
 		
 		repaint();
@@ -503,19 +495,20 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		add(gameOverLabel);
 		isPlayingGame = false;
 		add(tryAgainButton);
-		pauseButton.setBackground(new Color(128, 128, 128));
 	}
 
 	public void pauseGame() {
 		if(isPlayingGame) {
 			if(timer.isRunning()) {							//game paused
 				timer.stop();
-				pauseButton.setText("Paused");
 				gamePaused = true;
+				add(resumeLabel);
+				repaint();
 			} else {
 				gamePaused = false;
+				timer.setInitialDelay(0);
 				timer.start();								//game unpaused
-				pauseButton.setText("Pause");
+				remove(resumeLabel);
 			}
 		}
 	}
