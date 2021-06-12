@@ -17,7 +17,7 @@ public class StartingPanel extends JPanel {
 	
 	GridBagConstraints gbc;
 	
-	JLabel gameTitleLabel = new JLabel("Save The Ball", SwingConstants.CENTER);
+	JLabel gameTitleLabel = new JLabel("DaBall", SwingConstants.CENTER);
 	
 	JButton playButton = new JButton("Play");
 	JLabel modesLabel = new JLabel("Modes", SwingConstants.CENTER);

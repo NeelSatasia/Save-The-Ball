@@ -84,7 +84,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		setOpaque(true);
 		setPreferredSize(new Dimension(screenMaxWidth, screenMaxHeight));
 		setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
-		setBackground(new Color(255, 215, 0));
+		setBackground(new Color(135, 206, 235));
 		
 		ball = new Ball((screenMaxWidth/2) - 10, 0, 15, 15, 1, Color.BLACK);
 		
@@ -254,15 +254,15 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 						score++;
 						scoreLabel.setText("Score: " + score);
 						
-						if(score == 40) {
+						if(score == 30) {
 							ball.ballVerticalVelocity = 6;
 							bar.width = 35;
 							topBorderHeight = 10;
-						} else if(score == 100) {
+						} else if(score == 75) {
 							ball.ballVerticalVelocity = 7;
 							bar.width = 30;
 							topBorderHeight = 20;
-						} else if(score == 150) {
+						} else if(score == 130) {
 							ball.ballVerticalVelocity = 8;
 							bar.width = 25;
 						}
@@ -307,11 +307,11 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 						score++;
 						scoreLabel.setText("Score: " + score);
 						
-						if(score == 40) {
+						if(score == 30) {
 							ball2.ballVerticalVelocity = 6;
-						} else if(score == 100) {
+						} else if(score == 75) {
 							ball2.ballVerticalVelocity = 7;
-						} else if(score == 150) {
+						} else if(score == 130) {
 							ball2.ballVerticalVelocity = 8;
 						}
 					} else {

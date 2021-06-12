@@ -53,7 +53,7 @@ public class GameFrame extends JFrame {
 		//setUndecorated(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
-		setTitle("Save The Ball");
+		setTitle("DaBall");
 		
 		startingPanel = new StartingPanel();
 		playPagePanel = new JPanel();
