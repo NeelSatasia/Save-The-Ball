@@ -17,7 +17,7 @@ public class StartingPanel extends JPanel {
 	
 	GridBagConstraints gbc;
 	
-	JLabel gameTitleLabel = new JLabel("DaBall", SwingConstants.CENTER);
+	JLabel gameTitleLabel = new JLabel("Da Ball", SwingConstants.CENTER);
 	
 	JButton playButton = new JButton("Play");
 	JLabel modesLabel = new JLabel("Modes", SwingConstants.CENTER);
@@ -40,31 +40,28 @@ public class StartingPanel extends JPanel {
 		
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.fill = GridBagConstraints.CENTER;
-		gbc.insets = new Insets(30, 0, 0, 0);
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.weightx = 0;
-		gbc.weighty = 0;
+		gbc.insets = new Insets(0, 0, 50, 0);
 		
-		add(gameTitleLabel);
+		add(gameTitleLabel, gbc);
 		gameTitleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 35));
 		gameTitleLabel.setForeground(Color.BLACK);
 		gameTitleLabel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK), BorderFactory.createEmptyBorder(0, 5, 0, 5)));
 		
-		gbc.gridy++;
+		gbc.insets = new Insets(0, 0, 0, 0);
+		gbc.gridy = 1;
 		
 		add(playButton, gbc);
 		customizeButton(playButton, true, new Color(65, 105, 225), Color.WHITE, BorderFactory.createEmptyBorder(2, 10, 2, 10));
 		playButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
 		gbc.insets = new Insets(10, 0, 0, 0);
-		gbc.gridy++;
+		gbc.gridy = 2;
 		
 		add(storeButton, gbc);
 		customizeButton(storeButton, true, new Color(65, 105, 225), Color.WHITE, BorderFactory.createEmptyBorder(2, 10, 2, 10));
 		storeButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
-		gbc.gridy++;
+		gbc.gridy = 3;
 		
 		add(settingsButton, gbc);
 		customizeButton(settingsButton, true, new Color(65, 105, 225), Color.WHITE, BorderFactory.createEmptyBorder(2, 10, 2, 10));

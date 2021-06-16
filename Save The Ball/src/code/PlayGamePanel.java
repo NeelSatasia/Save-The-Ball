@@ -60,7 +60,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	
 	boolean isPlayingGame = false;
 	
-	JButton backButton = new JButton("Back");
+	JButton backButton = new JButton("Go Back");
 	JButton tryAgainButton = new JButton("Try Again");
 	
 	int topBorderHeight = 0;
@@ -83,14 +83,13 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		setLayout(null);
 		setOpaque(true);
 		setPreferredSize(new Dimension(screenMaxWidth, screenMaxHeight));
-		setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
-		setBackground(new Color(135, 206, 235));
+		setBackground(new Color(242, 242, 242));
 		
-		ball = new Ball((screenMaxWidth/2) - 10, 0, 15, 15, 1, Color.BLACK);
+		ball = new Ball((screenMaxWidth/2) - 10, 0, 15, 15, 1, new Color(47, 79, 79));
 		
 		bar = new Bar((screenMaxWidth/2) - 20, screenMaxHeight - 90, Color.BLACK);
 		
-		ball2 = new Ball((screenMaxWidth/2) - 20, bar.y - 20, 15, 15, 1, Color.RED);
+		ball2 = new Ball((screenMaxWidth/2) - 10, bar.y - 20, ball.width, ball.height, ball.ballType, ball.ballColor);
 		
 		balls = new ArrayList<Ball>();
 		
@@ -102,12 +101,12 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		gameOverLabel.setFont(new Font("Ink Free", Font.BOLD, 30));
 		gameOverLabel.setForeground(Color.BLACK);
 		
-		resumeLabel.setBounds(0, 50, screenMaxWidth, 40);
+		resumeLabel.setBounds(0, 50, screenMaxWidth, 25);
 		resumeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 		resumeLabel.setForeground(Color.BLACK);
 		
 		customizeButton(backButton, true, Color.RED, Color.WHITE, BorderFactory.createEmptyBorder(2, 5, 2, 5));
-		backButton.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		backButton.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		tryAgainButton.setBounds((screenMaxWidth/2) - 50, gameOverLabel.getY() + gameOverLabel.getHeight() + 15, 100, 30);
 		customizeButton(tryAgainButton, true, Color.BLACK, Color.WHITE, null);
@@ -425,8 +424,6 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		
 		score = 0;
 		scoreLabel.setText("Score: " + score);
-		scoreLabel.setBackground(Color.WHITE);
-		scoreLabel.setOpaque(false);
 		scoreLabel.setForeground(Color.BLACK);
 		
 		bar.setLocation((screenMaxWidth/2) - (bar.width/2), screenMaxHeight - 90);
@@ -515,31 +512,27 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	
 	public void newHighScore(String mode) {
 		scoreLabel.setText("New High Score: " + score);
-		scoreLabel.setOpaque(true);
 		
 		switch(mode) {
 			case "Classic":
-				scoreLabel.setBackground(new Color(34, 139, 34));
+				scoreLabel.setForeground(new Color(34, 139, 34));
 				break;
 			case "Duo Balls":
-				scoreLabel.setBackground(new Color(65, 105, 225));
+				scoreLabel.setForeground(new Color(65, 105, 225));
 				break;
 			case "Ball Rain":
-				scoreLabel.setBackground(new Color(0, 139, 139));
+				scoreLabel.setForeground(new Color(0, 139, 139));
 				break;
 			case "Color Ball Rain":
-				scoreLabel.setBackground(new Color(184, 134, 11));
+				scoreLabel.setForeground(new Color(184, 134, 11));
 				break;
 			case "Bar Up & Down":
-				scoreLabel.setBackground(new Color(220, 20, 60));
+				scoreLabel.setForeground(new Color(220, 20, 60));
 				break;
 			case "Inverse Movement":
-				scoreLabel.setBackground(new Color(47, 79, 79));
+				scoreLabel.setForeground(new Color(47, 79, 79));
 				break;
 		}
-		
-		scoreLabel.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
-		scoreLabel.setForeground(Color.WHITE);
 	}
 }
 

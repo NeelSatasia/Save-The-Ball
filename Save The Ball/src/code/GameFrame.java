@@ -1,8 +1,6 @@
 package code;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -15,8 +13,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -29,11 +25,7 @@ public class GameFrame extends JFrame {
 	GridBagConstraints playPagePanelgbc;
 	
 	JPanel mainPlayPanel;
-	
-	JPanel headerPlayPanel;
-	
-	JPanel subPlayPanel;
-	GridBagConstraints subPlayPanelgbc;
+	GridBagConstraints mainPlayPanelgbc;
 	
 	PlayGamePanel playGamePanel;
 	
@@ -49,6 +41,7 @@ public class GameFrame extends JFrame {
 	public GameFrame() {
 		new JFrame();
 		setSize(300, 450);
+		//setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//setUndecorated(true);
 		setLocationRelativeTo(null);
@@ -58,10 +51,8 @@ public class GameFrame extends JFrame {
 		startingPanel = new StartingPanel();
 		playPagePanel = new JPanel();
 		playPagePanelgbc = new GridBagConstraints();
-		headerPlayPanel = new JPanel();
 		mainPlayPanel = new JPanel();
-		subPlayPanel = new JPanel();
-		subPlayPanelgbc = new GridBagConstraints();
+		mainPlayPanelgbc = new GridBagConstraints();
 		playGamePanel = new PlayGamePanel(this.getWidth(), this.getHeight());
 		storePanel = new StorePanel();
 		
@@ -98,29 +89,23 @@ public class GameFrame extends JFrame {
 		playPagePanelgbc.gridy = 7;
 		playPagePanel.add(startingPanel.inverseMovementButton, playPagePanelgbc);
 		
-		mainPlayPanel.setLayout(new BoxLayout(mainPlayPanel, BoxLayout.Y_AXIS));
+		mainPlayPanel.setLayout(new GridBagLayout());
 		mainPlayPanel.setBackground(Color.WHITE);
 		
-		headerPlayPanel.setLayout(new BoxLayout(headerPlayPanel, BoxLayout.X_AXIS));
-		headerPlayPanel.setOpaque(false);
+		playPagePanelgbc.anchor = GridBagConstraints.CENTER;
+		playPagePanelgbc.fill = GridBagConstraints.CENTER;
 		
-		headerPlayPanel.add(playGamePanel.backButton);
-		headerPlayPanel.add(Box.createHorizontalGlue());
+		mainPlayPanel.add(playGamePanel.backButton, mainPlayPanelgbc);
 		
-		mainPlayPanel.add(headerPlayPanel);
+		mainPlayPanelgbc.insets = new Insets(5, 0, 5, 0);
+		mainPlayPanelgbc.gridy = 1;
 		
-		mainPlayPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+		mainPlayPanel.add(playGamePanel.scoreLabel, mainPlayPanelgbc);
 		
-		mainPlayPanel.add(playGamePanel.scoreLabel);
-		playGamePanel.scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		mainPlayPanelgbc.insets = new Insets(0, 0, 0, 0);
+		mainPlayPanelgbc.gridy = 2;
 		
-		mainPlayPanel.add(subPlayPanel);
-		subPlayPanel.setLayout(new GridBagLayout());
-		subPlayPanel.setBackground(Color.WHITE);
-		subPlayPanelgbc.anchor = GridBagConstraints.CENTER;
-		subPlayPanelgbc.fill = GridBagConstraints.CENTER;
-		
-		subPlayPanel.add(playGamePanel, subPlayPanelgbc);
+		mainPlayPanel.add(playGamePanel, mainPlayPanelgbc);
 		
 		startingPanel.playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -248,6 +233,17 @@ public class GameFrame extends JFrame {
 			}
 		});
 		
+		storePanel.backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				remove(storePanel);
+				add(startingPanel);
+				
+				repaint();
+				revalidate();
+			}
+			
+		});
+		
 		repaint();
 		invalidate();
 		
@@ -257,7 +253,7 @@ public class GameFrame extends JFrame {
 				if(playGamePanel.isPlayingGame && playGamePanel.gamePaused == false) {
 					if(e.getKeyCode() == KeyEvent.VK_LEFT) {
 						if(playGamePanel.inverseMovementMode) {
-							playGamePanel.bar.barHorizontalVelocity = 5;
+								playGamePanel.bar.barHorizontalVelocity = 5;
 						} else {
 							playGamePanel.bar.barHorizontalVelocity = -5;
 						}
@@ -306,9 +302,17 @@ public class GameFrame extends JFrame {
 				if(playGamePanel.isPlayingGame && playGamePanel.gamePaused == false) {
 					if(playGamePanel.inverseMovementMode) {
 						if(e.getX() < previousXPosition) {
-							playGamePanel.bar.setLocation(playGamePanel.bar.x + 4, playGamePanel.bar.y);
+							if(playGamePanel.bar.x + playGamePanel.bar.width + 4 >= playGamePanel.getWidth()) {
+								playGamePanel.bar.setLocation(playGamePanel.getWidth() - playGamePanel.bar.width, playGamePanel.bar.y);
+							} else {
+								playGamePanel.bar.setLocation(playGamePanel.bar.x + 4, playGamePanel.bar.y);
+							}
 						} else if(e.getX() > previousXPosition) {
-							playGamePanel.bar.setLocation(playGamePanel.bar.x - 4, playGamePanel.bar.y);
+							if(playGamePanel.bar.x - 4 <= 0) {
+								playGamePanel.bar.setLocation(0, playGamePanel.bar.y);
+							} else {
+								playGamePanel.bar.setLocation(playGamePanel.bar.x - 4, playGamePanel.bar.y);
+							}
 						}
 						
 						previousXPosition = e.getX();
@@ -317,7 +321,13 @@ public class GameFrame extends JFrame {
 						SwingUtilities.convertPointFromScreen(pointer, playGamePanel);
 						
 						if(pointer.x > playGamePanel.bar.x - 40 && pointer.x < playGamePanel.bar.x + playGamePanel.bar.width + 40) {
-							playGamePanel.bar.setLocation(pointer.x - (playGamePanel.bar.width/2), playGamePanel.bar.y);
+							if(pointer.x - (playGamePanel.bar.width/2) <= 0) {
+								playGamePanel.bar.setLocation(0, playGamePanel.bar.y);
+							} else if(pointer.x + (playGamePanel.bar.width/2) >= playGamePanel.getWidth()) {
+								playGamePanel.bar.setLocation(playGamePanel.getWidth() - playGamePanel.bar.width, playGamePanel.bar.y);
+							} else {
+								playGamePanel.bar.setLocation(pointer.x - (playGamePanel.bar.width/2), playGamePanel.bar.y);
+							}
 						}
 					}
 				}
