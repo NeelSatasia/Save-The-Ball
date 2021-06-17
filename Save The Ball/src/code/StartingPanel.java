@@ -35,7 +35,7 @@ public class StartingPanel extends JPanel {
 	public StartingPanel() {
 		new JPanel();
 		setLayout(new GridBagLayout());
-		setBackground(new Color(224, 255, 255));
+		setBackground(new Color(127, 255, 212));
 		gbc = new GridBagConstraints();
 		
 		gbc.anchor = GridBagConstraints.CENTER;

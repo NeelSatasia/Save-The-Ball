@@ -53,6 +53,9 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	boolean inverseMovementMode = false;
 	int inverseMovementModeHighScore = 0;
 	
+	int totalCoins;
+	JLabel totalCoinsLabel = new JLabel("Coins: " + totalCoins);
+	
 	JLabel gameOverLabel = new JLabel("Game Over!", SwingConstants.CENTER);
 	
 	boolean gamePaused = false;
@@ -85,13 +88,17 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		setPreferredSize(new Dimension(screenMaxWidth, screenMaxHeight));
 		setBackground(new Color(242, 242, 242));
 		
-		ball = new Ball((screenMaxWidth/2) - 10, 0, 15, 15, 1, new Color(47, 79, 79));
+		ball = new Ball((screenMaxWidth/2) - 10, 0, 15, 15, new Color(47, 79, 79));
 		
 		bar = new Bar((screenMaxWidth/2) - 20, screenMaxHeight - 90, Color.BLACK);
 		
-		ball2 = new Ball((screenMaxWidth/2) - 10, bar.y - 20, ball.width, ball.height, ball.ballType, ball.ballColor);
+		ball2 = new Ball((screenMaxWidth/2) - 10, bar.y - 20, ball.width, ball.height, ball.ballColor);
 		
 		balls = new ArrayList<Ball>();
+		
+		totalCoins = 0;
+		totalCoinsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		totalCoinsLabel.setForeground(Color.BLACK);
 		
 		add(scoreLabel);
 		scoreLabel.setForeground(Color.BLACK);
@@ -177,7 +184,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 			}
 			
 			if(ballSpawnTimeCounter == 0) {
-				balls.add(new Ball((int)(Math.random() * (screenMaxWidth - 20)), -25, 15, 15, 1, Color.BLACK));
+				balls.add(new Ball((int)(Math.random() * (screenMaxWidth - 20)), -25, 15, 15, Color.BLACK));
 				
 				balls.get(balls.size() - 1).ballVerticalVelocity = 5;
 				

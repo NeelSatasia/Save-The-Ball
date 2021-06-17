@@ -51,7 +51,7 @@ public class StorePanel extends JPanel {
 		ballsStoreSp = new JScrollPane();
 		ballsStorePanel = new BallsStorePanel();
 		ballsStoreSp.add(ballsStorePanel);
-		ballsStoreSp.setPreferredSize(new Dimension(150, 200));
+		ballsStoreSp.setPreferredSize(new Dimension(160, 200));
 		ballsStoreSp.setViewportView(ballsStorePanel);
 		ballsStoreSp.validate();
 		ballsStoreSp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
