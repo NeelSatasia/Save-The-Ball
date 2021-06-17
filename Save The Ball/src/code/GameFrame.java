@@ -298,6 +298,47 @@ public class GameFrame extends JFrame {
 			});
 		}
 		
+		for(int i = 0; i < storePanel.barsStorePanel.buyBars.length; i++) {
+			if((storePanel.barsStorePanel.barsBought.contains(i + 1) && storePanel.barsStorePanel.barTypeEquipped != playGamePanel.ball.ballType) || (storePanel.barsStorePanel.barsBought.contains(i + 1) == false && playGamePanel.totalCoins >= Integer.parseInt(storePanel.barsStorePanel.buyBars[i].getText()))) {
+				storePanel.barsStorePanel.buyBars[i].setEnabled(true);
+				storePanel.barsStorePanel.buyBars[i].setBackground(Color.BLACK);
+				storePanel.barsStorePanel.buyBars[i].setForeground(Color.WHITE);
+			} else if(i + 1 != storePanel.barsStorePanel.barTypeEquipped) {
+				storePanel.barsStorePanel.buyBars[i].setEnabled(false);
+				storePanel.barsStorePanel.buyBars[i].setBackground(new Color(204, 204, 204));
+			}
+			
+			int i2 = i;
+			storePanel.barsStorePanel.buyBars[i].addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(storePanel.ballsStorePanel.ballsBought.contains(i2 + 1) == false) {
+						playGamePanel.totalCoins -= Integer.parseInt(storePanel.ballsStorePanel.buyBalls[i2].getText());
+						storePanel.ballsStorePanel.ballsBought.add(i2 + 1);
+						storePanel.ballsStorePanel.buyBalls[i2].setText("Use");
+						
+						for(int j = 0; j < storePanel.ballsStorePanel.buyBalls.length; j++) {
+							if(storePanel.ballsStorePanel.ballsBought.contains(j + 1) == false && playGamePanel.totalCoins < Integer.parseInt(storePanel.ballsStorePanel.buyBalls[j].getText())) {
+								storePanel.ballsStorePanel.buyBalls[j].setEnabled(false);
+								storePanel.ballsStorePanel.buyBalls[j].setBackground(new Color(204, 204, 204));
+							}
+						}
+					} else {
+						storePanel.ballsStorePanel.buyBalls[storePanel.ballsStorePanel.ballTypeEquipped - 1].setEnabled(true);
+						storePanel.ballsStorePanel.buyBalls[storePanel.ballsStorePanel.ballTypeEquipped - 1].setBackground(Color.BLACK);
+						storePanel.ballsStorePanel.buyBalls[storePanel.ballsStorePanel.ballTypeEquipped - 1].setForeground(Color.WHITE);
+						storePanel.ballsStorePanel.buyBalls[storePanel.ballsStorePanel.ballTypeEquipped - 1].setText("Use");
+						storePanel.ballsStorePanel.ballTypeEquipped = i2 + 1;
+						playGamePanel.ball.ballType = i2 + 1;
+						playGamePanel.ball2.ballType = i2 + 1;
+						playGamePanel.ball.changeBallType(playGamePanel.ball.ballType);
+						storePanel.ballsStorePanel.buyBalls[i2].setEnabled(false);
+						storePanel.ballsStorePanel.buyBalls[i2].setBackground(Color.GREEN);
+						storePanel.ballsStorePanel.buyBalls[i2].setText("Using");
+					}
+				}
+			});
+		}
+		
 		repaint();
 		invalidate();
 		

@@ -2,60 +2,56 @@ package code;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-public class BallsStorePanel extends JPanel {
+public class BarsStorePanel extends JPanel {
 	
-	int ballTypeEquipped;
+	int barTypeEquipped;
 	
-	JButton[] buyBalls;
-	ArrayList<Integer> ballsBought;
+	JButton[] buyBars;
+	ArrayList<Integer> barsBought;
 	
-	public BallsStorePanel() {
+	public BarsStorePanel() {
 		new JPanel();
 		setLayout(null);
 		setBackground(new Color(242, 242, 242));
 		setPreferredSize(new Dimension(140, 250));
 		
-		ballTypeEquipped = 1;
+		barTypeEquipped = 1;
 		
-		buyBalls = new JButton[15];
-		ballsBought = new ArrayList<Integer>();
+		buyBars = new JButton[15];
+		barsBought = new ArrayList<Integer>();
 		
-		ballsBought.add(ballTypeEquipped);
+		barsBought.add(barTypeEquipped);
 		
-		int x = 5;
-		int y = 35;
+		int x = 7;
+		int y = 30;
 		int currentColCounter = 0;
-		for(int i = 0; i < buyBalls.length; i++) {
-			buyBalls[i] = new JButton("50");
-			customizeButton(buyBalls[i], true, Color.BLACK, Color.WHITE, null);
-			add(buyBalls[i]);
-			buyBalls[i].setBounds(x, y, 36, 20);
+		for(int i = 0; i < buyBars.length; i++) {
+			buyBars[i] = new JButton("50");
+			customizeButton(buyBars[i], true, Color.BLACK, Color.WHITE, null);
+			add(buyBars[i]);
+			buyBars[i].setBounds(x, y, 36, 20);
 			
-			if(i + 1 == ballTypeEquipped && ballsBought.contains(i + 1)) {
-				buyBalls[i].setText("Using");
-				buyBalls[i].setBackground(Color.GREEN);
-				buyBalls[i].setEnabled(false);
+			if(i + 1 == barTypeEquipped && barsBought.contains(i + 1)) {
+				buyBars[i].setText("Using");
+				buyBars[i].setBackground(Color.GREEN);
+				buyBars[i].setEnabled(false);
 			}
 			
 			currentColCounter++;
 			
 			if(currentColCounter == 3) {
 				currentColCounter = 0;
-				x = 5;
+				x = 7;
 				y += 45;
 			} else {
-				x += 45;
+				x += 65;
 			}
 		}
 	}
@@ -64,49 +60,49 @@ public class BallsStorePanel extends JPanel {
 		super.paintComponent(g);
 		
 		g.setColor(Color.BLACK);
-		g.fillArc(15, 15, 15, 15, 0, 360);
+		g.fillRect(5, 15, 40, 5);
 		
 		g.setColor(new Color(0, 0, 139));
-		g.fillArc(60, 15, 15, 15, 0, 360);
+		g.fillRect(70, 15, 40, 5);
 		
 		g.setColor(new Color(0, 100, 0));
-		g.fillArc(105, 15, 15, 15, 0, 360);
+		g.fillRect(135, 15, 40, 5);
 		
 		g.setColor(new Color(0, 139, 139));
-		g.fillArc(15, 60, 15, 15, 0, 360);
+		g.fillRect(5, 60,  40, 5);
 		
 		g.setColor(new Color(0, 255, 127));
-		g.fillArc(60, 60, 15, 15, 0, 360);
+		g.fillRect(70, 60, 40, 5);
 		
 		g.setColor(new Color(47, 79, 79));
-		g.fillArc(105, 60, 15, 15, 0, 360);
+		g.fillRect(135, 60, 40, 5);
 		
 		g.setColor(new Color(72, 61, 139));
-		g.fillArc(15, 105, 15, 15, 0, 360);
+		g.fillRect(5, 105, 40, 5);
 		
 		g.setColor(new Color(65, 105, 225));
-		g.fillArc(60, 105, 15, 15, 0, 360);
+		g.fillRect(70, 105, 40, 5);
 		
 		g.setColor(new Color(184, 134, 11));
-		g.fillArc(105, 105, 15, 15, 0, 360);
+		g.fillRect(135, 105, 40, 5);
 		
 		g.setColor(new Color(178, 34, 34));
-		g.fillArc(15, 150, 15, 15, 0, 360);
+		g.fillRect(5, 150, 40, 5);
 		
 		g.setColor(new Color(255, 140, 0));
-		g.fillArc(60, 150, 15, 15, 0, 360);
+		g.fillRect(70, 150, 40, 5);
 		
 		g.setColor(new Color(255, 20, 147));
-		g.fillArc(105, 150, 15, 15, 0, 360);
+		g.fillRect(135, 150, 40, 5);
 		
 		g.setColor(new Color(233, 150, 122));
-		g.fillArc(15, 195, 15, 15, 0, 360);
+		g.fillRect(5, 195, 40, 5);
 		
 		g.setColor(new Color(139, 69, 19));
-		g.fillArc(60, 195, 15, 15, 0, 360);
+		g.fillRect(70, 195, 40, 5);
 		
 		g.setColor(new Color(220, 20, 60));
-		g.fillArc(105, 195, 15, 15, 0, 360);
+		g.fillRect(135, 195, 40, 5);
 	}
 	
 	public void customizeButton(JButton button, boolean enable, Color buttonColor, Color textColor, Border border) {
