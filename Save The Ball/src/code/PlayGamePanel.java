@@ -96,7 +96,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		
 		balls = new ArrayList<Ball>();
 		
-		totalCoins = 0;
+		totalCoins = 1000;
 		totalCoinsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		totalCoinsLabel.setForeground(Color.BLACK);
 		
@@ -461,8 +461,6 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		
 		if(colorBallRainMode) {
 			bar.changeBarColor();
-		} else {
-			bar.barColor = Color.BLACK;
 		}
 		
 		if(barUpAndDownMode) {

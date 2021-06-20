@@ -40,7 +40,7 @@ public class BallsStorePanel extends JPanel {
 			buyBalls[i] = new JButton("50");
 			customizeButton(buyBalls[i], true, Color.BLACK, Color.WHITE, null);
 			add(buyBalls[i]);
-			buyBalls[i].setBounds(x, y, 36, 20);
+			buyBalls[i].setBounds(x, y, 40, 20);
 			
 			if(i + 1 == ballTypeEquipped && ballsBought.contains(i + 1)) {
 				buyBalls[i].setText("Using");

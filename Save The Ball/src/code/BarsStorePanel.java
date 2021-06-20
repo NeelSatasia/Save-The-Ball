@@ -33,10 +33,10 @@ public class BarsStorePanel extends JPanel {
 		int y = 30;
 		int currentColCounter = 0;
 		for(int i = 0; i < buyBars.length; i++) {
-			buyBars[i] = new JButton("50");
+			buyBars[i] = new JButton("75");
 			customizeButton(buyBars[i], true, Color.BLACK, Color.WHITE, null);
 			add(buyBars[i]);
-			buyBars[i].setBounds(x, y, 36, 20);
+			buyBars[i].setBounds(x, y, 40, 20);
 			
 			if(i + 1 == barTypeEquipped && barsBought.contains(i + 1)) {
 				buyBars[i].setText("Using");

@@ -311,29 +311,28 @@ public class GameFrame extends JFrame {
 			int i2 = i;
 			storePanel.barsStorePanel.buyBars[i].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(storePanel.ballsStorePanel.ballsBought.contains(i2 + 1) == false) {
-						playGamePanel.totalCoins -= Integer.parseInt(storePanel.ballsStorePanel.buyBalls[i2].getText());
-						storePanel.ballsStorePanel.ballsBought.add(i2 + 1);
-						storePanel.ballsStorePanel.buyBalls[i2].setText("Use");
+					if(storePanel.barsStorePanel.barsBought.contains(i2 + 1) == false) {
+						playGamePanel.totalCoins -= Integer.parseInt(storePanel.barsStorePanel.buyBars[i2].getText());
+						storePanel.barsStorePanel.barsBought.add(i2 + 1);
+						storePanel.barsStorePanel.buyBars[i2].setText("Use");
 						
-						for(int j = 0; j < storePanel.ballsStorePanel.buyBalls.length; j++) {
-							if(storePanel.ballsStorePanel.ballsBought.contains(j + 1) == false && playGamePanel.totalCoins < Integer.parseInt(storePanel.ballsStorePanel.buyBalls[j].getText())) {
-								storePanel.ballsStorePanel.buyBalls[j].setEnabled(false);
-								storePanel.ballsStorePanel.buyBalls[j].setBackground(new Color(204, 204, 204));
+						for(int j = 0; j < storePanel.barsStorePanel.buyBars.length; j++) {
+							if(storePanel.barsStorePanel.barsBought.contains(j + 1) == false && playGamePanel.totalCoins < Integer.parseInt(storePanel.barsStorePanel.buyBars[j].getText())) {
+								storePanel.barsStorePanel.buyBars[j].setEnabled(false);
+								storePanel.barsStorePanel.buyBars[j].setBackground(new Color(204, 204, 204));
 							}
 						}
 					} else {
-						storePanel.ballsStorePanel.buyBalls[storePanel.ballsStorePanel.ballTypeEquipped - 1].setEnabled(true);
-						storePanel.ballsStorePanel.buyBalls[storePanel.ballsStorePanel.ballTypeEquipped - 1].setBackground(Color.BLACK);
-						storePanel.ballsStorePanel.buyBalls[storePanel.ballsStorePanel.ballTypeEquipped - 1].setForeground(Color.WHITE);
-						storePanel.ballsStorePanel.buyBalls[storePanel.ballsStorePanel.ballTypeEquipped - 1].setText("Use");
-						storePanel.ballsStorePanel.ballTypeEquipped = i2 + 1;
-						playGamePanel.ball.ballType = i2 + 1;
-						playGamePanel.ball2.ballType = i2 + 1;
-						playGamePanel.ball.changeBallType(playGamePanel.ball.ballType);
-						storePanel.ballsStorePanel.buyBalls[i2].setEnabled(false);
-						storePanel.ballsStorePanel.buyBalls[i2].setBackground(Color.GREEN);
-						storePanel.ballsStorePanel.buyBalls[i2].setText("Using");
+						storePanel.barsStorePanel.buyBars[storePanel.barsStorePanel.barTypeEquipped - 1].setEnabled(true);
+						storePanel.barsStorePanel.buyBars[storePanel.barsStorePanel.barTypeEquipped - 1].setBackground(Color.BLACK);
+						storePanel.barsStorePanel.buyBars[storePanel.barsStorePanel.barTypeEquipped - 1].setForeground(Color.WHITE);
+						storePanel.barsStorePanel.buyBars[storePanel.barsStorePanel.barTypeEquipped - 1].setText("Use");
+						storePanel.barsStorePanel.barTypeEquipped = i2 + 1;
+						playGamePanel.bar.barType = i2 + 1;
+						playGamePanel.bar.changeBarType(playGamePanel.bar.barType);
+						storePanel.barsStorePanel.buyBars[i2].setEnabled(false);
+						storePanel.barsStorePanel.buyBars[i2].setBackground(Color.GREEN);
+						storePanel.barsStorePanel.buyBars[i2].setText("Using");
 					}
 				}
 			});
