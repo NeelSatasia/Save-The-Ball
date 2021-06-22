@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 
 public class Coin extends Rectangle {
 	
-	public void Coin(int x, int y) {
+	public Coin(int x, int y) {
 		this.x = x;
 		this.y = y;
 		this.width = 50;

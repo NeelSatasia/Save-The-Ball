@@ -53,6 +53,9 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	boolean inverseMovementMode = false;
 	int inverseMovementModeHighScore = 0;
 	
+	boolean invisibleBarMode = false;
+	int invisibleBarModeHighScore = 0;
+	
 	int totalCoins;
 	JLabel totalCoinsLabel = new JLabel("Coins: " + totalCoins);
 	
@@ -137,9 +140,13 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		bar.setBounds(bar.x + bar.barHorizontalVelocity, bar.y, bar.width, bar.height);
 		bar.draw(g);
 		
-		if(classicMode || duoBallsMode || inverseMovementMode) {
+		if(classicMode || duoBallsMode || inverseMovementMode || invisibleBarMode) {
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, screenMaxWidth, topBorderHeight);
+			
+			if(invisibleBarMode && isPlayingGame) {
+				bar.barColor = new Color(bar.barColor.getRed(), bar.barColor.getGreen(), bar.barColor.getBlue(), 0);
+			}
 			
 			if(((ball.y >= screenMaxHeight) || (duoBallsMode && ball2.y >= screenMaxHeight)) && isPlayingGame) {
 				gameOver();
@@ -247,7 +254,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 			
 			//classic mode or duoBallsMode or barUpAndDownMode or inverseMovementMode
 			
-			if(classicMode || duoBallsMode || barUpAndDownMode || inverseMovementMode) {
+			if(classicMode || duoBallsMode || barUpAndDownMode || inverseMovementMode || invisibleBarMode) {
 				if(bar.y == screenMaxHeight - 90 && ball.y + ball.height <= bar.y && ball.y + ball.height + ball.ballVerticalVelocity >= bar.y) {
 					if(ball.x + ball.width + (ball.width/2) >= bar.x && ball.x - (ball.width/2) <= bar.x + bar.width) {
 						ball.setLocation(ball.x, bar.y - ball.height);
@@ -283,7 +290,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 					
 					score++;
 					scoreLabel.setText("Score: " + score);
-				} else if((classicMode || duoBallsMode || inverseMovementMode) && ball.y + ball.ballVerticalVelocity <= topBorderHeight) {
+				} else if((classicMode || duoBallsMode || inverseMovementMode || invisibleBarMode) && ball.y + ball.ballVerticalVelocity <= topBorderHeight) {
 					ball.ballHorizontalVelocity = (int)(Math.random() * 11) - 5;
 					ball.ballVerticalVelocity *= -1;
 					
@@ -457,9 +464,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 			ball2.ballHorizontalVelocity = (int)(Math.random() * 11) - 5;
 			ball2.ballVerticalVelocity = 4;
 			ball2.ballColorTransparency = 255;
-		}
-		
-		if(colorBallRainMode) {
+		} else if(colorBallRainMode) {
 			bar.changeBarColor();
 		}
 		

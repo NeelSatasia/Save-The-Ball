@@ -92,6 +92,9 @@ public class GameFrame extends JFrame {
 		playPagePanelgbc.gridy = 7;
 		playPagePanel.add(startingPanel.inverseMovementButton, playPagePanelgbc);
 		
+		playPagePanelgbc.gridy = 8;
+		playPagePanel.add(startingPanel.invisibleBarButton, playPagePanelgbc);
+		
 		mainPlayPanel.setLayout(new GridBagLayout());
 		mainPlayPanel.setBackground(Color.WHITE);
 		
@@ -208,6 +211,20 @@ public class GameFrame extends JFrame {
 				add(mainPlayPanel);
 				
 				playGamePanel.inverseMovementMode = true;
+				
+				playGamePanel.startGame();
+				
+				repaint();
+				revalidate();
+			}
+		});
+		
+		startingPanel.invisibleBarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				remove(playPagePanel);
+				add(mainPlayPanel);
+				
+				playGamePanel.invisibleBarMode = true;
 				
 				playGamePanel.startGame();
 				
