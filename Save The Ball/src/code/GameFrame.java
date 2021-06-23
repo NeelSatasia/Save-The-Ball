@@ -12,6 +12,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -38,6 +45,8 @@ public class GameFrame extends JFrame {
 	int previousXPosition;
 	
 	Point pointer;
+	
+	File file = new File("DaBall.txt");
 	
 	public GameFrame() {
 		new JFrame();
@@ -84,15 +93,12 @@ public class GameFrame extends JFrame {
 		playPagePanel.add(startingPanel.ballRainButton, playPagePanelgbc);
 		
 		playPagePanelgbc.gridy = 5;
-		playPagePanel.add(startingPanel.colorBallRainButton, playPagePanelgbc);
-		
-		playPagePanelgbc.gridy = 6;
 		playPagePanel.add(startingPanel.barUpAndDownButton, playPagePanelgbc);
 		
-		playPagePanelgbc.gridy = 7;
+		playPagePanelgbc.gridy = 6;
 		playPagePanel.add(startingPanel.inverseMovementButton, playPagePanelgbc);
 		
-		playPagePanelgbc.gridy = 8;
+		playPagePanelgbc.gridy = 7;
 		playPagePanel.add(startingPanel.invisibleBarButton, playPagePanelgbc);
 		
 		mainPlayPanel.setLayout(new GridBagLayout());
@@ -121,7 +127,6 @@ public class GameFrame extends JFrame {
 				startingPanel.classicButton.setText("Classic - " + playGamePanel.classicModeHighScore);
 				startingPanel.duoBallsButton.setText("Duo Balls - " + playGamePanel.duoBallsHighScore);
 				startingPanel.ballRainButton.setText("Ball Rain - " + playGamePanel.ballRainHighScore);
-				startingPanel.colorBallRainButton.setText("Color Ball Rain - " + playGamePanel.colorBallRainHighScore);
 				startingPanel.barUpAndDownButton.setText("Bar Up & Down - " + playGamePanel.barUpAndDownHighScore);
 				startingPanel.inverseMovementButton.setText("Inverse Movement - " + playGamePanel.inverseMovementModeHighScore);
 				
@@ -169,20 +174,6 @@ public class GameFrame extends JFrame {
 				add(mainPlayPanel);
 				
 				playGamePanel.ballRainMode = true;
-				
-				playGamePanel.startGame();
-				
-				repaint();
-				revalidate();
-			}
-		});
-		
-		startingPanel.colorBallRainButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				remove(playPagePanel);
-				add(mainPlayPanel);
-				
-				playGamePanel.colorBallRainMode = true;
 				
 				playGamePanel.startGame();
 				
@@ -274,11 +265,11 @@ public class GameFrame extends JFrame {
 		}
 		
 		for(int i = 0; i < storePanel.ballsStorePanel.buyBalls.length; i++) {
-			if((storePanel.ballsStorePanel.ballsBought.contains(i + 1) && storePanel.ballsStorePanel.ballTypeEquipped != playGamePanel.ball.ballType) || (storePanel.ballsStorePanel.ballsBought.contains(i + 1) == false && playGamePanel.totalCoins >= Integer.parseInt(storePanel.ballsStorePanel.buyBalls[i].getText()))) {
+			if((storePanel.ballsStorePanel.ballsBought.contains(i + 1) && playGamePanel.ball.ballType != playGamePanel.ball.ballType) || (storePanel.ballsStorePanel.ballsBought.contains(i + 1) == false && playGamePanel.totalCoins >= Integer.parseInt(storePanel.ballsStorePanel.buyBalls[i].getText()))) {
 				storePanel.ballsStorePanel.buyBalls[i].setEnabled(true);
 				storePanel.ballsStorePanel.buyBalls[i].setBackground(Color.BLACK);
 				storePanel.ballsStorePanel.buyBalls[i].setForeground(Color.WHITE);
-			} else if(i + 1 != storePanel.ballsStorePanel.ballTypeEquipped) {
+			} else if(i + 1 != playGamePanel.ball.ballType) {
 				storePanel.ballsStorePanel.buyBalls[i].setEnabled(false);
 				storePanel.ballsStorePanel.buyBalls[i].setBackground(new Color(204, 204, 204));
 			}
@@ -298,11 +289,10 @@ public class GameFrame extends JFrame {
 							}
 						}
 					} else {
-						storePanel.ballsStorePanel.buyBalls[storePanel.ballsStorePanel.ballTypeEquipped - 1].setEnabled(true);
-						storePanel.ballsStorePanel.buyBalls[storePanel.ballsStorePanel.ballTypeEquipped - 1].setBackground(Color.BLACK);
-						storePanel.ballsStorePanel.buyBalls[storePanel.ballsStorePanel.ballTypeEquipped - 1].setForeground(Color.WHITE);
-						storePanel.ballsStorePanel.buyBalls[storePanel.ballsStorePanel.ballTypeEquipped - 1].setText("Use");
-						storePanel.ballsStorePanel.ballTypeEquipped = i2 + 1;
+						storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setEnabled(true);
+						storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setBackground(Color.BLACK);
+						storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setForeground(Color.WHITE);
+						storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setText("Use");
 						playGamePanel.ball.ballType = i2 + 1;
 						playGamePanel.ball2.ballType = i2 + 1;
 						playGamePanel.ball.changeBallType(playGamePanel.ball.ballType);
@@ -316,11 +306,11 @@ public class GameFrame extends JFrame {
 		}
 		
 		for(int i = 0; i < storePanel.barsStorePanel.buyBars.length; i++) {
-			if((storePanel.barsStorePanel.barsBought.contains(i + 1) && storePanel.barsStorePanel.barTypeEquipped != playGamePanel.ball.ballType) || (storePanel.barsStorePanel.barsBought.contains(i + 1) == false && playGamePanel.totalCoins >= Integer.parseInt(storePanel.barsStorePanel.buyBars[i].getText()))) {
+			if((storePanel.barsStorePanel.barsBought.contains(i + 1) && playGamePanel.bar.barType != playGamePanel.ball.ballType) || (storePanel.barsStorePanel.barsBought.contains(i + 1) == false && playGamePanel.totalCoins >= Integer.parseInt(storePanel.barsStorePanel.buyBars[i].getText()))) {
 				storePanel.barsStorePanel.buyBars[i].setEnabled(true);
 				storePanel.barsStorePanel.buyBars[i].setBackground(Color.BLACK);
 				storePanel.barsStorePanel.buyBars[i].setForeground(Color.WHITE);
-			} else if(i + 1 != storePanel.barsStorePanel.barTypeEquipped) {
+			} else if(i + 1 != playGamePanel.bar.barType) {
 				storePanel.barsStorePanel.buyBars[i].setEnabled(false);
 				storePanel.barsStorePanel.buyBars[i].setBackground(new Color(204, 204, 204));
 			}
@@ -340,17 +330,18 @@ public class GameFrame extends JFrame {
 							}
 						}
 					} else {
-						storePanel.barsStorePanel.buyBars[storePanel.barsStorePanel.barTypeEquipped - 1].setEnabled(true);
-						storePanel.barsStorePanel.buyBars[storePanel.barsStorePanel.barTypeEquipped - 1].setBackground(Color.BLACK);
-						storePanel.barsStorePanel.buyBars[storePanel.barsStorePanel.barTypeEquipped - 1].setForeground(Color.WHITE);
-						storePanel.barsStorePanel.buyBars[storePanel.barsStorePanel.barTypeEquipped - 1].setText("Use");
-						storePanel.barsStorePanel.barTypeEquipped = i2 + 1;
+						storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setEnabled(true);
+						storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setBackground(Color.BLACK);
+						storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setForeground(Color.WHITE);
+						storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setText("Use");
 						playGamePanel.bar.barType = i2 + 1;
 						playGamePanel.bar.changeBarType(playGamePanel.bar.barType);
 						storePanel.barsStorePanel.buyBars[i2].setEnabled(false);
 						storePanel.barsStorePanel.buyBars[i2].setBackground(Color.GREEN);
 						storePanel.barsStorePanel.buyBars[i2].setText("Using");
 					}
+					
+					saveData();
 				}
 			});
 		}
@@ -456,16 +447,16 @@ public class GameFrame extends JFrame {
 				playGamePanel.isPlayingGame = false;
 				playGamePanel.gamePaused = false;
 				
-				if(playGamePanel.ballRainMode || playGamePanel.colorBallRainMode) {
+				if(playGamePanel.ballRainMode) {
 					playGamePanel.balls.clear();
 				}
 				
 				playGamePanel.classicMode = false;
 				playGamePanel.duoBallsMode = false;
 				playGamePanel.ballRainMode = false;
-				playGamePanel.colorBallRainMode = false;
 				playGamePanel.barUpAndDownMode = false;
 				playGamePanel.inverseMovementMode = false;
+				playGamePanel.invisibleBarMode = false;
 				
 				playGamePanel.timer.stop();
 				
@@ -476,5 +467,35 @@ public class GameFrame extends JFrame {
 				revalidate();
 			}
 		});
+		
+		saveData();
+	}
+	
+	public void saveData() {
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter("DaBall.txt"));
+			
+			writer.write("lol");
+			writer.append("add more things");
+			
+			writer.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadData() {
+		try {
+			if(file.exists()) {
+				Scanner reader = new Scanner(new FileReader(file));
+				
+				ArrayList<String> dataList = new ArrayList<String>();
+				while(reader.hasNextLine()) {
+					dataList.add(reader.nextLine());
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

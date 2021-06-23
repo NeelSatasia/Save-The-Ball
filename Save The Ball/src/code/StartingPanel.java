@@ -24,7 +24,6 @@ public class StartingPanel extends JPanel {
 	JButton classicButton = new JButton("Classic");
 	JButton duoBallsButton = new JButton("Duo Balls");
 	JButton ballRainButton = new JButton("Ball Rain");
-	JButton colorBallRainButton = new JButton("Color Ball Rain");
 	JButton barUpAndDownButton = new JButton("Bar Up & Down");
 	JButton inverseMovementButton = new JButton("Inverse Movement");
 	JButton invisibleBarButton = new JButton("Invisible Bar");
@@ -78,9 +77,6 @@ public class StartingPanel extends JPanel {
 		
 		customizeButton(ballRainButton, true, new Color(0, 139, 139), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 		ballRainButton.setFont(classicButton.getFont());
-		
-		customizeButton(colorBallRainButton, true, new Color(184, 134, 11), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
-		colorBallRainButton.setFont(classicButton.getFont());
 		
 		customizeButton(barUpAndDownButton, true, new Color(220, 20, 60), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 		barUpAndDownButton.setFont(classicButton.getFont());

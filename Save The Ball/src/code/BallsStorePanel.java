@@ -15,8 +15,6 @@ import javax.swing.border.Border;
 
 public class BallsStorePanel extends JPanel {
 	
-	int ballTypeEquipped;
-	
 	JButton[] buyBalls;
 	ArrayList<Integer> ballsBought;
 	
@@ -26,12 +24,8 @@ public class BallsStorePanel extends JPanel {
 		setBackground(new Color(242, 242, 242));
 		setPreferredSize(new Dimension(140, 250));
 		
-		ballTypeEquipped = 1;
-		
 		buyBalls = new JButton[15];
 		ballsBought = new ArrayList<Integer>();
-		
-		ballsBought.add(ballTypeEquipped);
 		
 		int x = 5;
 		int y = 35;
@@ -41,12 +35,6 @@ public class BallsStorePanel extends JPanel {
 			customizeButton(buyBalls[i], true, Color.BLACK, Color.WHITE, null);
 			add(buyBalls[i]);
 			buyBalls[i].setBounds(x, y, 40, 20);
-			
-			if(i + 1 == ballTypeEquipped && ballsBought.contains(i + 1)) {
-				buyBalls[i].setText("Using");
-				buyBalls[i].setBackground(Color.GREEN);
-				buyBalls[i].setEnabled(false);
-			}
 			
 			currentColCounter++;
 			

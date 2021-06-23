@@ -6,7 +6,13 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -44,9 +50,6 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	boolean ballRainMode = false;
 	int ballRainHighScore = 0;
 	
-	boolean colorBallRainMode = false;
-	int colorBallRainHighScore = 0;
-	
 	boolean barUpAndDownMode = false;
 	int barUpAndDownHighScore = 0;
 	
@@ -70,6 +73,8 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	JButton tryAgainButton = new JButton("Try Again");
 	
 	int topBorderHeight = 0;
+	
+	File file = new File("DaBall.txt");
 	
 	public PlayGamePanel(int w, int h) {
 		UIManager.put("Button.disabledText", Color.BLACK);
@@ -128,6 +133,9 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 				remove(tryAgainButton);
 				
 				startGame();
+				
+				revalidate();
+				repaint();
 			}
 		});
 		
@@ -185,7 +193,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 			}
 		}
 		
-		if(ballRainMode || colorBallRainMode) {
+		if(ballRainMode) {
 			for(int i = 0; i < balls.size(); i++) {
 				balls.get(i).draw(g);
 			}
@@ -209,10 +217,6 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 				
 				if(balls.size() > 1) {
 					balls.get(balls.size() - 1).ballVerticalVelocity = balls.get(balls.size() - 2).ballVerticalVelocity;
-					
-					if(colorBallRainMode) {
-						balls.get(balls.size() - 1).changeBallColor();
-					}
 				}
 				
 				if(score >= 100) {
@@ -222,28 +226,6 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 				}
 			} else {
 				ballSpawnTimeCounter--;
-			}
-		}
-		
-		if(isPlayingGame == false && gamePaused == false) {
-			if(classicMode && score > classicModeHighScore) {
-				classicModeHighScore = score;
-				newHighScore("Classic");
- 			} else if(duoBallsMode && score > duoBallsHighScore) {
-				duoBallsHighScore = score;
-				newHighScore("Duo Balls");
-			} else if(ballRainMode && score > ballRainHighScore) {
-				ballRainHighScore = score;
-				newHighScore("Ball Rain");
-			} else if(colorBallRainMode && score > colorBallRainHighScore) {
-				colorBallRainHighScore = score;
-				newHighScore("Color Ball Rain");
-			} else if(barUpAndDownMode && score > barUpAndDownHighScore) {
-				barUpAndDownHighScore = score;
-				newHighScore("Bar Up & Down");
-			} else if(inverseMovementMode && score > inverseMovementModeHighScore) {
-				inverseMovementModeHighScore = score;
-				newHighScore("Inverse Movement");
 			}
 		}
 	}
@@ -351,7 +333,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 			
 			//(color) ball rain mode
 			
-			if(ballRainMode || colorBallRainMode) {
+			if(ballRainMode) {
 				int i = 0;
 				while(i < balls.size()) {
 					if(score == 100) {
@@ -368,37 +350,11 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 							
 							score++;
 							scoreLabel.setText("Score: " + score);
-						} else if(colorBallRainMode) {
-							if(bar.barColor.getRGB() == balls.get(i).ballColor.getRGB()) {
-								balls.remove(i);
-								
-								score++;
-								scoreLabel.setText("Score: " + score);
-								
-								bar.changeBarColor();
-							} else {
-								balls.clear();
-								gameOver();
-							}
 						}
 					} else if(balls.get(i).y > screenMaxHeight - 10) {
 						if(ballRainMode) {
 							balls.clear();
 							gameOver();
-						} else if(colorBallRainMode) {
-							if(balls.get(i).ballColor.getRGB() == bar.barColor.getRGB()) {
-								balls.clear();
-								gameOver();
-							} else {
-								balls.remove(i);
-								
-								score++;
-								scoreLabel.setText("Score: " + score);
-								
-								if(score >= 100) {
-									bar.changeBarColor();
-								}
-							}
 						}
 					} else {
 						if(balls.get(i).ballHorizontalVelocity > 0 && balls.get(i).x + balls.get(i).width + balls.get(i).ballHorizontalVelocity >= screenMaxWidth) {
@@ -442,7 +398,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		
 		bar.setLocation((screenMaxWidth/2) - (bar.width/2), screenMaxHeight - 90);
 		
-		if(classicMode || duoBallsMode || barUpAndDownMode || inverseMovementMode) {
+		if(classicMode || duoBallsMode || barUpAndDownMode || inverseMovementMode || invisibleBarMode) {
 			if(barUpAndDownMode) {
 				ball.setLocation(bar.x + (bar.width/2) - (ball.width), 40);
 			} else {
@@ -464,8 +420,6 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 			ball2.ballHorizontalVelocity = (int)(Math.random() * 11) - 5;
 			ball2.ballVerticalVelocity = 4;
 			ball2.ballColorTransparency = 255;
-		} else if(colorBallRainMode) {
-			bar.changeBarColor();
 		}
 		
 		if(barUpAndDownMode) {
@@ -476,6 +430,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		
 		bar.barHorizontalVelocity = 0;
 		bar.width = 40;
+		bar.barColor = new Color(bar.barColor.getRed(), bar.barColor.getGreen(), bar.barColor.getBlue(), 255);
 		
 		topBorderHeight = 0;
 		
@@ -502,6 +457,26 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		add(gameOverLabel);
 		isPlayingGame = false;
 		add(tryAgainButton);
+		
+		if(classicMode && score > classicModeHighScore) {
+			classicModeHighScore = score;
+			newHighScore("Classic");
+			} else if(duoBallsMode && score > duoBallsHighScore) {
+			duoBallsHighScore = score;
+			newHighScore("Duo Balls");
+		} else if(ballRainMode && score > ballRainHighScore) {
+			ballRainHighScore = score;
+			newHighScore("Ball Rain");
+		} else if(barUpAndDownMode && score > barUpAndDownHighScore) {
+			barUpAndDownHighScore = score;
+			newHighScore("Bar Up & Down");
+		} else if(inverseMovementMode && score > inverseMovementModeHighScore) {
+			inverseMovementModeHighScore = score;
+			newHighScore("Inverse Movement");
+		} else if(invisibleBarMode && score > invisibleBarModeHighScore) {
+			invisibleBarModeHighScore = score;
+			newHighScore("Invisible Bar");
+		}
 	}
 
 	public void pauseGame() {
@@ -542,6 +517,36 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 			case "Inverse Movement":
 				scoreLabel.setForeground(new Color(47, 79, 79));
 				break;
+			case "Invisible Bar":
+				scoreLabel.setForeground(new Color(199, 21, 133));
+		}
+	}
+	
+	public void saveData() {
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter("DaBall.txt"));
+			
+			writer.write("something");
+			writer.append("add more things");
+			
+			writer.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadData() {
+		try {
+			if(file.exists()) {
+				Scanner reader = new Scanner(new FileReader(file));
+				
+				ArrayList<String> dataList = new ArrayList<String>();
+				while(reader.hasNextLine()) {
+					dataList.add(reader.nextLine());
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

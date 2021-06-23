@@ -11,8 +11,6 @@ import javax.swing.border.Border;
 
 public class BarsStorePanel extends JPanel {
 	
-	int barTypeEquipped;
-	
 	JButton[] buyBars;
 	ArrayList<Integer> barsBought;
 	
@@ -22,12 +20,8 @@ public class BarsStorePanel extends JPanel {
 		setBackground(new Color(242, 242, 242));
 		setPreferredSize(new Dimension(140, 250));
 		
-		barTypeEquipped = 1;
-		
 		buyBars = new JButton[15];
 		barsBought = new ArrayList<Integer>();
-		
-		barsBought.add(barTypeEquipped);
 		
 		int x = 7;
 		int y = 30;
@@ -37,12 +31,6 @@ public class BarsStorePanel extends JPanel {
 			customizeButton(buyBars[i], true, Color.BLACK, Color.WHITE, null);
 			add(buyBars[i]);
 			buyBars[i].setBounds(x, y, 40, 20);
-			
-			if(i + 1 == barTypeEquipped && barsBought.contains(i + 1)) {
-				buyBars[i].setText("Using");
-				buyBars[i].setBackground(Color.GREEN);
-				buyBars[i].setEnabled(false);
-			}
 			
 			currentColCounter++;
 			
