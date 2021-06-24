@@ -23,11 +23,13 @@ public class BarsStorePanel extends JPanel {
 		buyBars = new JButton[15];
 		barsBought = new ArrayList<Integer>();
 		
+		barsBought.add(1);
+		
 		int x = 7;
 		int y = 30;
 		int currentColCounter = 0;
 		for(int i = 0; i < buyBars.length; i++) {
-			buyBars[i] = new JButton("75");
+			buyBars[i] = new JButton();
 			customizeButton(buyBars[i], true, Color.BLACK, Color.WHITE, null);
 			add(buyBars[i]);
 			buyBars[i].setBounds(x, y, 40, 20);

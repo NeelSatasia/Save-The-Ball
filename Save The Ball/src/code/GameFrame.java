@@ -129,6 +129,7 @@ public class GameFrame extends JFrame {
 				startingPanel.ballRainButton.setText("Ball Rain - " + playGamePanel.ballRainHighScore);
 				startingPanel.barUpAndDownButton.setText("Bar Up & Down - " + playGamePanel.barUpAndDownHighScore);
 				startingPanel.inverseMovementButton.setText("Inverse Movement - " + playGamePanel.inverseMovementModeHighScore);
+				startingPanel.invisibleBarButton.setText("Invisible Bar - " + playGamePanel.invisibleBarModeHighScore);
 				
 				repaint();
 				revalidate();
@@ -145,6 +146,7 @@ public class GameFrame extends JFrame {
 				add(mainPlayPanel);
 				
 				playGamePanel.classicMode = true;
+				playGamePanel.isInPlayGamePanel = true;
 				
 				playGamePanel.startGame();
 				
@@ -160,6 +162,7 @@ public class GameFrame extends JFrame {
 				add(mainPlayPanel);
 				
 				playGamePanel.duoBallsMode = true;
+				playGamePanel.isInPlayGamePanel = true;
 				
 				playGamePanel.startGame();
 				
@@ -174,6 +177,7 @@ public class GameFrame extends JFrame {
 				add(mainPlayPanel);
 				
 				playGamePanel.ballRainMode = true;
+				playGamePanel.isInPlayGamePanel = true;
 				
 				playGamePanel.startGame();
 				
@@ -188,6 +192,7 @@ public class GameFrame extends JFrame {
 				add(mainPlayPanel);
 				
 				playGamePanel.barUpAndDownMode = true;
+				playGamePanel.isInPlayGamePanel = true;
 				
 				playGamePanel.startGame();
 				
@@ -202,6 +207,7 @@ public class GameFrame extends JFrame {
 				add(mainPlayPanel);
 				
 				playGamePanel.inverseMovementMode = true;
+				playGamePanel.isInPlayGamePanel = true;
 				
 				playGamePanel.startGame();
 				
@@ -216,6 +222,7 @@ public class GameFrame extends JFrame {
 				add(mainPlayPanel);
 				
 				playGamePanel.invisibleBarMode = true;
+				playGamePanel.isInPlayGamePanel = true;
 				
 				playGamePanel.startGame();
 				
@@ -255,17 +262,10 @@ public class GameFrame extends JFrame {
 			
 		});
 		
-		if(storePanel.ballsStorePanel.ballsBought.size() == 1) {
-			playGamePanel.ball.ballType = storePanel.ballsStorePanel.ballsBought.get(0);
-			playGamePanel.ball2.ballType = playGamePanel.ball.ballType;
-			playGamePanel.ball.changeBallType(playGamePanel.ball.ballType);
-			playGamePanel.ball2.changeBallType(playGamePanel.ball2.ballType);
-		} else {
-			
-		}
+		loadData();
 		
 		for(int i = 0; i < storePanel.ballsStorePanel.buyBalls.length; i++) {
-			if((storePanel.ballsStorePanel.ballsBought.contains(i + 1) && playGamePanel.ball.ballType != playGamePanel.ball.ballType) || (storePanel.ballsStorePanel.ballsBought.contains(i + 1) == false && playGamePanel.totalCoins >= Integer.parseInt(storePanel.ballsStorePanel.buyBalls[i].getText()))) {
+			if(storePanel.ballsStorePanel.ballsBought.contains(i + 1) || (storePanel.ballsStorePanel.ballsBought.contains(i + 1) == false && playGamePanel.totalCoins >= Integer.parseInt(storePanel.ballsStorePanel.buyBalls[i].getText()))) {
 				storePanel.ballsStorePanel.buyBalls[i].setEnabled(true);
 				storePanel.ballsStorePanel.buyBalls[i].setBackground(Color.BLACK);
 				storePanel.ballsStorePanel.buyBalls[i].setForeground(Color.WHITE);
@@ -306,7 +306,7 @@ public class GameFrame extends JFrame {
 		}
 		
 		for(int i = 0; i < storePanel.barsStorePanel.buyBars.length; i++) {
-			if((storePanel.barsStorePanel.barsBought.contains(i + 1) && playGamePanel.bar.barType != playGamePanel.ball.ballType) || (storePanel.barsStorePanel.barsBought.contains(i + 1) == false && playGamePanel.totalCoins >= Integer.parseInt(storePanel.barsStorePanel.buyBars[i].getText()))) {
+			if(storePanel.barsStorePanel.barsBought.contains(i + 1) || (storePanel.barsStorePanel.barsBought.contains(i + 1) == false && playGamePanel.totalCoins >= Integer.parseInt(storePanel.barsStorePanel.buyBars[i].getText()))) {
 				storePanel.barsStorePanel.buyBars[i].setEnabled(true);
 				storePanel.barsStorePanel.buyBars[i].setBackground(Color.BLACK);
 				storePanel.barsStorePanel.buyBars[i].setForeground(Color.WHITE);
@@ -434,6 +434,13 @@ public class GameFrame extends JFrame {
 					}
 				}
 			}
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if(playGamePanel.isInPlayGamePanel) {
+					saveData();
+				}
+			}
 		};
 		
 		addMouseListener(mouseControl);
@@ -444,6 +451,7 @@ public class GameFrame extends JFrame {
 				playGamePanel.remove(playGamePanel.gameOverLabel);
 				playGamePanel.remove(playGamePanel.tryAgainButton);
 				
+				playGamePanel.isInPlayGamePanel = false;
 				playGamePanel.isPlayingGame = false;
 				playGamePanel.gamePaused = false;
 				
@@ -467,16 +475,41 @@ public class GameFrame extends JFrame {
 				revalidate();
 			}
 		});
-		
-		saveData();
 	}
 	
 	public void saveData() {
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter("DaBall.txt"));
 			
-			writer.write("lol");
-			writer.append("add more things");
+			writer.write(playGamePanel.ball.ballType + "\n");
+			writer.append(playGamePanel.ball2.ballType + "\n");
+			
+			writer.append(playGamePanel.bar.barType + "\n");
+			
+			writer.append(playGamePanel.totalCoins + "\n");
+			
+			writer.append(playGamePanel.classicModeHighScore + "\n");
+			writer.append(playGamePanel.duoBallsHighScore + "\n");
+			writer.append(playGamePanel.ballRainHighScore + "\n");
+			writer.append(playGamePanel.barUpAndDownHighScore + "\n");
+			writer.append(playGamePanel.inverseMovementModeHighScore + "\n");
+			writer.append(playGamePanel.invisibleBarModeHighScore + "\n");
+			
+			for(int i = 0; i < storePanel.ballsStorePanel.ballsBought.size(); i++) {
+				if(i + 1 < storePanel.ballsStorePanel.ballsBought.size()) {
+					writer.append(storePanel.ballsStorePanel.ballsBought.get(i) + " ");
+				} else {
+					writer.append(storePanel.ballsStorePanel.ballsBought.get(i) + "\n");
+				}
+			}
+			
+			for(int i = 0; i < storePanel.barsStorePanel.barsBought.size(); i++) {
+				if(i + 1 < storePanel.barsStorePanel.barsBought.size()) {
+					writer.append(storePanel.barsStorePanel.barsBought.get(i) + " ");
+				} else {
+					writer.append(storePanel.barsStorePanel.barsBought.get(i) + "");
+				}
+			}
 			
 			writer.close();
 		} catch(IOException e) {
@@ -493,6 +526,34 @@ public class GameFrame extends JFrame {
 				while(reader.hasNextLine()) {
 					dataList.add(reader.nextLine());
 				}
+				
+				playGamePanel.ball.ballType = Integer.parseInt(dataList.get(0));
+				playGamePanel.ball2.ballType = Integer.parseInt(dataList.get(1));
+				
+				playGamePanel.bar.barType = Integer.parseInt(dataList.get(2));
+				
+				playGamePanel.totalCoins = Integer.parseInt(dataList.get(3));
+				
+				playGamePanel.classicModeHighScore = Integer.parseInt(dataList.get(4));
+				playGamePanel.duoBallsHighScore = Integer.parseInt(dataList.get(5));
+				playGamePanel.ballRainHighScore = Integer.parseInt(dataList.get(6));
+				playGamePanel.barUpAndDownHighScore = Integer.parseInt(dataList.get(7));
+				playGamePanel.inverseMovementModeHighScore = Integer.parseInt(dataList.get(8));
+				playGamePanel.invisibleBarModeHighScore = Integer.parseInt(dataList.get(9));
+				
+				String[] ballsList = dataList.get(10).split(" ");
+				
+				for(int i = 1; i < ballsList.length; i++) {
+					storePanel.ballsStorePanel.ballsBought.add(Integer.parseInt(ballsList[i]));
+				}
+				
+				String[] barsList = dataList.get(11).split(" ");
+				
+				for(int i = 1; i < barsList.length; i++) {
+					storePanel.barsStorePanel.barsBought.add(Integer.parseInt(barsList[i]));
+				}
+				
+				reader.close();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -68,13 +68,12 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	JLabel resumeLabel = new JLabel("Click To Resume", SwingConstants.CENTER);
 	
 	boolean isPlayingGame = false;
+	boolean isInPlayGamePanel = false;
 	
 	JButton backButton = new JButton("Go Back");
 	JButton tryAgainButton = new JButton("Try Again");
 	
 	int topBorderHeight = 0;
-	
-	File file = new File("DaBall.txt");
 	
 	public PlayGamePanel(int w, int h) {
 		UIManager.put("Button.disabledText", Color.BLACK);
@@ -519,34 +518,6 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 				break;
 			case "Invisible Bar":
 				scoreLabel.setForeground(new Color(199, 21, 133));
-		}
-	}
-	
-	public void saveData() {
-		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter("DaBall.txt"));
-			
-			writer.write("something");
-			writer.append("add more things");
-			
-			writer.close();
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void loadData() {
-		try {
-			if(file.exists()) {
-				Scanner reader = new Scanner(new FileReader(file));
-				
-				ArrayList<String> dataList = new ArrayList<String>();
-				while(reader.hasNextLine()) {
-					dataList.add(reader.nextLine());
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 }

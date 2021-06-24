@@ -27,11 +27,13 @@ public class BallsStorePanel extends JPanel {
 		buyBalls = new JButton[15];
 		ballsBought = new ArrayList<Integer>();
 		
+		ballsBought.add(1);
+		
 		int x = 5;
 		int y = 35;
 		int currentColCounter = 0;
 		for(int i = 0; i < buyBalls.length; i++) {
-			buyBalls[i] = new JButton("50");
+			buyBalls[i] = new JButton();
 			customizeButton(buyBalls[i], true, Color.BLACK, Color.WHITE, null);
 			add(buyBalls[i]);
 			buyBalls[i].setBounds(x, y, 40, 20);
