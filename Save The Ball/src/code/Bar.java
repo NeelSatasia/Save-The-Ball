@@ -11,12 +11,12 @@ public class Bar extends Rectangle {
 	int barHorizontalVelocity;
 	int barType;
 	
-	public Bar(int x, int y, Color color) {
+	public Bar(int x, int y) {
 		this.x = x;
 		this.y = y;
 		this.width = 40;
 		this.height = 5;
-		this.barColor = color;
+		this.barColor = Color.BLACK;
 		this.barHorizontalVelocity = 0;
 		this.barType = 1;
 	}

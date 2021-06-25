@@ -68,6 +68,8 @@ public class GameFrame extends JFrame {
 		playGamePanel = new PlayGamePanel(this.getWidth(), this.getHeight());
 		storePanel = new StorePanel();
 		
+		loadData();
+		
 		add(startingPanel);
 		
 		playPagePanel.setLayout(new GridBagLayout());
@@ -124,12 +126,12 @@ public class GameFrame extends JFrame {
 				remove(startingPanel);
 				add(playPagePanel);
 				
-				startingPanel.classicButton.setText("Classic - " + playGamePanel.classicModeHighScore);
+				startingPanel.classicButton.setText("Classic - " + playGamePanel.classicHighScore);
 				startingPanel.duoBallsButton.setText("Duo Balls - " + playGamePanel.duoBallsHighScore);
 				startingPanel.ballRainButton.setText("Ball Rain - " + playGamePanel.ballRainHighScore);
-				startingPanel.barUpAndDownButton.setText("Bar Up & Down - " + playGamePanel.barUpAndDownHighScore);
-				startingPanel.inverseMovementButton.setText("Inverse Movement - " + playGamePanel.inverseMovementModeHighScore);
-				startingPanel.invisibleBarButton.setText("Invisible Bar - " + playGamePanel.invisibleBarModeHighScore);
+				startingPanel.barUpAndDownButton.setText("Bar Up & Down - " + playGamePanel.duoBarsHighScore);
+				startingPanel.inverseMovementButton.setText("Inverse Movement - " + playGamePanel.inverseMovementHighScore);
+				startingPanel.invisibleBarButton.setText("Invisible Bar - " + playGamePanel.invisibleBarHighScore);
 				
 				repaint();
 				revalidate();
@@ -191,7 +193,7 @@ public class GameFrame extends JFrame {
 				remove(playPagePanel);
 				add(mainPlayPanel);
 				
-				playGamePanel.barUpAndDownMode = true;
+				playGamePanel.duoBarsMode = true;
 				playGamePanel.isInPlayGamePanel = true;
 				
 				playGamePanel.startGame();
@@ -246,6 +248,110 @@ public class GameFrame extends JFrame {
 				remove(startingPanel);
 				add(storePanel);
 				
+				for(int i = 0; i < storePanel.ballsStorePanel.buyBalls.length; i++) {
+					if(storePanel.ballsStorePanel.ballsBought.contains(i + 1) || (storePanel.ballsStorePanel.ballsBought.contains(i + 1) == false && playGamePanel.totalCoins >= Integer.parseInt(storePanel.ballsStorePanel.buyBalls[i].getText()))) {
+						storePanel.ballsStorePanel.buyBalls[i].setEnabled(true);
+						storePanel.ballsStorePanel.buyBalls[i].setBackground(Color.BLACK);
+						storePanel.ballsStorePanel.buyBalls[i].setForeground(Color.WHITE);
+					} else {
+						storePanel.ballsStorePanel.buyBalls[i].setEnabled(false);
+						storePanel.ballsStorePanel.buyBalls[i].setBackground(new Color(204, 204, 204));
+					}
+					
+					if(storePanel.ballsStorePanel.ballsBought.contains(i + 1)) {
+						if(i + 1 == playGamePanel.ball.ballType) {
+							storePanel.ballsStorePanel.buyBalls[i].setText("Using");
+							storePanel.ballsStorePanel.buyBalls[i].setEnabled(false);
+							storePanel.ballsStorePanel.buyBalls[i].setBackground(Color.GREEN);
+						} else {
+							storePanel.ballsStorePanel.buyBalls[i].setText("Use");
+						}
+					}
+					
+					int i2 = i;
+					storePanel.ballsStorePanel.buyBalls[i].addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							if(storePanel.ballsStorePanel.ballsBought.contains(i2 + 1) == false) {
+								playGamePanel.totalCoins -= Integer.parseInt(storePanel.ballsStorePanel.buyBalls[i2].getText());
+								storePanel.ballsStorePanel.ballsBought.add(i2 + 1);
+								storePanel.ballsStorePanel.buyBalls[i2].setText("Use");
+								
+								for(int j = 0; j < storePanel.ballsStorePanel.buyBalls.length; j++) {
+									if(storePanel.ballsStorePanel.ballsBought.contains(j + 1) == false && playGamePanel.totalCoins < Integer.parseInt(storePanel.ballsStorePanel.buyBalls[j].getText())) {
+										storePanel.ballsStorePanel.buyBalls[j].setEnabled(false);
+										storePanel.ballsStorePanel.buyBalls[j].setBackground(new Color(204, 204, 204));
+									}
+								}
+							} else {
+								storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setEnabled(true);
+								storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setBackground(Color.BLACK);
+								storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setForeground(Color.WHITE);
+								storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setText("Use");
+								playGamePanel.ball.ballType = i2 + 1;
+								playGamePanel.ball2.ballType = i2 + 1;
+								playGamePanel.ball.changeBallType(playGamePanel.ball.ballType);
+								playGamePanel.ball2.changeBallType(playGamePanel.ball2.ballType);
+								storePanel.ballsStorePanel.buyBalls[i2].setEnabled(false);
+								storePanel.ballsStorePanel.buyBalls[i2].setBackground(Color.GREEN);
+								storePanel.ballsStorePanel.buyBalls[i2].setText("Using");
+							}
+							
+							saveData();
+						}
+					});
+				}
+				
+				for(int i = 0; i < storePanel.barsStorePanel.buyBars.length; i++) {
+					if(storePanel.barsStorePanel.barsBought.contains(i + 1) || (storePanel.barsStorePanel.barsBought.contains(i + 1) == false && playGamePanel.totalCoins >= Integer.parseInt(storePanel.barsStorePanel.buyBars[i].getText()))) {
+						storePanel.barsStorePanel.buyBars[i].setEnabled(true);
+						storePanel.barsStorePanel.buyBars[i].setBackground(Color.BLACK);
+						storePanel.barsStorePanel.buyBars[i].setForeground(Color.WHITE);
+					} else {
+						storePanel.barsStorePanel.buyBars[i].setEnabled(false);
+						storePanel.barsStorePanel.buyBars[i].setBackground(new Color(204, 204, 204));
+					}
+					
+					if(storePanel.barsStorePanel.barsBought.contains(i + 1)) {
+						if(i + 1 == playGamePanel.bar.barType) {
+							storePanel.barsStorePanel.buyBars[i].setText("Using");
+							storePanel.barsStorePanel.buyBars[i].setEnabled(false);
+							storePanel.barsStorePanel.buyBars[i].setBackground(Color.GREEN);
+						} else {
+							storePanel.barsStorePanel.buyBars[i].setText("Use");
+						}
+					}
+					
+					int i2 = i;
+					storePanel.barsStorePanel.buyBars[i].addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							if(storePanel.barsStorePanel.barsBought.contains(i2 + 1) == false) {
+								playGamePanel.totalCoins -= Integer.parseInt(storePanel.barsStorePanel.buyBars[i2].getText());
+								storePanel.barsStorePanel.barsBought.add(i2 + 1);
+								storePanel.barsStorePanel.buyBars[i2].setText("Use");
+								
+								for(int j = 0; j < storePanel.barsStorePanel.buyBars.length; j++) {
+									if(storePanel.barsStorePanel.barsBought.contains(j + 1) == false && playGamePanel.totalCoins < Integer.parseInt(storePanel.barsStorePanel.buyBars[j].getText())) {
+										storePanel.barsStorePanel.buyBars[j].setEnabled(false);
+										storePanel.barsStorePanel.buyBars[j].setBackground(new Color(204, 204, 204));
+									}
+								}
+							} else {
+								storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setEnabled(true);
+								storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setBackground(Color.BLACK);
+								storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setForeground(Color.WHITE);
+								storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setText("Use");
+								playGamePanel.bar.barType = i2 + 1;
+								playGamePanel.bar.changeBarType(playGamePanel.bar.barType);
+								storePanel.barsStorePanel.buyBars[i2].setEnabled(false);
+								storePanel.barsStorePanel.buyBars[i2].setBackground(Color.GREEN);
+								storePanel.barsStorePanel.buyBars[i2].setText("Using");
+							}
+							
+							saveData();
+						}
+					});
+				}
+				
 				repaint();
 				revalidate();
 			}
@@ -261,90 +367,6 @@ public class GameFrame extends JFrame {
 			}
 			
 		});
-		
-		loadData();
-		
-		for(int i = 0; i < storePanel.ballsStorePanel.buyBalls.length; i++) {
-			if(storePanel.ballsStorePanel.ballsBought.contains(i + 1) || (storePanel.ballsStorePanel.ballsBought.contains(i + 1) == false && playGamePanel.totalCoins >= Integer.parseInt(storePanel.ballsStorePanel.buyBalls[i].getText()))) {
-				storePanel.ballsStorePanel.buyBalls[i].setEnabled(true);
-				storePanel.ballsStorePanel.buyBalls[i].setBackground(Color.BLACK);
-				storePanel.ballsStorePanel.buyBalls[i].setForeground(Color.WHITE);
-			} else if(i + 1 != playGamePanel.ball.ballType) {
-				storePanel.ballsStorePanel.buyBalls[i].setEnabled(false);
-				storePanel.ballsStorePanel.buyBalls[i].setBackground(new Color(204, 204, 204));
-			}
-			
-			int i2 = i;
-			storePanel.ballsStorePanel.buyBalls[i].addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if(storePanel.ballsStorePanel.ballsBought.contains(i2 + 1) == false) {
-						playGamePanel.totalCoins -= Integer.parseInt(storePanel.ballsStorePanel.buyBalls[i2].getText());
-						storePanel.ballsStorePanel.ballsBought.add(i2 + 1);
-						storePanel.ballsStorePanel.buyBalls[i2].setText("Use");
-						
-						for(int j = 0; j < storePanel.ballsStorePanel.buyBalls.length; j++) {
-							if(storePanel.ballsStorePanel.ballsBought.contains(j + 1) == false && playGamePanel.totalCoins < Integer.parseInt(storePanel.ballsStorePanel.buyBalls[j].getText())) {
-								storePanel.ballsStorePanel.buyBalls[j].setEnabled(false);
-								storePanel.ballsStorePanel.buyBalls[j].setBackground(new Color(204, 204, 204));
-							}
-						}
-					} else {
-						storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setEnabled(true);
-						storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setBackground(Color.BLACK);
-						storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setForeground(Color.WHITE);
-						storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setText("Use");
-						playGamePanel.ball.ballType = i2 + 1;
-						playGamePanel.ball2.ballType = i2 + 1;
-						playGamePanel.ball.changeBallType(playGamePanel.ball.ballType);
-						playGamePanel.ball2.changeBallType(playGamePanel.ball2.ballType);
-						storePanel.ballsStorePanel.buyBalls[i2].setEnabled(false);
-						storePanel.ballsStorePanel.buyBalls[i2].setBackground(Color.GREEN);
-						storePanel.ballsStorePanel.buyBalls[i2].setText("Using");
-					}
-				}
-			});
-		}
-		
-		for(int i = 0; i < storePanel.barsStorePanel.buyBars.length; i++) {
-			if(storePanel.barsStorePanel.barsBought.contains(i + 1) || (storePanel.barsStorePanel.barsBought.contains(i + 1) == false && playGamePanel.totalCoins >= Integer.parseInt(storePanel.barsStorePanel.buyBars[i].getText()))) {
-				storePanel.barsStorePanel.buyBars[i].setEnabled(true);
-				storePanel.barsStorePanel.buyBars[i].setBackground(Color.BLACK);
-				storePanel.barsStorePanel.buyBars[i].setForeground(Color.WHITE);
-			} else if(i + 1 != playGamePanel.bar.barType) {
-				storePanel.barsStorePanel.buyBars[i].setEnabled(false);
-				storePanel.barsStorePanel.buyBars[i].setBackground(new Color(204, 204, 204));
-			}
-			
-			int i2 = i;
-			storePanel.barsStorePanel.buyBars[i].addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if(storePanel.barsStorePanel.barsBought.contains(i2 + 1) == false) {
-						playGamePanel.totalCoins -= Integer.parseInt(storePanel.barsStorePanel.buyBars[i2].getText());
-						storePanel.barsStorePanel.barsBought.add(i2 + 1);
-						storePanel.barsStorePanel.buyBars[i2].setText("Use");
-						
-						for(int j = 0; j < storePanel.barsStorePanel.buyBars.length; j++) {
-							if(storePanel.barsStorePanel.barsBought.contains(j + 1) == false && playGamePanel.totalCoins < Integer.parseInt(storePanel.barsStorePanel.buyBars[j].getText())) {
-								storePanel.barsStorePanel.buyBars[j].setEnabled(false);
-								storePanel.barsStorePanel.buyBars[j].setBackground(new Color(204, 204, 204));
-							}
-						}
-					} else {
-						storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setEnabled(true);
-						storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setBackground(Color.BLACK);
-						storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setForeground(Color.WHITE);
-						storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setText("Use");
-						playGamePanel.bar.barType = i2 + 1;
-						playGamePanel.bar.changeBarType(playGamePanel.bar.barType);
-						storePanel.barsStorePanel.buyBars[i2].setEnabled(false);
-						storePanel.barsStorePanel.buyBars[i2].setBackground(Color.GREEN);
-						storePanel.barsStorePanel.buyBars[i2].setText("Using");
-					}
-					
-					saveData();
-				}
-			});
-		}
 		
 		repaint();
 		invalidate();
@@ -430,6 +452,16 @@ public class GameFrame extends JFrame {
 							} else {
 								playGamePanel.bar.setLocation(pointer.x - (playGamePanel.bar.width/2), playGamePanel.bar.y);
 							}
+							
+							if(playGamePanel.duoBarsMode) {
+								if(pointer.x - (playGamePanel.bar2.width/2) <= 0) {
+									playGamePanel.bar2.setLocation(0, playGamePanel.bar2.y);
+								} else if(pointer.x + (playGamePanel.bar2.width/2) >= playGamePanel.getWidth()) {
+									playGamePanel.bar2.setLocation(playGamePanel.getWidth() - playGamePanel.bar2.width, playGamePanel.bar2.y);
+								} else {
+									playGamePanel.bar2.setLocation(pointer.x - (playGamePanel.bar2.width/2), playGamePanel.bar2.y);
+								}
+							}
 						}
 					}
 				}
@@ -462,7 +494,7 @@ public class GameFrame extends JFrame {
 				playGamePanel.classicMode = false;
 				playGamePanel.duoBallsMode = false;
 				playGamePanel.ballRainMode = false;
-				playGamePanel.barUpAndDownMode = false;
+				playGamePanel.duoBarsMode = false;
 				playGamePanel.inverseMovementMode = false;
 				playGamePanel.invisibleBarMode = false;
 				
@@ -488,12 +520,12 @@ public class GameFrame extends JFrame {
 			
 			writer.append(playGamePanel.totalCoins + "\n");
 			
-			writer.append(playGamePanel.classicModeHighScore + "\n");
+			writer.append(playGamePanel.classicHighScore + "\n");
 			writer.append(playGamePanel.duoBallsHighScore + "\n");
 			writer.append(playGamePanel.ballRainHighScore + "\n");
-			writer.append(playGamePanel.barUpAndDownHighScore + "\n");
-			writer.append(playGamePanel.inverseMovementModeHighScore + "\n");
-			writer.append(playGamePanel.invisibleBarModeHighScore + "\n");
+			writer.append(playGamePanel.duoBarsHighScore + "\n");
+			writer.append(playGamePanel.inverseMovementHighScore + "\n");
+			writer.append(playGamePanel.invisibleBarHighScore + "\n");
 			
 			for(int i = 0; i < storePanel.ballsStorePanel.ballsBought.size(); i++) {
 				if(i + 1 < storePanel.ballsStorePanel.ballsBought.size()) {
@@ -528,18 +560,17 @@ public class GameFrame extends JFrame {
 				}
 				
 				playGamePanel.ball.ballType = Integer.parseInt(dataList.get(0));
-				playGamePanel.ball2.ballType = Integer.parseInt(dataList.get(1));
 				
 				playGamePanel.bar.barType = Integer.parseInt(dataList.get(2));
 				
 				playGamePanel.totalCoins = Integer.parseInt(dataList.get(3));
 				
-				playGamePanel.classicModeHighScore = Integer.parseInt(dataList.get(4));
+				playGamePanel.classicHighScore = Integer.parseInt(dataList.get(4));
 				playGamePanel.duoBallsHighScore = Integer.parseInt(dataList.get(5));
 				playGamePanel.ballRainHighScore = Integer.parseInt(dataList.get(6));
-				playGamePanel.barUpAndDownHighScore = Integer.parseInt(dataList.get(7));
-				playGamePanel.inverseMovementModeHighScore = Integer.parseInt(dataList.get(8));
-				playGamePanel.invisibleBarModeHighScore = Integer.parseInt(dataList.get(9));
+				playGamePanel.duoBarsHighScore = Integer.parseInt(dataList.get(7));
+				playGamePanel.inverseMovementHighScore = Integer.parseInt(dataList.get(8));
+				playGamePanel.invisibleBarHighScore = Integer.parseInt(dataList.get(9));
 				
 				String[] ballsList = dataList.get(10).split(" ");
 				

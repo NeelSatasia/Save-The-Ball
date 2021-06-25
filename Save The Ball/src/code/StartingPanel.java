@@ -24,7 +24,7 @@ public class StartingPanel extends JPanel {
 	JButton classicButton = new JButton("Classic");
 	JButton duoBallsButton = new JButton("Duo Balls");
 	JButton ballRainButton = new JButton("Ball Rain");
-	JButton barUpAndDownButton = new JButton("Bar Up & Down");
+	JButton barUpAndDownButton = new JButton("Duo Bars");
 	JButton inverseMovementButton = new JButton("Inverse Movement");
 	JButton invisibleBarButton = new JButton("Invisible Bar");
 	
