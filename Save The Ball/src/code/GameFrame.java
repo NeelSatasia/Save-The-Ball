@@ -106,19 +106,17 @@ public class GameFrame extends JFrame {
 		mainPlayPanel.setLayout(new GridBagLayout());
 		mainPlayPanel.setBackground(Color.WHITE);
 		
-		playPagePanelgbc.anchor = GridBagConstraints.CENTER;
-		playPagePanelgbc.fill = GridBagConstraints.CENTER;
+		mainPlayPanelgbc.anchor = GridBagConstraints.CENTER;
+		mainPlayPanelgbc.fill = GridBagConstraints.CENTER;
 		
 		mainPlayPanel.add(playGamePanel.backButton, mainPlayPanelgbc);
 		
 		mainPlayPanelgbc.insets = new Insets(5, 0, 5, 0);
 		mainPlayPanelgbc.gridy = 1;
-		
 		mainPlayPanel.add(playGamePanel.scoreLabel, mainPlayPanelgbc);
 		
 		mainPlayPanelgbc.insets = new Insets(0, 0, 0, 0);
 		mainPlayPanelgbc.gridy = 2;
-		
 		mainPlayPanel.add(playGamePanel, mainPlayPanelgbc);
 		
 		startingPanel.playButton.addActionListener(new ActionListener() {
@@ -247,6 +245,9 @@ public class GameFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				remove(startingPanel);
 				add(storePanel);
+				
+				storePanel.totalCoins = playGamePanel.totalCoins;
+				storePanel.totalCoinsLabel.setText("Coins: " + storePanel.totalCoins);
 				
 				for(int i = 0; i < storePanel.ballsStorePanel.buyBalls.length; i++) {
 					if(storePanel.ballsStorePanel.ballsBought.contains(i + 1)) {

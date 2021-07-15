@@ -40,7 +40,10 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	int screenMaxHeight;
 	
 	int score = 0;
-	JLabel scoreLabel = new JLabel("Score: " + score, SwingConstants.CENTER);
+	JLabel scoreLabel = new JLabel("", SwingConstants.CENTER);
+	
+	int totalCoins;
+	JLabel totalCoinsLabel = new JLabel("Coins: " + totalCoins);
 	
 	boolean classicMode = false;
 	int classicHighScore = 0;
@@ -59,9 +62,6 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	
 	boolean invisibleBarMode = false;
 	int invisibleBarHighScore = 0;
-	
-	int totalCoins;
-	JLabel totalCoinsLabel = new JLabel("Coins: " + totalCoins);
 	
 	JLabel gameOverLabel = new JLabel("Game Over!", SwingConstants.CENTER);
 	
@@ -246,12 +246,8 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 						ball.setLocation(ball.x, bar.y - ball.height);
 						ball.ballVerticalVelocity *= -1;
 						
-						/*if(barUpAndDownMode) {
-							bar.setLocation(bar.x, 30);
-						}*/
-						
 						score++;
-						scoreLabel.setText("Score: " + score);
+						scoreLabel.setText("Score: " + score + "  Coins: " + totalCoins);
 						
 						if(score == 30) {
 							ball.ballVerticalVelocity = 6;
@@ -304,7 +300,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 						ball2.ballVerticalVelocity *= -1;
 						
 						score++;
-						scoreLabel.setText("Score: " + score);
+						scoreLabel.setText("Score: " + score + "  Coins: " + totalCoins);
 						
 						if(score == 30) {
 							ball2.ballVerticalVelocity = 6;
@@ -353,7 +349,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 							balls.remove(i);
 							
 							score++;
-							scoreLabel.setText("Score: " + score);
+							scoreLabel.setText("Score: " + score + "  Coins: " + totalCoins);
 						}
 					} else if(balls.get(i).y > screenMaxHeight - 10) {
 						if(ballRainMode) {
@@ -397,7 +393,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		isPlayingGame = true;
 		
 		score = 0;
-		scoreLabel.setText("Score: " + score);
+		scoreLabel.setText("Score: " + score + "  Coins: " + totalCoins);
 		scoreLabel.setForeground(Color.BLACK);
 		
 		bar.setLocation((screenMaxWidth/2) - (bar.width/2), screenMaxHeight - 90);

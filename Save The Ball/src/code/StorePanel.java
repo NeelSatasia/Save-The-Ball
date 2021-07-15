@@ -1,20 +1,18 @@
 package code;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 public class StorePanel extends JScrollPane {
@@ -31,6 +29,9 @@ public class StorePanel extends JScrollPane {
 	BarsStorePanel barsStorePanel;
 	
 	JButton backButton = new JButton("Go Back");
+	
+	int totalCoins;
+	JLabel totalCoinsLabel = new JLabel("Coins: " + totalCoins, SwingConstants.CENTER);
 	
 	public StorePanel() {
 		storePanel = new JPanel();
@@ -54,11 +55,17 @@ public class StorePanel extends JScrollPane {
 		customizeButton(backButton, true, Color.RED, Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 		backButton.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
-		gbc.insets = new Insets(0, 0, 0, 0);
-		gbc.gridy = 1;
+		totalCoinsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+		totalCoinsLabel.setForeground(Color.BLACK);
 		
+		gbc.insets = new Insets(0, 0, 10, 0);
+		gbc.gridy = 1;
+		storePanel.add(totalCoinsLabel, gbc);
+		
+		gbc.insets = new Insets(0, 0, 0, 0);
+		gbc.gridy = 2;
 		storePanel.add(ballsLabel, gbc);
-		ballsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+		ballsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
 		ballsStoreSp = new JScrollPane();
 		ballsStorePanel = new BallsStorePanel();
@@ -71,7 +78,7 @@ public class StorePanel extends JScrollPane {
 		ballsStoreSp.setBorder(null);
 		
 		gbc.insets = new Insets(0, 0, 20, 0);
-		gbc.gridy = 2;
+		gbc.gridy = 3;
 		
 		storePanel.add(ballsStoreSp, gbc);
 		
@@ -86,13 +93,13 @@ public class StorePanel extends JScrollPane {
 		barsStoreSp.setBorder(null);
 		
 		gbc.insets = new Insets(0, 0, 0, 0);
-		gbc.gridy = 3;
+		gbc.gridy = 4;
 		
 		storePanel.add(barsLabel, gbc);
-		barsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+		barsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
 		gbc.insets = new Insets(0, 0, 10, 0);
-		gbc.gridy = 4;
+		gbc.gridy = 5;
 		
 		storePanel.add(barsStoreSp, gbc);
 	}
