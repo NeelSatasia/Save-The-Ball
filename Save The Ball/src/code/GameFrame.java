@@ -46,7 +46,7 @@ public class GameFrame extends JFrame {
 	
 	Point pointer;
 	
-	File file = new File("DaBall.txt");
+	File file = new File("PongBall.txt");
 	
 	public GameFrame() {
 		new JFrame();
@@ -56,7 +56,7 @@ public class GameFrame extends JFrame {
 		//setUndecorated(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
-		setTitle("DaBall");
+		setTitle("Pong Ball");
 		
 		UIManager.put("Button.disabledText", Color.BLACK);
 		
@@ -518,7 +518,7 @@ public class GameFrame extends JFrame {
 	
 	public void saveData() {
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter("DaBall.txt"));
+			BufferedWriter writer = new BufferedWriter(new FileWriter("PongBall.txt"));
 			
 			writer.write(playGamePanel.ball.ballType + "\n");
 			

@@ -17,7 +17,7 @@ public class StartingPanel extends JPanel {
 	
 	GridBagConstraints gbc;
 	
-	JLabel gameTitleLabel = new JLabel("Da Ball", SwingConstants.CENTER);
+	JLabel gameTitleLabel = new JLabel("Pong Ball", SwingConstants.CENTER);
 	
 	JButton playButton = new JButton("Play");
 	JLabel modesLabel = new JLabel("Modes", SwingConstants.CENTER);
@@ -29,7 +29,6 @@ public class StartingPanel extends JPanel {
 	JButton invisibleBarButton = new JButton("Invisible Bar");
 	
 	JButton storeButton = new JButton("Store");
-	JButton settingsButton = new JButton("Settings");
 	JButton backButton = new JButton("Go Back");
 	
 	public StartingPanel() {
@@ -40,7 +39,7 @@ public class StartingPanel extends JPanel {
 		
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.fill = GridBagConstraints.CENTER;
-		gbc.insets = new Insets(0, 0, 50, 0);
+		gbc.insets = new Insets(0, 0, 30, 0);
 		
 		add(gameTitleLabel, gbc);
 		gameTitleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 35));
@@ -60,12 +59,6 @@ public class StartingPanel extends JPanel {
 		add(storeButton, gbc);
 		customizeButton(storeButton, true, new Color(65, 105, 225), Color.WHITE, BorderFactory.createEmptyBorder(2, 10, 2, 10));
 		storeButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		
-		gbc.gridy = 3;
-		
-		add(settingsButton, gbc);
-		customizeButton(settingsButton, true, new Color(65, 105, 225), Color.WHITE, BorderFactory.createEmptyBorder(2, 10, 2, 10));
-		settingsButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
 		modesLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 		

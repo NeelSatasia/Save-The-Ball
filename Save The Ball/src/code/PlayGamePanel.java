@@ -6,13 +6,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -39,11 +33,11 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	int screenMaxWidth;
 	int screenMaxHeight;
 	
-	int score = 0;
+	int score;
 	JLabel scoreLabel = new JLabel("", SwingConstants.CENTER);
 	
 	int totalCoins;
-	JLabel totalCoinsLabel = new JLabel("Coins: " + totalCoins);
+	JLabel totalCoinsLabel = new JLabel("Coins: " + totalCoins, SwingConstants.CENTER);
 	
 	boolean classicMode = false;
 	int classicHighScore = 0;
@@ -105,7 +99,6 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		
 		balls = new ArrayList<Ball>();
 		
-		totalCoins = 1000;
 		totalCoinsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		totalCoinsLabel.setForeground(Color.BLACK);
 		
@@ -238,7 +231,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(isPlayingGame && gamePaused == false) {
 			
-			//classic mode or duoBallsMode or barUpAndDownMode or inverseMovementMode
+			//classic mode or duoBallsMode or duoBarsMode or inverseMovementMode
 			
 			if(classicMode || duoBallsMode || duoBarsMode || inverseMovementMode || invisibleBarMode) {
 				if(bar.y == screenMaxHeight - 90 && ball.y + ball.height <= bar.y && ball.y + ball.height + ball.ballVerticalVelocity >= bar.y) {
@@ -247,6 +240,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 						ball.ballVerticalVelocity *= -1;
 						
 						score++;
+						totalCoins++;
 						scoreLabel.setText("Score: " + score + "  Coins: " + totalCoins);
 						
 						if(score == 30) {
@@ -268,10 +262,11 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 					ball.ballHorizontalVelocity = (int)(Math.random() * 11) - 5;
 					ball.ballVerticalVelocity *= -1;
 					
-					bar.setLocation(bar.x, screenMaxHeight - 90);
+					//bar.setLocation(bar.x, screenMaxHeight - 90);
 					
 					score++;
-					scoreLabel.setText("Score: " + score);
+					totalCoins++;
+					scoreLabel.setText("Score: " + score + "  Coins: " + totalCoins);
 				} else if((classicMode || duoBallsMode || inverseMovementMode || invisibleBarMode) && ball.y + ball.ballVerticalVelocity <= topBorderHeight) {
 					ball.ballHorizontalVelocity = (int)(Math.random() * 11) - 5;
 					ball.ballVerticalVelocity *= -1;
@@ -300,6 +295,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 						ball2.ballVerticalVelocity *= -1;
 						
 						score++;
+						totalCoins++;
 						scoreLabel.setText("Score: " + score + "  Coins: " + totalCoins);
 						
 						if(score == 30) {
@@ -349,6 +345,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 							balls.remove(i);
 							
 							score++;
+							totalCoins++;
 							scoreLabel.setText("Score: " + score + "  Coins: " + totalCoins);
 						}
 					} else if(balls.get(i).y > screenMaxHeight - 10) {
@@ -498,7 +495,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	}
 	
 	public void newHighScore(String mode) {
-		scoreLabel.setText("New High Score: " + score);
+		scoreLabel.setText("Score: " + score + "  Coins: " + totalCoins);
 		
 		switch(mode) {
 			case "Classic":
