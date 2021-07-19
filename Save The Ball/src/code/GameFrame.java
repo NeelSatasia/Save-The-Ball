@@ -51,7 +51,7 @@ public class GameFrame extends JFrame {
 	public GameFrame() {
 		new JFrame();
 		setSize(300, 450);
-		//setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
 		setLocationRelativeTo(null);
