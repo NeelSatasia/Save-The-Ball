@@ -36,26 +36,26 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	int score;
 	JLabel scoreLabel = new JLabel("", SwingConstants.CENTER);
 	
-	int totalCoins = 1000;
+	int totalCoins;
 	JLabel totalCoinsLabel = new JLabel("Coins: " + totalCoins, SwingConstants.CENTER);
 	
 	boolean classicMode = false;
-	int classicHighScore = 0;
+	int classicHighScore;
 	
 	boolean duoBallsMode = false;
-	int duoBallsHighScore = 0;
+	int duoBallsHighScore;
 	
 	boolean ballRainMode = false;
-	int ballRainHighScore = 0;
+	int ballRainHighScore;
 	
 	boolean duoBarsMode = false;
-	int duoBarsHighScore = 0;
+	int duoBarsHighScore;
 	
 	boolean inverseMovementMode = false;
-	int inverseMovementHighScore = 0;
+	int inverseMovementHighScore;
 	
 	boolean invisibleBarMode = false;
-	int invisibleBarHighScore = 0;
+	int invisibleBarHighScore;
 	
 	JLabel gameOverLabel = new JLabel("Game Over!", SwingConstants.CENTER);
 	
@@ -68,7 +68,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	JButton backButton = new JButton("Go Back");
 	JButton tryAgainButton = new JButton("Try Again");
 	
-	int topBorderHeight = 0;
+	int topBorderHeight;
 	
 	public PlayGamePanel(int w, int h) {
 		UIManager.put("Button.disabledText", Color.BLACK);
