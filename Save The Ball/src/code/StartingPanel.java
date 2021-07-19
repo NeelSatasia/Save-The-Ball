@@ -24,11 +24,12 @@ public class StartingPanel extends JPanel {
 	JButton classicButton = new JButton("Classic");
 	JButton duoBallsButton = new JButton("Duo Balls");
 	JButton ballRainButton = new JButton("Ball Rain");
-	JButton barUpAndDownButton = new JButton("Duo Bars");
+	JButton duoBarsButton = new JButton("Duo Bars");
 	JButton inverseMovementButton = new JButton("Inverse Movement");
 	JButton invisibleBarButton = new JButton("Invisible Bar");
 	
 	JButton storeButton = new JButton("Store");
+	JButton exitGameButton = new JButton("Exit");
 	JButton backButton = new JButton("Go Back");
 	
 	public StartingPanel() {
@@ -60,6 +61,12 @@ public class StartingPanel extends JPanel {
 		customizeButton(storeButton, true, new Color(65, 105, 225), Color.WHITE, BorderFactory.createEmptyBorder(2, 10, 2, 10));
 		storeButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		
+		gbc.gridy = 3;
+		
+		add(exitGameButton, gbc);
+		customizeButton(exitGameButton, true, Color.RED, Color.WHITE, BorderFactory.createEmptyBorder(2, 10, 2, 10));
+		exitGameButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		
 		modesLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 		
 		customizeButton(classicButton, true, new Color(34, 139, 34), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
@@ -71,8 +78,8 @@ public class StartingPanel extends JPanel {
 		customizeButton(ballRainButton, true, new Color(0, 139, 139), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 		ballRainButton.setFont(classicButton.getFont());
 		
-		customizeButton(barUpAndDownButton, true, new Color(220, 20, 60), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
-		barUpAndDownButton.setFont(classicButton.getFont());
+		customizeButton(duoBarsButton, true, new Color(220, 20, 60), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
+		duoBarsButton.setFont(classicButton.getFont());
 		
 		customizeButton(inverseMovementButton, true, new Color(47, 79, 79), Color.WHITE, BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 		inverseMovementButton.setFont(classicButton.getFont());

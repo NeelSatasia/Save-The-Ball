@@ -36,7 +36,7 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 	int score;
 	JLabel scoreLabel = new JLabel("", SwingConstants.CENTER);
 	
-	int totalCoins;
+	int totalCoins = 1000;
 	JLabel totalCoinsLabel = new JLabel("Coins: " + totalCoins, SwingConstants.CENTER);
 	
 	boolean classicMode = false;
@@ -459,22 +459,16 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 		
 		if(classicMode && score > classicHighScore) {
 			classicHighScore = score;
-			newHighScore("Classic");
 			} else if(duoBallsMode && score > duoBallsHighScore) {
 			duoBallsHighScore = score;
-			newHighScore("Duo Balls");
 		} else if(ballRainMode && score > ballRainHighScore) {
 			ballRainHighScore = score;
-			newHighScore("Ball Rain");
 		} else if(duoBarsMode && score > duoBarsHighScore) {
 			duoBarsHighScore = score;
-			newHighScore("Duo Bars");
 		} else if(inverseMovementMode && score > inverseMovementHighScore) {
 			inverseMovementHighScore = score;
-			newHighScore("Inverse Movement");
 		} else if(invisibleBarMode && score > invisibleBarHighScore) {
 			invisibleBarHighScore = score;
-			newHighScore("Invisible Bar");
 		}
 	}
 
@@ -491,33 +485,6 @@ public class PlayGamePanel extends JPanel implements ActionListener {
 				timer.start();								//game unpaused
 				remove(resumeLabel);
 			}
-		}
-	}
-	
-	public void newHighScore(String mode) {
-		scoreLabel.setText("Score: " + score + "  Coins: " + totalCoins);
-		
-		switch(mode) {
-			case "Classic":
-				scoreLabel.setForeground(new Color(34, 139, 34));
-				break;
-			case "Duo Balls":
-				scoreLabel.setForeground(new Color(65, 105, 225));
-				break;
-			case "Ball Rain":
-				scoreLabel.setForeground(new Color(0, 139, 139));
-				break;
-			case "Color Ball Rain":
-				scoreLabel.setForeground(new Color(184, 134, 11));
-				break;
-			case "Duo Bars":
-				scoreLabel.setForeground(new Color(220, 20, 60));
-				break;
-			case "Inverse Movement":
-				scoreLabel.setForeground(new Color(47, 79, 79));
-				break;
-			case "Invisible Bar":
-				scoreLabel.setForeground(new Color(199, 21, 133));
 		}
 	}
 }

@@ -53,7 +53,7 @@ public class GameFrame extends JFrame {
 		setSize(300, 450);
 		//setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setUndecorated(true);
+		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setTitle("Pong Ball");
@@ -95,7 +95,7 @@ public class GameFrame extends JFrame {
 		playPagePanel.add(startingPanel.ballRainButton, playPagePanelgbc);
 		
 		playPagePanelgbc.gridy = 5;
-		playPagePanel.add(startingPanel.barUpAndDownButton, playPagePanelgbc);
+		playPagePanel.add(startingPanel.duoBarsButton, playPagePanelgbc);
 		
 		playPagePanelgbc.gridy = 6;
 		playPagePanel.add(startingPanel.inverseMovementButton, playPagePanelgbc);
@@ -127,7 +127,7 @@ public class GameFrame extends JFrame {
 				startingPanel.classicButton.setText("Classic - " + playGamePanel.classicHighScore);
 				startingPanel.duoBallsButton.setText("Duo Balls - " + playGamePanel.duoBallsHighScore);
 				startingPanel.ballRainButton.setText("Ball Rain - " + playGamePanel.ballRainHighScore);
-				startingPanel.barUpAndDownButton.setText("Bar Up & Down - " + playGamePanel.duoBarsHighScore);
+				startingPanel.duoBarsButton.setText("Duo Bars - " + playGamePanel.duoBarsHighScore);
 				startingPanel.inverseMovementButton.setText("Inverse Movement - " + playGamePanel.inverseMovementHighScore);
 				startingPanel.invisibleBarButton.setText("Invisible Bar - " + playGamePanel.invisibleBarHighScore);
 				
@@ -136,6 +136,8 @@ public class GameFrame extends JFrame {
 			}
 			
 		});
+		
+		startingPanel.exitGameButton.addActionListener(e -> System.exit(0));
 		
 		startingPanel.repaint();
 		startingPanel.revalidate();
@@ -186,7 +188,7 @@ public class GameFrame extends JFrame {
 			}
 		});
 		
-		startingPanel.barUpAndDownButton.addActionListener(new ActionListener() {
+		startingPanel.duoBarsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				remove(playPagePanel);
 				add(mainPlayPanel);
@@ -276,8 +278,9 @@ public class GameFrame extends JFrame {
 						public void actionPerformed(ActionEvent e) {
 							if(storePanel.ballsStorePanel.ballsBought.contains(i2 + 1) == false) {
 								playGamePanel.totalCoins -= Integer.parseInt(storePanel.ballsStorePanel.buyBalls[i2].getText());
+								storePanel.totalCoins = playGamePanel.totalCoins;
+								storePanel.totalCoinsLabel.setText("Coins: " + storePanel.totalCoins);
 								storePanel.ballsStorePanel.ballsBought.add(i2 + 1);
-								storePanel.ballsStorePanel.buyBalls[i2].setText("Use");
 								
 								for(int j = 0; j < storePanel.ballsStorePanel.buyBalls.length; j++) {
 									if(storePanel.ballsStorePanel.ballsBought.contains(j + 1) == false && playGamePanel.totalCoins >= Integer.parseInt(storePanel.ballsStorePanel.buyBalls[j].getText())) {
@@ -286,19 +289,19 @@ public class GameFrame extends JFrame {
 										storePanel.ballsStorePanel.buyBalls[j].setForeground(Color.WHITE);
 									}
 								}
-							} else {
-								storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setEnabled(true);
-								storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setBackground(Color.BLACK);
-								storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setForeground(Color.WHITE);
-								storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setText("Use");
-								playGamePanel.ball.ballType = i2 + 1;
-								playGamePanel.ball2.ballType = i2 + 1;
-								playGamePanel.ball.changeBallType(playGamePanel.ball.ballType);
-								playGamePanel.ball2.changeBallType(playGamePanel.ball2.ballType);
-								storePanel.ballsStorePanel.buyBalls[i2].setEnabled(false);
-								storePanel.ballsStorePanel.buyBalls[i2].setBackground(Color.GREEN);
-								storePanel.ballsStorePanel.buyBalls[i2].setText("Using");
 							}
+							
+							storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setEnabled(true);
+							storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setBackground(Color.BLACK);
+							storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setForeground(Color.WHITE);
+							storePanel.ballsStorePanel.buyBalls[playGamePanel.ball.ballType - 1].setText("Use");
+							playGamePanel.ball.ballType = i2 + 1;
+							playGamePanel.ball2.ballType = i2 + 1;
+							playGamePanel.ball.changeBallType(playGamePanel.ball.ballType);
+							playGamePanel.ball2.changeBallType(playGamePanel.ball2.ballType);
+							storePanel.ballsStorePanel.buyBalls[i2].setEnabled(false);
+							storePanel.ballsStorePanel.buyBalls[i2].setBackground(Color.GREEN);
+							storePanel.ballsStorePanel.buyBalls[i2].setText("Using");
 							
 							saveData();
 						}
@@ -332,8 +335,9 @@ public class GameFrame extends JFrame {
 						public void actionPerformed(ActionEvent e) {
 							if(storePanel.barsStorePanel.barsBought.contains(i2 + 1) == false) {
 								playGamePanel.totalCoins -= Integer.parseInt(storePanel.barsStorePanel.buyBars[i2].getText());
+								storePanel.totalCoins = playGamePanel.totalCoins;
+								storePanel.totalCoinsLabel.setText("Coins: " + storePanel.totalCoins);
 								storePanel.barsStorePanel.barsBought.add(i2 + 1);
-								storePanel.barsStorePanel.buyBars[i2].setText("Use");
 								
 								for(int j = 0; j < storePanel.barsStorePanel.buyBars.length; j++) {
 									if(storePanel.barsStorePanel.barsBought.contains(j + 1) == false && playGamePanel.totalCoins >= Integer.parseInt(storePanel.barsStorePanel.buyBars[j].getText())) {
@@ -342,17 +346,17 @@ public class GameFrame extends JFrame {
 										storePanel.barsStorePanel.buyBars[j].setForeground(Color.WHITE);
 									}
 								}
-							} else {
-								storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setEnabled(true);
-								storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setBackground(Color.BLACK);
-								storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setForeground(Color.WHITE);
-								storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setText("Use");
-								playGamePanel.bar.barType = i2 + 1;
-								playGamePanel.bar.changeBarType(playGamePanel.bar.barType);
-								storePanel.barsStorePanel.buyBars[i2].setEnabled(false);
-								storePanel.barsStorePanel.buyBars[i2].setBackground(Color.GREEN);
-								storePanel.barsStorePanel.buyBars[i2].setText("Using");
 							}
+							
+							storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setEnabled(true);
+							storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setBackground(Color.BLACK);
+							storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setForeground(Color.WHITE);
+							storePanel.barsStorePanel.buyBars[playGamePanel.bar.barType - 1].setText("Use");
+							playGamePanel.bar.barType = i2 + 1;
+							playGamePanel.bar.changeBarType(playGamePanel.bar.barType);
+							storePanel.barsStorePanel.buyBars[i2].setEnabled(false);
+							storePanel.barsStorePanel.buyBars[i2].setBackground(Color.GREEN);
+							storePanel.barsStorePanel.buyBars[i2].setText("Using");
 							
 							saveData();
 						}
@@ -545,9 +549,17 @@ public class GameFrame extends JFrame {
 				if(i + 1 < storePanel.barsStorePanel.barsBought.size()) {
 					writer.append(storePanel.barsStorePanel.barsBought.get(i) + " ");
 				} else {
-					writer.append(storePanel.barsStorePanel.barsBought.get(i) + "");
+					writer.append(storePanel.barsStorePanel.barsBought.get(i) + "\n");
 				}
 			}
+			
+			writer.append(playGamePanel.ball.ballColor.getRed() + "\n");
+			writer.append(playGamePanel.ball.ballColor.getGreen() + "\n");
+			writer.append(playGamePanel.ball.ballColor.getBlue() + "\n");
+			
+			writer.append(playGamePanel.bar.barColor.getRed() + "\n");
+			writer.append(playGamePanel.bar.barColor.getGreen() + "\n");
+			writer.append(playGamePanel.bar.barColor.getBlue() + "");
 			
 			writer.close();
 		} catch(IOException e) {
@@ -592,6 +604,12 @@ public class GameFrame extends JFrame {
 				for(int i = 1; i < barsList.length; i++) {
 					storePanel.barsStorePanel.barsBought.add(Integer.parseInt(barsList[i]));
 				}
+				
+				playGamePanel.ball.ballColor = new Color(Integer.parseInt(dataList.get(11)), Integer.parseInt(dataList.get(12)), Integer.parseInt(dataList.get(13)));
+				playGamePanel.ball2.ballColor = playGamePanel.ball.ballColor;
+				
+				playGamePanel.bar.barColor = new Color(Integer.parseInt(dataList.get(14)), Integer.parseInt(dataList.get(15)), Integer.parseInt(dataList.get(16)));
+				playGamePanel.bar2.barColor = playGamePanel.bar.barColor;
 				
 				reader.close();
 			}
